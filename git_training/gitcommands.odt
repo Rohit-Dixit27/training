@@ -1,1 +1,854 @@
+﻿BERYL SYSTEM PVT LTD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GRADUATE ENGINEER TRAINEE
+ROHIT DIXIT
+GIT COMMANDS
+
+
+
+
+
+
+
+
+
+
+
+
+What is Git?
+Generally Git is the most widely used version control system these days in the world. Linus Torvalds created it in 2005, a great technology expert and creator of Linux operating system.
+The design of this Version control system is in such a way so that it can handle small as well as large projects with great speed and efficiency.
+It is very popular among developers because it is an open-source software and can easily perform on various projects.
+
+- Intsallation-> sudo apt install git
+
+-Features->
+1 Open source
+2 Distributed
+3 Branching
+4 Secure()
+5 Compatibility
+
+-Setting up name and email
+beryl@beryl-Latitude-7490:~$ git config --global user.name "Rohit Dixit"
+beryl@beryl-Latitude-7490:~$ git config user.name
+Rohit Dixit
+
+beryl@beryl-Latitude-7490:~$ git config --global user.email "rohitdxt1999@gmail.com"
+beryl@beryl-Latitude-7490:~$ git config user.email
+rohitdxt1999@gmail.com
+
+beryl@beryl-Latitude-7490:~$ cat .gitconfig
+[user]
+	name = Rohit Dixit
+	email = rohitdxt1999@gmai
+	
+-git help (show all commands)
+
+-git init (to initialise git in the project directory)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git init
+Initialized empty Git repository in /home/beryl/Desktop/project/.git/
+beryl@beryl-Latitude-7490:~/Desktop/project$ ls -al
+total 16
+drwxrwxr-x 3 beryl beryl 4096 Dec 19 14:14 .
+drwxr-xr-x 3 beryl beryl 4096 Dec 19 13:25 ..
+-rw-rw-r-- 1 beryl beryl  115 Dec 19 12:44 base.html
+drwxrwxr-x 7 beryl beryl 4096 Dec 19 14:14 .git
+
+-Inside .git
+beryl@beryl-Latitude-7490:~/Desktop/project$ ls -al .git
+total 40
+drwxrwxr-x 7 beryl beryl 4096 Dec 19 14:14 .
+drwxrwxr-x 3 beryl beryl 4096 Dec 19 14:14 ..
+drwxrwxr-x 2 beryl beryl 4096 Dec 19 14:14 branches
+-rw-rw-r-- 1 beryl beryl   92 Dec 19 14:14 config
+-rw-rw-r-- 1 beryl beryl   73 Dec 19 14:14 description
+-rw-rw-r-- 1 beryl beryl   23 Dec 19 14:14 HEAD
+drwxrwxr-x 2 beryl beryl 4096 Dec 19 14:14 hooks
+drwxrwxr-x 2 beryl beryl 4096 Dec 19 14:14 info
+drwxrwxr-x 4 beryl beryl 4096 Dec 19 14:14 objects
+drwxrwxr-x 4 beryl beryl 4096 Dec 19 14:14 refs
+
+-Note-[commit messages should be in present tense not in past tense like(fix bug or fixes bug we should not used fixed bug.)]
+
+-git add filename (to add file in working area means ready to commit)
+
+beryl@beryl-Latitude-7490:~/Desktop/project$ git add base.html
+beryl@beryl-Latitude-7490:~/Desktop/project$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+	new file:   base.html
+[Note:git add .(all the files in the directory are ready to commit]
+
+
+-git status(to check the status about files,that they are in working area or not)
+
+beryl@beryl-Latitude-7490:~/Desktop/project$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	base.html
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+-commit( to commit)
+syntax-> git commit -m "message"
+
+
+beryl@beryl-Latitude-7490:~/Desktop/project$ git commit -m "base.html files is added"
+[master (root-commit) 09860ce] base.html files is added
+ 1 file changed, 7 insertions(+)
+ create mode 100644 base.html
+
+
+
+-git log (to check the commits,each commit have unique id or hash value (SHA-1)that is written just after the commit in output,is hexadecimal value and and every commit id connect to its parent id)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git status
+On branch master
+nothing to commit, working tree clean
+
+beryl@beryl-Latitude-7490:~/Desktop/project$ git log
+commit 09860ceff8aa81c629e9ab8c7029f4a736b96abd (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 14:30:12 2022 +0530
+
+    base.html files is added
+
+options
+e.g->git log -n number(it will give recent commits .)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git log -n 1
+commit 09860ceff8aa81c629e9ab8c7029f4a736b96abd (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 14:30:12 2022 +0530
+
+    base.html files is added
+
+like->git log -n 3(recent 3 commits only)
+e.g->git log --since=yyyy-mm-dd(commits after that date)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git log --since=2022-12-18
+commit 09860ceff8aa81c629e9ab8c7029f4a736b96abd (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 14:30:12 2022 +0530
+
+    base.html files is added
+
+like->git log --since=2022-04-23(all commits after 23rd april 2022)
+like->git log --untill=2021-08-11(all commits after 11th August 2021)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git log --until=2022-12-20
+commit 09860ceff8aa81c629e9ab8c7029f4a736b96abd (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 14:30:12 2022 +0530
+
+    base.html files is added
+
+e.g->git log --author="nameofauthor"(show all commits of that person)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git log --author="rohit"
+commit 09860ceff8aa81c629e9ab8c7029f4a736b96abd (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 14:30:12 2022 +0530
+
+    base.html files is added
+
+e.g-> git log --grep="string"(it will show the commit who is having that string)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git log --grep="is"
+commit 09860ceff8aa81c629e9ab8c7029f4a736b96abd (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 14:30:12 2022 +0530
+
+    base.html files is added
+
+like->git log --grep="added"(it will show commits that is having added in their message)
+
+
+
+-Git Index
+             Repository
+                ^
+                |       (git commit)
+              staging(when the code ready to commit)
+                ^
+                |      (git add)
+              working(when we are working on code)
+
+
+-head (latest commit we made)
+beryl@beryl-Latitude-7490:~/Desktop/project$ ls -al
+total 16
+drwxrwxr-x 3 beryl beryl 4096 Dec 19 14:14 .
+drwxr-xr-x 3 beryl beryl 4096 Dec 19 15:12 ..
+-rw-rw-r-- 1 beryl beryl  115 Dec 19 12:44 base.html
+drwxrwxr-x 8 beryl beryl 4096 Dec 19 14:30 .git
+beryl@beryl-Latitude-7490:~/Desktop/project$ cd .git
+beryl@beryl-Latitude-7490:~/Desktop/project/.git$ ls -al
+total 52
+drwxrwxr-x 8 beryl beryl 4096 Dec 19 14:30 .
+drwxrwxr-x 3 beryl beryl 4096 Dec 19 14:14 ..
+drwxrwxr-x 2 beryl beryl 4096 Dec 19 14:14 branches
+-rw-rw-r-- 1 beryl beryl   25 Dec 19 14:30 COMMIT_EDITMSG
+-rw-rw-r-- 1 beryl beryl   92 Dec 19 14:14 config
+-rw-rw-r-- 1 beryl beryl   73 Dec 19 14:14 description
+-rw-rw-r-- 1 beryl beryl   23 Dec 19 14:14 HEAD
+drwxrwxr-x 2 beryl beryl 4096 Dec 19 14:14 hooks
+-rw-rw-r-- 1 beryl beryl  137 Dec 19 14:30 index
+drwxrwxr-x 2 beryl beryl 4096 Dec 19 14:14 info
+drwxrwxr-x 3 beryl beryl 4096 Dec 19 14:30 logs
+drwxrwxr-x 7 beryl beryl 4096 Dec 19 14:30 objects
+drwxrwxr-x 4 beryl beryl 4096 Dec 19 14:14 refs
+
+beryl@beryl-Latitude-7490:~/Desktop/project/.git$ cd HEAD
+bash: cd: HEAD: Not a directory
+
+beryl@beryl-Latitude-7490:~/Desktop/project/.git$ cat HEAD
+ref: refs/heads/master
+
+beryl@beryl-Latitude-7490:~/Desktop/project/.git$ cat refs/heads/master
+09860ceff8aa81c629e9ab8c7029f4a736b96abd
+
+
+I HAVE MADE FILES 1,2,AND 3 AND COMMIT THEM AND FINALLY I HAVE THESE 3 COMMITS AND HEAD POINTS TO LATEST COMMIT
+
+beryl@beryl-Latitude-7490:~/Desktop/project$ git commit -m "file3 is also added"
+[master ea86de0] file3 is also added
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 file3.txt
+beryl@beryl-Latitude-7490:~/Desktop/project$ git log
+commit ea86de0d499e10358f2e3565641d2ec304e1fb3d (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 15:31:42 2022 +0530
+
+    file3 is also added
+
+commit 7cb3e74dcb92160aae87d26c69e0517442cf6275
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 15:28:25 2022 +0530
+
+    file1 is added
+
+commit 09860ceff8aa81c629e9ab8c7029f4a736b96abd
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 14:30:12 2022 +0530
+
+    base.html files is added
+
+EDITING IN FILES ( if i edit already commited files then i need to do agin all processing ,put them in staging then commit)
+
+1)I Edit file1,file2,file3,So
+beryl@beryl-Latitude-7490:~/Desktop/project$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   file1.txt
+	modified:   file2.txt
+	modified:   file3.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+(NOW IN STAGING AREA ,READY TO COMMIT)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git add file1.txt file2.txt file3.txt
+beryl@beryl-Latitude-7490:~/Desktop/project$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   file1.txt
+	modified:   file2.txt
+	modified:   file3.txt
+	
+	
+
+(COMMITS ALL THREE FILES TOGETHER)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git commit -m "commits all changes in all three files"
+[master b9cea17] commits all changes in all three files
+ 3 files changed, 3 insertions(+)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git log
+commit b9cea17e5e7319752c17aa713fe7be0162db4cfa (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 15:48:22 2022 +0530
+
+    commits all changes in all three files
+
+commit ea86de0d499e10358f2e3565641d2ec304e1fb3d
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 15:31:42 2022 +0530
+
+    file3 is also added
+
+commit 7cb3e74dcb92160aae87d26c69e0517442cf6275
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 15:28:25 2022 +0530
+
+    file1 is added
+
+commit 09860ceff8aa81c629e9ab8c7029f4a736b96abd
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 14:30:12 2022 +0530
+
+    base.html files is added
+
+
+-git diff (to know what change is made into the file,it will show all the untracked  files changes)
+(i am changing the file 1)
+
+(+ means we add this
+- means we delete that thing)
+
+[git diff --color-words(show the changed words in red and new words in green color)]
+	
+beryl@beryl-Latitude-7490:~/Desktop/project$ git diff
+diff --git a/file1.txt b/file1.txt
+index fcc04b6..8326cf3 100644
+--- a/file1.txt
++++ b/file1.txt
+@@ -1 +1,2 @@
+ HI  I AM FIRST
++now i want to learn diff
+	
+(here we got + means we add that line.)	
+
+
+-git dif --staged or git diff --cached(to know the changes made in the files when the file is in the staging area)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git add file1.txt
+beryl@beryl-Latitude-7490:~/Desktop/project$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   file1.txt
+
+(NOW THE FILE IS IN THE STAGING AREA HERE WE FIND WHAT ARE CHE CHANGES WE MADE INTO THAT FILE)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git diff --staged
+diff --git a/file1.txt b/file1.txt
+index fcc04b6..8326cf3 100644
+--- a/file1.txt
++++ b/file1.txt
+@@ -1 +1,2 @@
+ HI  I AM FIRST
++now i want to learn diff
+	
+
+(DELETION OF COMMITTED FILES)
+create a file aa.txt it is commited now we have to delete this using->git rm filename
+(when we delete this then it will show in the staging area now we have to commit it to make area clean)
+
+beryl@beryl-Latitude-7490:~/Desktop/projects$ git rm aa.txt
+rm 'aa.txt'
+beryl@beryl-Latitude-7490:~/Desktop/projects$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	deleted:    aa.txt
+
+beryl@beryl-Latitude-7490:~/Desktop/projects$ git commit -m "aa file deleted"
+[master c5d7876] aa file deleted
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ delete mode 100644 aa.txt
+beryl@beryl-Latitude-7490:~/Desktop/projects$ git status
+On branch master
+nothing to commit, working tree clean
+
+-MOVING AND REMOVING SAME->git mv file1 newfile
+
+beryl@beryl-Latitude-7490:~/Desktop/projects$ mv file1.txt newfile1.txt
+beryl@beryl-Latitude-7490:~/Desktop/projects$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    file1.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	newfile1.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+beryl@beryl-Latitude-7490:~/Desktop/projects$ git add .
+beryl@beryl-Latitude-7490:~/Desktop/projects$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	renamed:    file1.txt -> newfile1.txt
+
+beryl@beryl-Latitude-7490:~/Desktop/projects$ git commit -m "donnne"
+[master 5afd05f] donnne
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename file1.txt => newfile1.txt (100%)
+beryl@beryl-Latitude-7490:~/Desktop/projects$ git status
+On branch master
+nothing to commit, working tree clean
+
+
+-git -am "message"(SHORTCUT TO COMMIT FOR MODIFIED FILES ONLY ,IT WILL FIRST ADD IN STAGING THEN COMMIT)
+I HAVE CREATED A FILE THEN COMMIT AND AGAIN DO  SOME CHANGES IN IT AND USING SHORTCUT TO DIRECT COMMIT IT.
+
+beryl@beryl-Latitude-7490:~/Desktop/projects$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   ss.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+beryl@beryl-Latitude-7490:~/Desktop/projects$ git commit -am "direct commit"
+[master 142502a] direct commit
+ 1 file changed, 1 insertion(+)
+beryl@beryl-Latitude-7490:~/Desktop/projects$ git status
+On branch master
+nothing to commit, working tree clean
+beryl@beryl-Latitude-7490:~/Desktop/projects$ git log -n1
+commit 142502ab38b80fa5ee6a541f1df03cd1830563e5 (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Mon Dec 19 18:08:33 2022 +0530
+
+    direct commit
+
+-git show idofcommit(TO SEE THE CHANGES IN THE COMMIT,use f->forward and b->backward,q->quit)
+
+git show idofcommit --color-words(show the changed words in red and new words in green color)
+
+
+
+-git diff commit1..commit2 (to see the difference between commits,we can also use HEAD for latest commits)
+syntax->git diff SHA1..SHA2
+output->
+beryl@beryl-Latitude-7490:~/Desktop/pp$ git diff d3633d439b..7d34652c8
+diff --git a/aa.txt b/aa.txt
+index ae1f9b9..8560641 100644
+--- a/aa.txt
++++ b/aa.txt
+@@ -1,2 +1 @@
+ hi am aa
+-new aa
+
+-mutliline message in commit (it will open nano editor and then we can write more.)
+syntax->git commit -a
+output->
+beryl@beryl-Latitude-7490:~/Desktop/project$ git commit -a
+[master 1651af3] i have changes the line1 line 2 line3 to line 5 also
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git log
+commit 1651af31fda04a731cd3df36e1098a8d48c46d8b (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Tue Dec 20 14:40:02 2022 +0530
+
+    i have changes the
+    line1
+    line 2
+    line3 to line 5 also
+
+commit e5ca93f9057495cfb34a6fb8ed06bb3c79d576f7
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Tue Dec 20 14:38:39 2022 +0530
+
+    aa is done
+
+ -to see the commits in one line
+syntax-> git log --oneline
+beryl@beryl-Latitude-7490:~/Desktop/project$ git log --oneline
+1651af3 (HEAD -> master) i have changes the line1 line 2 line3 to line 5 also
+e5ca93f aa is done
+
+-undo the changes in the working directory
+syntax->git checkout – filename (it will make our file as it was on repository)[note:-git checkout -- .(all files will be undo))
+output->
+beryl@beryl-Latitude-7490:~/Desktop/project$ cat aa.txt
+line 1 changes
+line 2 changes
+line 3 changes
+line 4 changes
+line 5 changes
+
+beryl@beryl-Latitude-7490:~/Desktop/project$ cat >> aa.txt
+line 6 added 
+^C
+beryl@beryl-Latitude-7490:~/Desktop/project$ cat aa.txt
+line 1 changes
+line 2 changes
+line 3 changes
+line 4 changes
+line 5 changes
+line 6 added
+
+beryl@beryl-Latitude-7490:~/Desktop/project$ git checkout -- aa.txt
+beryl@beryl-Latitude-7490:~/Desktop/project$ cat aa.txt
+line 1 changes
+line 2 changes
+line 3 changes
+line 4 changes
+line 5 changes
+
+-undo in staging area or unstage the file (files will be moved from the staging to the working directory)
+syntax-> git restore --staged filename or git reset HEAD filename
+
+beryl@beryl-Latitude-7490:~/Desktop/project$ touch ab.txt
+beryl@beryl-Latitude-7490:~/Desktop/project$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	ab.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git add ab.txt
+beryl@beryl-Latitude-7490:~/Desktop/project$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	new file:   ab.txt
+
+beryl@beryl-Latitude-7490:~/Desktop/project$ git restore --staged ab.txt
+beryl@beryl-Latitude-7490:~/Desktop/project$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	ab.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+-Undo in commits (sometimes when we commits then we realise that we forgot something to add and then we add and make again commit,but we want to delete that recent commit only this commit should be there.)
+
+syntax-> git log --amend -m "message"
+output->(in this we commit aa.txt but i forgot to add a line now i delete that commit and make a new commit with changes.)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git log
+commit 1651af31fda04a731cd3df36e1098a8d48c46d8b (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Tue Dec 20 14:40:02 2022 +0530
+
+    i have changes the
+    line1
+    line 2
+    line3 to line 5 also
+
+commit e5ca93f9057495cfb34a6fb8ed06bb3c79d576f7
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Tue Dec 20 14:38:39 2022 +0530
+
+    aa is done
+beryl@beryl-Latitude-7490:~/Desktop/project$ cat >> aa.txt
+finally
+^C
+beryl@beryl-Latitude-7490:~/Desktop/project$ cat aa.txt
+line 1 changes
+line 2 changes
+line 3 changes
+line 4 changes
+line 5 changes
+finally
+beryl@beryl-Latitude-7490:~/Desktop/project$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   aa.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	ab.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+beryl@beryl-Latitude-7490:~/Desktop/project$ git add aa.txt
+beryl@beryl-Latitude-7490:~/Desktop/project$ git commit --amend -m "new commit recent deleted"
+[master 6bde652] new commit recent deleted
+ Date: Tue Dec 20 14:40:02 2022 +0530
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git log
+commit 6bde6525e4196d1852aefbf8faf0b22149e6a251 (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Tue Dec 20 14:40:02 2022 +0530
+
+    new commit recent deleted
+
+commit e5ca93f9057495cfb34a6fb8ed06bb3c79d576f7
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Tue Dec 20 14:38:39 2022 +0530
+
+    aa is done
+
+
+-Retrieve older version of file (it will move to staging)
+syntax->git checkout key -- filename
+beryl@beryl-Latitude-7490:~/Desktop/project$ git checkout e5ca93f90 -- aa.txt
+beryl@beryl-Latitude-7490:~/Desktop/project$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   aa.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	ab.txt
+
+beryl@beryl-Latitude-7490:~/Desktop/project$ git diff --staged
+diff --git a/aa.txt b/aa.txt
+index 2518cf3..b1fd8ee 100644
+--- a/aa.txt
++++ b/aa.txt
+@@ -1,6 +1,5 @@
+-line 1 changes
+-line 2 changes
+-line 3 changes
+-line 4 changes
+-line 5 changes
+-finally
++line 1
++line 2
++line 3
++line 4
++line 4
+
+-if we took an older version of file and change it for commit that is not right so we need to revert that commit
+
+syntax->git revert SHAkey
+
+- git clean -f (delete the untracked files)
+beryl@beryl-Latitude-7490:~/Desktop/project$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   aa.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	ab.txt
+	ac.txt
+
+beryl@beryl-Latitude-7490:~/Desktop/project$ git clean -f
+Removing ab.txt
+Removing ac.txt
+beryl@beryl-Latitude-7490:~/Desktop/project$ ls
+aa.txt
+
+
+
+-.gitignore (git will ignore that files that are mentioned in that file)
+
+
+
+-git rm --cached filename (git will not track this file)
+
+
+-tracked empty directory (git will not track an empty directory,to make it tracked make a empty (.) dot file in the folder,now git will track it)
+
+-git checkout (we willback to the early stage as per the commit)
+syntax-> git checkout SHA(our code will be same as  before that commit)	
+	
+	
+	
+	beryl@beryl-Latitude-7490:~/Desktop/pr$ cat > aa.txt
+hii
+^C
+beryl@beryl-Latitude-7490:~/Desktop/pr$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	aa.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+beryl@beryl-Latitude-7490:~/Desktop/pr$ git add .
+beryl@beryl-Latitude-7490:~/Desktop/pr$ git commit -m "initial commit"
+[master (root-commit) 6827d04] initial commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 aa.txt
+beryl@beryl-Latitude-7490:~/Desktop/pr$ git log
+commit 6827d040b570527ae8b62b85c95653ee3d8d7b7f (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Tue Dec 20 17:48:32 2022 +0530
+
+    initial commit
+beryl@beryl-Latitude-7490:~/Desktop/pr$ cat >> aa.txt
+hello
+^C
+beryl@beryl-Latitude-7490:~/Desktop/pr$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   aa.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+beryl@beryl-Latitude-7490:~/Desktop/pr$ git add .
+beryl@beryl-Latitude-7490:~/Desktop/pr$ git commit -m "second  commit"
+[master 6978031] second  commit
+ 1 file changed, 1 insertion(+)
+beryl@beryl-Latitude-7490:~/Desktop/pr$ git log
+commit 69780319dd2076105ec9ebb961a337597e9c38f1 (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Tue Dec 20 17:49:10 2022 +0530
+
+    second  commit
+
+commit 6827d040b570527ae8b62b85c95653ee3d8d7b7f
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Tue Dec 20 17:48:32 2022 +0530
+
+    initial commit
+beryl@beryl-Latitude-7490:~/Desktop/pr$ cat aa.txt
+hii
+hello
+beryl@beryl-Latitude-7490:~/Desktop/pr$ git checkout 6827d040b570
+Note: switching to '6827d040b570'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 6827d04 initial commit
+beryl@beryl-Latitude-7490:~/Desktop/pr$ cat aa.txt
+hii
+
+	
+-git checkout master (now again our code will like previous stage.)	
+	
+	
+beryl@beryl-Latitude-7490:~/Desktop/pr$ git checkout master
+Previous HEAD position was 6827d04 initial commit
+Switched to branch 'master'
+
+beryl@beryl-Latitude-7490:~/Desktop/pr$ cat aa.txt
+hii
+hello
+
+
+
+-Branching
+->git branch(show all branches)
+->git branch branchname(to create a new branch)
+->git checkout branchname(to go inside a branch)
+->git merge branchname(first goto inside a branch then merge the branch)	
+->git branch -delete branchname(delete a branch)
+	
+-push command->
+git remote add origin https://github.com/Rohit-Dixit27/First-files.git
+git branch -M master
+git push -u origin master
+	
+
+	
+
+-create a new repo from command line
+->git init(inside a folder which we want to push in a new repo)
+->git touch filename(create files)
+->git add .(add files in staging area)
+->git commit -m "message"
+->git branch -M master
+->git remote add origin "https url"
+->git push -u origin master
+
+
+- clone (to get the project on our local machine)
+syntax->git clone "url of repo"
+
+[after changes commit and write push ,enter username and password.]
+
+[Note-when we clone so first take a pull from master branch to get the latest changes then start work(if we not take pull it will be gave merging conflicts.]
+syntax->git pull origin master
+
+
+-merge (clone and make a own branch and done the work ,now through our branch push,generate a pull request)
+
+beryl@beryl-Latitude-7490:~$ cd Desktop
+beryl@beryl-Latitude-7490:~/Desktop$ mkdir fres
+beryl@beryl-Latitude-7490:~/Desktop$ cd fres
+beryl@beryl-Latitude-7490:~/Desktop/fres$ git clone https://github.com/Rohit-Dixit27/Test.git
+Cloning into 'Test'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 217 bytes | 217.00 KiB/s, done.
+beryl@beryl-Latitude-7490:~/Desktop/fres$ ls -al
+total 12
+drwxrwxr-x 3 beryl beryl 4096 Dec 21 16:57 .
+drwxr-xr-x 4 beryl beryl 4096 Dec 21 16:57 ..
+drwxrwxr-x 3 beryl beryl 4096 Dec 21 16:57 Test
+beryl@beryl-Latitude-7490:~/Desktop/fres$ cd Test
+beryl@beryl-Latitude-7490:~/Desktop/fres/Test$ ls -al
+total 16
+drwxrwxr-x 3 beryl beryl 4096 Dec 21 16:57 .
+drwxrwxr-x 3 beryl beryl 4096 Dec 21 16:57 ..
+drwxrwxr-x 8 beryl beryl 4096 Dec 21 16:57 .git
+-rw-rw-r-- 1 beryl beryl   17 Dec 21 16:57 sample.txt
+beryl@beryl-Latitude-7490:~/Desktop/fres/Test$ git branch
+* main
+beryl@beryl-Latitude-7490:~/Desktop/fres/Test$ git checkout -b newbr
+Switched to a new branch 'newbr'
+
+
+
+beryl@beryl-Latitude-7490:~/Desktop/fres/Test$ git status
+On branch newbr
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   sample.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+beryl@beryl-Latitude-7490:~/Desktop/fres/Test$ git add sample.txt
+beryl@beryl-Latitude-7490:~/Desktop/fres/Test$ git commit -m "ok done" 
+[newbr 84f6c2a] ok done
+ 1 file changed, 1 insertion(+)
+beryl@beryl-Latitude-7490:~/Desktop/fres/Test$ git branch
+  main
+* newbr
+beryl@beryl-Latitude-7490:~/Desktop/fres/Test$ git push origin newbr
+Username for 'https://github.com': Rohit-Dixit27
+Password for 'https://Rohit-Dixit27@github.com': 
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Writing objects: 100% (3/3), 270 bytes | 270.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+remote: 
+remote: Create a pull request for 'newbr' on GitHub by visiting:
+remote:      https://github.com/Rohit-Dixit27/Test/pull/new/newbr
+remote: 
+To https://github.com/Rohit-Dixit27/Test.git
+ * [new branch]      newbr -> newbr
+
+
+
+
+
+-merge conflict(when we make two branches and from both branches changes the same line with different data and try to merge them it will create conflict,because git will confused to merge which data on that line.)[in vs code we are having options to choose changes from any branch and then commit ,issue is resolved]
+
 
