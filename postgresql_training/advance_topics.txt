@@ -1,0 +1,472 @@
+
+
+
+
+
+
+
+-->NULL VALUES(NULL is the term used to represent a missing value. A NULL value in a table is a value in a field that appears to be blank.)
+
+syntax-
+		test=# CREATE TABLE EM(
+		test(# ID INT NOT NULL,
+		test(# NAME TEXT
+		test(# );
+(Here name can be null)
+
+e.g->
+test=# SELECT * FROM EM;
+ id | name  
+----+-------
+  1 | ROHIT
+  2 | ROHAN
+  3 | MOHAN
+(3 rows)
+
+--Now update third row as empty.
+test=# UPDATE EM SET NAME=NULL WHERE ID=3;
+UPDATE 1
+test=# SELECT * FROM EM;
+ id | name  
+----+-------
+  1 | ROHIT
+  2 | ROHAN
+  3 | 
+(3 rows)
+
+(show null value)
+test=# SELECT * FROM EM WHERE NAME IS NULL;
+ id | name 
+----+------
+  3 | 
+(1 row)
+
+(show not null value)
+test=# SELECT * FROM EM WHERE NAME IS NOT  NULL;
+ id | name  
+----+-------
+  1 | ROHIT
+  2 | ROHAN
+(2 rows)
+
+
+
+
+----->ALIAS(it helps to rename column and table in short form.)
+
+
+e.g->(here we make alias of column ID as IDEN)
+test=# SELECT ID AS IDEN FROM EM WHERE NAME = 'ROHAN';
+ iden 
+------
+    2
+(1 row)
+
+e.g->
+(making alias of table EM AS E)
+test=# SELECT * FROM EM AS E;
+ id | name  
+----+-------
+  1 | ROHIT
+  2 | ROHAN
+  3 | MOHAN
+(3 rows)
+
+
+e.g->
+test=# SELECT E.ID,E.NAME FROM EM AS E;
+ id | name  
+----+-------
+  1 | ROHIT
+  2 | ROHAN
+  3 | MOHAN
+(3 rows)
+
+
+
+
+-------TRIGGERS----------
+
+.Triggers are database callback functions, which are automatically performed/invoked when a specified database event occurs.
+.The BEFORE, AFTER or INSTEAD OF keyword determines when the trigger actions will be executed relative to the insertion, modification or removal of the associated row.
+
+syntax-
+			CREATE  TRIGGER trigger_name [BEFORE|AFTER|INSTEAD OF] event_name
+			ON table_name
+			[
+ 			-- Trigger logic goes here....
+			];
+
+
+
+e.g->(we made two tables EMP and AUDIT,we want to keep track of how many insertions are taking place in EMP table and store them in AUDIT table.)
+
+		test=# CREATE TABLE EMP(
+		test(# ID INT NOT NULL,
+		test(# NAME TEXT);
+
+
+		test=# CREATE TABLE AUDIT(
+		test(# ID INT NOT NULL,
+		test(# DATE TEXT NOT NULL);
+
+
+---now create a  function for trigger-
+
+test=# CREATE OR REPLACE FUNCTION auditlogfunc() RETURNS TRIGGER AS $example_table$
+   BEGIN
+      INSERT INTO AUDIT(ID, DATE) VALUES (new.ID, current_timestamp);
+      RETURN NEW;
+   END;
+$example_table$ LANGUAGE plpgsql;
+
+--create a trigger--
+
+test=# CREATE TRIGGER trig AFTER INSERT ON EMP FOR EACH ROW EXECUTE PROCEDURE auditlogfunc();
+
+(after insertion one row in EMP there is one row created in AUDIT table having id and date when insertion takes place.)
+test=# INSERT INTO EMP VALUES(1,'ROHAN');
+INSERT 0 1
+test=# SELECT * FROM AUDIT;
+ id |               date               
+----+----------------------------------
+  1 | 2022-12-28 10:33:14.861873+05:30
+(1 row)
+
+
+---To list all the triggers in the database---( SELECT * FROM pg_trigger)
+---to list all the triggers in the table-----(SELECT tgname FROM pg_trigger, pg_class WHERE tgrelid=pg_class.oid AND relname='EMP')
+----to delete trigger----(DROP TRIGGER trigger_name)
+
+
+
+
+--------INDEXES-----------
+
+(Indexes are special lookup tables that the database search engine can use to speed up data retrieval. Simply put, an index is a pointer to data in a table. An index in a database is very similar to an index in the back of a book.)
+
+syntax-
+	CREATE INDEX index_name ON table_name;
+	
+
+--single column index
+	CREATE INDEX index_name
+	ON table_name (column_name);	
+	
+--multi column index
+	CREATE INDEX index_name
+	ON table_name (column1_name, column2_name);
+	
+	
+	
+e.g->
+test=# CREATE INDEX SALID ON COMPANY(SALARY);
+CREATE INDEX
+test=# \d company;
+                   Table "public.company"
+  Column   |     Type      | Collation | Nullable | Default 
+-----------+---------------+-----------+----------+---------
+ id        | integer       |           | not null | 
+ name      | text          |           |          | 
+ age       | integer       |           |          | 
+ address   | character(50) |           |          | 
+ salary    | real          |           |          | 
+ join_date | date          |           |          | 
+Indexes:
+    "company_pkey" PRIMARY KEY, btree (id)
+    "salid" btree (salary)
+
+--DELETE INDEX(DROP INDEX index_name)
+e.g->
+		test=# DROP INDEX SALID;
+		
+		
+		
+		
+----------ALTER TABLE----------------
+
+-It is used to add, delete or modify columns in an existing table.
+-It is also used to add and drop various constraints on an existing table.
+		
+syntax-
+		
+--(Add a column)
+ALTER TABLE table_name ADD column_name datatype;
+
+
+--(Delete a column)
+ALTER TABLE table_name DROP COLUMN column_name;
+
+--(change datatype of a column)
+ALTER TABLE table_name ALTER COLUMN column_name TYPE datatype;
+
+--(add a NOT NULL constraint to a column)
+ALTER TABLE table_name MODIFY column_name datatype NOT NULL;
+
+--(ADD UNIQUE CONSTRAINT)
+ALTER TABLE table_name
+ADD CONSTRAINT MyUniqueConstraint UNIQUE(column1, column2...);
+
+--(ADD CHECK CONSTRAINT )
+ALTER TABLE table_name
+ADD CONSTRAINT MyUniqueConstraint CHECK (CONDITION);
+
+--(ADD PRIMARY KEY constraint)
+ALTER TABLE table_name
+ADD CONSTRAINT MyPrimaryKey PRIMARY KEY (column1, column2...);
+
+--(to DROP CONSTRAINT )
+ALTER TABLE table_name
+DROP CONSTRAINT MyUniqueConstraint;
+
+--(to drop primary key)
+ALTER TABLE table_name
+DROP CONSTRAINT MyPrimaryKey;
+		
+		
+		
+                                          -----ADD A COLUMN ----
+e.g->                                          
+test=# ALTER TABLE COMPANY ADD COLUMN GENDER TEXT;
+ALTER TABLE
+test=# SELECT * FROM COMPANY;
+ id | name | age |                      address                       | salary | join_date  | gender 
+----+------+-----+----------------------------------------------------+--------+------------+--------
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05 | 
+  5 | E    |  40 | INDIA                                              |  40000 | 2018-08-08 | 
+  3 | C    |  33 | CHINA                                              |  20000 | 2021-02-06 | 
+  4 | D    |  38 | FRANCE                                             |  30000 | 2021-10-10 | 
+  1 | A    |  30 | DELHI                                              |  50000 | 2021-11-04 | 
+  6 | F    |  42 | JAPAN                                              |  55000 | 2017-11-11 | 
+  7 | G    |  44 | NEPAL                                              |  65000 | 2016-11-21 | 
+  8 | H    |  50 | BENGAL                                             |  70000 | 2013-12-11 | 
+(8 rows)		
+		
+		
+					-----DROP A COLUMN---------		
+e.g->
+test=# ALTER TABLE COMPANY DROP COLUMN GENDER;
+ALTER TABLE
+test=# SELECT * FROM COMPANY;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  5 | E    |  40 | INDIA                                              |  40000 | 2018-08-08
+  3 | C    |  33 | CHINA                                              |  20000 | 2021-02-06
+  4 | D    |  38 | FRANCE                                             |  30000 | 2021-10-10
+  1 | A    |  30 | DELHI                                              |  50000 | 2021-11-04
+  6 | F    |  42 | JAPAN                                              |  55000 | 2017-11-11
+  7 | G    |  44 | NEPAL                                              |  65000 | 2016-11-21
+  8 | H    |  50 | BENGAL                                             |  70000 | 2013-12-11
+(8 rows)
+
+
+
+				----CHANGE COLUMN DATATYPE------
+e.g->
+                  Table "public.company"
+  Column   |     Type      | Collation | Nullable | Default 
+-----------+---------------+-----------+----------+---------
+ id        | integer       |           | not null | 
+ name      | text          |           |          | 
+ age       | integer       |           |          | 
+ address   | character(50) |           |          | 
+ salary    | real          |           |          | 
+ join_date | date          |           |          | 
+Indexes:
+    "company_pkey" PRIMARY KEY, btree (id)
+
+test=# ALTER TABLE COMPANY ALTER COLUMN SALARY TYPE INT;
+ALTER TABLE
+test=# \d company
+                   Table "public.company"
+  Column   |     Type      | Collation | Nullable | Default 
+-----------+---------------+-----------+----------+---------
+ id        | integer       |           | not null | 
+ name      | text          |           |          | 
+ age       | integer       |           |          | 
+ address   | character(50) |           |          | 
+ salary    | integer       |           |          | 
+ join_date | date          |           |          | 
+Indexes:
+    "company_pkey" PRIMARY KEY, btree (id)
+
+		
+		
+		
+-------TRUNCATE TABLE------
+
+(delete all the data from table.But table is not deleted.)
+syntax->TRUNCATE TABLE tablename;
+
+e.g->
+test=# SELECT * FROM DEPT;
+ emp_id |        depart        
+--------+----------------------
+      1 | IT                  
+      2 | AIT                 
+      3 | CIT                 
+      4 | DIT                 
+      5 | EIT                 
+      6 | FIT                 
+      7 | GIT                 
+      8 | NIT                 
+(8 rows)
+
+test=# TRUNCATE TABLE DEPT;
+
+test=# SELECT * FROM DEPT;
+ emp_id | depart 
+--------+--------
+(0 rows)
+		
+		
+		
+		
+------VIEW------
+
+.A view can represent a subset of a real table, selecting certain columns or certain rows from an ordinary table.They can be created from single table,multiple tables or another view.
+.It restrict access to the data such that a user can only see limited data instead of complete table.
+
+syntax-
+		CREATE [TEMP | TEMPORARY] VIEW view_name AS
+		SELECT column1, column2.....
+		FROM table_name
+		WHERE [condition];
+		
+		
+		
+		
+		
+e.g->(here we have a table company from that we dont want to see all the columns so we create a view including columns which we want to represent. )
+test=# SELECT * FROM COMPANY;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  5 | E    |  40 | INDIA                                              |  40000 | 2018-08-08
+  3 | C    |  33 | CHINA                                              |  20000 | 2021-02-06
+  4 | D    |  38 | FRANCE                                             |  30000 | 2021-10-10
+  1 | A    |  30 | DELHI                                              |  50000 | 2021-11-04
+  6 | F    |  42 | JAPAN                                              |  55000 | 2017-11-11
+  7 | G    |  44 | NEPAL                                              |  65000 | 2016-11-21
+  8 | H    |  50 | BENGAL                                             |  70000 | 2013-12-11
+(8 rows)
+
+
+(This view is not having salary and join_date)
+test=# CREATE VIEW my_view AS SELECT ID,NAME,AGE,ADDRESS FROM COMPANY;
+
+test=# SELECT * FROM my_view;
+ id | name | age |                      address                       
+----+------+-----+----------------------------------------------------
+  2 | B    |  33 | BRAZIL                                            
+  5 | E    |  40 | INDIA                                             
+  3 | C    |  33 | CHINA                                             
+  4 | D    |  38 | FRANCE                                            
+  1 | A    |  30 | DELHI                                             
+  6 | F    |  42 | JAPAN                                             
+  7 | G    |  44 | NEPAL                                             
+  8 | H    |  50 | BENGAL                                            
+(8 rows)
+		
+		
+		
+-->delete view(DROP VIEW view_name)
+e.g->DROP VIEW my_view;
+		
+		
+		
+		
+		
+		
+				------TRANSACTIONS-----------
+				
+A transaction is a unit of work that is performed against a database.
+
+->Transaction Control(Transactional control commands are only used with the DML commands INSERT, UPDATE and DELETE only. )
+--BEGIN TRANSACTION − To start a transaction.
+
+--COMMIT − To save the changes, alternatively you can use END TRANSACTION command.
+
+--ROLLBACK − To rollback the changes.						
+		
+e.g->(I have  commit so data deleted.)
+test=# BEGIN; DELETE FROM COMPANY WHERE NAME = 'A'; COMMIT;
+BEGIN
+DELETE 1
+COMMIT
+test=# SELECT * FROM COMPANY;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  5 | E    |  40 | INDIA                                              |  40000 | 2018-08-08
+  3 | C    |  33 | CHINA                                              |  20000 | 2021-02-06
+  4 | D    |  38 | FRANCE                                             |  30000 | 2021-10-10
+  6 | F    |  42 | JAPAN                                              |  55000 | 2017-11-11
+  7 | G    |  44 | NEPAL                                              |  65000 | 2016-11-21
+  8 | H    |  50 | BENGAL                                             |  70000 | 2013-12-11
+(7 rows)
+	
+		
+		
+e.g->(Used roll back so data is not deleted.)
+test=# BEGIN; DELETE FROM COMPANY WHERE AGE=42; ROLLBACK;
+BEGIN
+DELETE 1
+ROLLBACK
+test=# SELECT * FROM COMPANY;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  5 | E    |  40 | INDIA                                              |  40000 | 2018-08-08
+  3 | C    |  33 | CHINA                                              |  20000 | 2021-02-06
+  4 | D    |  38 | FRANCE                                             |  30000 | 2021-10-10
+  6 | F    |  42 | JAPAN                                              |  55000 | 2017-11-11
+  7 | G    |  44 | NEPAL                                              |  65000 | 2016-11-21
+  8 | H    |  50 | BENGAL                                             |  70000 | 2013-12-11
+(7 rows)
+
+		
+		
+		
+-----LOCK-----
+
+It prevents other users from changing the row until the transaction is either committed or rolled back.	
+syntax-
+LOCK [ TABLE ]
+name
+ IN
+lock_mode
+
+e.g->test=#BEGIN;
+LOCK TABLE company IN ACCESS EXCLUSIVE MODE;
+
+output->LOCK TABLE
+
+---AUTO INCREMENT----(value will be incremented.)
+If we wish a serial column to have a unique constraint or be a primary key, it must now be specified, just like any other data type.
+The type name serial creates an integer columns. 
+The type name bigserial creates a bigint column.
+The type name smallserial creates a smallint column.
+
+syntax for serial-
+			CREATE TABLE tablename (
+			   colname SERIAL
+			);
+
+test=# CREATE TABLE SER(
+test(# ID SERIAL  NOT NULL,
+test(# NAME TEXT);
+
+test=# INSERT INTO SER (NAME)VALUES('ROHIT');
+INSERT 0 1
+test=# SELECT * FROM SER;
+ id | name  
+----+-------
+  1 | ROHIT
+(1 row)
+
+(Id will be automatically generated for every insertions.)
+
+
+

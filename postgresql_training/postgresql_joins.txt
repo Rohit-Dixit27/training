@@ -1,0 +1,244 @@
+
+---------------------------JOINS-------------
+The PostgreSQL Joins clause is used to combine records from two or more tables in a database. A JOIN is a means for combining fields from two tables by using values common to each.
+
+Join Types in PostgreSQL are −
+
+				.The CROSS JOIN
+				.The INNER JOIN
+				.The LEFT OUTER JOIN
+				.The RIGHT OUTER JOIN
+				.The FULL OUTER JOIN
+
+
+
+
+
+
+--CROSS JOIN-(It matches every row of the first table with every row of the second table. If the input tables have x and y columns,  resulting table will have x+y columns.)
+syntax-
+	SELECT ... FROM table1 CROSS JOIN table2 .
+	
+
+e.g-> ,,,,,,,,,,,,COMPANY TABLE,,,,,,,,,,,
+
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  5 | E    |  40 | INDIA                                              |  40000 | 2018-08-08
+  3 | C    |  33 | CHINA                                              |  20000 | 2021-02-06
+  4 | D    |  38 | FRANCE                                             |  30000 | 2021-10-10
+  1 | A    |  30 | DELHI                                              |  50000 | 2021-11-04
+  6 | F    |  42 | JAPAN                                              |  55000 | 2017-11-11
+  7 | G    |  44 | NEPAL                                              |  65000 | 2016-11-21
+  8 | H    |  50 | BENGAL                                             |  70000 | 2013-12-11
+(8 rows)
+
+
+,,,,,,,,,DEPARTMENT TABLE,,,,,
+emp_id |          depart           
+--------+---------------------------
+      1 | ACCOUNTS                 
+      2 | IT   
+
+
+
+
+test=# SELECT NAME,EMP_ID,DEPART FROM COMPANY CROSS JOIN DEPARTMENT;
+OUTPUT->
+ name | emp_id |          depart           
+------+--------+---------------------------
+ B    |      1 | ACCOUNTS                 
+ E    |      1 | ACCOUNTS                 
+ C    |      1 | ACCOUNTS                 
+ D    |      1 | ACCOUNTS                 
+ A    |      1 | ACCOUNTS                 
+ F    |      1 | ACCOUNTS                 
+ G    |      1 | ACCOUNTS                 
+ H    |      1 | ACCOUNTS                 
+ B    |      2 | IT                       
+ E    |      2 | IT                       
+ C    |      2 | IT                       
+ D    |      2 | IT                       
+ A    |      2 | IT                       
+ F    |      2 | IT                       
+ G    |      2 | IT                       
+ H    |      2 | IT                       
+(16 rows)
+
+
+
+-->NNER JOIN(A INNER JOIN creates a new result table by combining column values of two tables (table1 and table2) based upon the join-predicate.it will result the common data.)
+syntax->
+			SELECT table1.column1, table2.column2...
+			FROM table1
+			INNER JOIN table2
+			ON table1.common_filed = table2.common_field;
+
+
+
+test=# SELECT NAME,EMP_ID,DEPART FROM COMPANY INNER JOIN DEPARTMENT ON COMPANY.ID=DEPARTMENT.EMP_ID;
+                   test
+ name | emp_id |          depart           
+------+--------+---------------------------
+ A    |      1 | ACCOUNTS                 
+ B    |      2 | IT                       
+(2 rows)
+
+
+
+-->LEFT OUTER JOIN(It will result the common values and full table1)
+syntax->
+			SELECT ... FROM table1 LEFT OUTER JOIN table2 ON conditional_expression ..
+
+
+
+test=# SELECT NAME,EMP_ID,DEPART FROM COMPANY LEFT OUTER JOIN DEPARTMENT ON COMPANY.ID=DEPARTMENT.EMP_ID;
+                   test
+ name | emp_id |          depart           
+------+--------+---------------------------
+ A    |      1 | ACCOUNTS                 
+ B    |      2 | IT                       
+ E    |        | 
+ H    |        | 
+ F    |        | 
+ D    |        | 
+ C    |        | 
+ G    |        | 
+(8 rows)
+
+
+
+-->RIGHT OUTER JOIN(it will result common and table 2 complete data.)
+syntax->
+			SELECT ... FROM table1 RIGHT OUTER JOIN table2 ON conditional_expression ...
+
+
+
+
+test=# SELECT NAME,EMP_ID,DEPART FROM COMPANY RIGHT OUTER JOIN DEPARTMENT ON COMPANY.ID=DEPARTMENT.EMP_ID;
+                   test
+ name | emp_id |          depart           
+------+--------+---------------------------
+ A    |      1 | ACCOUNTS                 
+ B    |      2 | IT                       
+(2 rows)
+
+
+
+-->FULL OUTER JOIN (it will result both the tables.)
+syntax-
+			SELECT ... FROM table1 FULL OUTER JOIN table2 ON conditional_expression ...
+			
+
+test=# SELECT NAME,EMP_ID,DEPART FROM COMPANY FULL OUTER JOIN DEPARTMENT ON COMPANY.ID=DEPARTMENT.EMP_ID;
+                   test
+ name | emp_id |          depart           
+------+--------+---------------------------
+ A    |      1 | ACCOUNTS                 
+ B    |      2 | IT                       
+ E    |        | 
+ H    |        | 
+ F    |        | 
+ D    |        | 
+ C    |        | 
+ G    |        | 
+(8 rows)
+
+
+
+
+->UNION(returns non dupilicate values only)
+->UNION ALL(returns duplicate values also)
+
+syntax-
+	SELECT column1 [, column2 ]                   
+	FROM table1 [, table2 ]
+	[WHERE condition]
+
+	UNION or UNION ALL
+
+	SELECT column1 [, column2 ]
+	FROM table1 [, table2 ]
+	[WHERE condition]
+
+
+
+
+
+
+e.g-> 
+                               company table
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  5 | E    |  40 | INDIA                                              |  40000 | 2018-08-08
+  3 | C    |  33 | CHINA                                              |  20000 | 2021-02-06
+  4 | D    |  38 | FRANCE                                             |  30000 | 2021-10-10
+  1 | A    |  30 | DELHI                                              |  50000 | 2021-11-04
+  6 | F    |  42 | JAPAN                                              |  55000 | 2017-11-11
+  7 | G    |  44 | NEPAL                                              |  65000 | 2016-11-21
+  8 | H    |  50 | BENGAL                                             |  70000 | 2013-12-11
+(8 rows)
+
+
+      DEPT table
+             
+ emp_id |        depart        
+--------+----------------------
+      1 | IT                  
+      2 | AIT                 
+      3 | CIT                 
+      4 | DIT                 
+      5 | EIT                 
+      6 | FIT                 
+      7 | GIT                 
+      8 | NIT                 
+(8 rows)
+
+------------UNION----------------
+test=# SELECT NAME,EMP_ID,DEPART FROM COMPANY FULL OUTER JOIN DEPT ON COMPANY.ID=DEPT.EMP_ID
+UNION
+SELECT NAME,EMP_ID,DEPART FROM COMPANY INNER JOIN DEPT ON COMPANY.ID=DEPT.EMP_ID;
+                 test
+ name | emp_id |        depart        
+------+--------+----------------------
+ H    |      8 | NIT                 
+ C    |      3 | CIT                 
+ G    |      7 | GIT                 
+ E    |      5 | EIT                 
+ B    |      2 | AIT                 
+ F    |      6 | FIT                 
+ A    |      1 | IT                  
+ D    |      4 | DIT                 
+(8 rows)
+
+
+
+--------------UNION ALL--------------
+test=# SELECT NAME,EMP_ID,DEPART FROM COMPANY FULL OUTER JOIN DEPT ON COMPANY.ID=DEPT.EMP_ID
+UNION ALL
+SELECT NAME,EMP_ID,DEPART FROM COMPANY INNER JOIN DEPT ON COMPANY.ID=DEPT.EMP_ID;
+                 test
+ name | emp_id |        depart        
+------+--------+----------------------
+ A    |      1 | IT                  
+ B    |      2 | AIT                 
+ C    |      3 | CIT                 
+ D    |      4 | DIT                 
+ E    |      5 | EIT                 
+ F    |      6 | FIT                 
+ G    |      7 | GIT                 
+ H    |      8 | NIT                 
+ A    |      1 | IT                  
+ B    |      2 | AIT                 
+ C    |      3 | CIT                 
+ D    |      4 | DIT                 
+ E    |      5 | EIT                 
+ F    |      6 | FIT                 
+ G    |      7 | GIT                 
+ H    |      8 | NIT                 
+(16 rows)
+
+
+

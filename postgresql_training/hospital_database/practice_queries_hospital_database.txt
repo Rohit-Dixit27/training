@@ -1,0 +1,237 @@
+
+----------PRACTICE PROBLEMS ON HOSPITAL DATABASE--------------
+
+
+
+1)Find the doctors name.
+
+solution-select e.name as DOCTORS from employee e join doctor d on e.id=d.e_id;
+output-
+       doctors        
+----------------------
+ rohit               
+ mohit               
+ sohit               
+ manish              
+ meena               
+ seema               
+ anil                
+ riya                
+ priya  
+ 
+ 
+ 2)Find the experience of all employees.
+ 
+ solution-select e.name,age(current_date,join_date) from employee e;
+ output-
+          name         |          age           
+----------------------+------------------------
+ rohit                | 1 year 5 mons 29 days
+ mohit                | 1 year 5 mons 28 days
+ sohit                | 2 years 5 mons 27 days
+ manish               | 5 mons 27 days
+ meena                | 3 years 5 mons 27 days
+ seema                | 3 years 6 mons 26 days
+ vinita               | 4 years 6 mons 26 days
+ vipin                | 7 mons 28 days
+ sonam                | 2 years 4 days
+ monika               | 1 year 10 mons 4 days
+ anjali               | 1 year 10 mons 2 days
+ anil                 | 2 years 6 mons 2 days
+ riya                 | 1 year 6 mons 4 days
+ priya                | 1 year 3 mons 4 days
+ bhawna               | 11 mons 26 days
+ ritik                | 1 year 11 mons 25 days
+ rohan                | 1 year 8 mons 25 days
+ kapil                | 24 days
+ kartik               | 1 year 2 mons 23 days
+ kirti                | 3 mons 4 da
+ 
+ 
+ 3)Find the name of most experienced candidate.
+ 
+ solution-select e.name from employee e where join_date=(select min(join_date) from employee);
+ output-
+         name         
+----------------------
+ vinita 
+
+
+4)find the number of male and female employees.
+
+solution-select gender,count(gender) from employee group by gender;
+output-
+        gender        | count 
+----------------------+-------
+ female               |    10
+ male                 |    10
+
+
+
+5)Find the names all nurses.
+
+solution-select e.name  as nurses from employee e join nurse n on e.id=n.e_id;
+output-
+        nurses        
+----------------------
+ vinita              
+ vipin               
+ sonam               
+ monika              
+ anjali              
+ kartik  
+
+
+
+
+
+6)find the name of doctor who issued medicine 'ventolin';
+
+solution-select e.name from employee e join doctor d on e.id=d.e_id join pharmacy m on d.id=m.doctor_id where m.name='ventolin';
+output-
+         name         
+----------------------
+ manish  
+
+
+
+7)Find the name of patient who paid maximum amount;
+
+solution-select p.name from patient p join account a on p.id=a.p_id where amount=(select max(amount) from account);
+output-
+         name         
+----------------------
+ pinki 
+
+
+8)Find the difference between maximum and minimun bill amount.
+
+solution-select(select max(amount) from account)-(select min(amount) from account) as diff;
+output-
+ diff 
+------
+ 8900
+
+
+
+9)Find the names of employee join in 2021.
+
+solution-select name from employee where extract(year from join_date)='2021';
+output-
+         name         
+----------------------
+ rohit               
+ mohit               
+ sonam               
+ monika              
+ anjali              
+ riya                
+ priya               
+ ritik               
+ rohan               
+ kartik 
+
+
+
+10)Find the names of employee join on 7th month.
+
+solution-select name from employee where extract(month from join_date)='07';
+output-
+         name         
+----------------------
+ rohit               
+ mohit               
+ sohit               
+ manish              
+ meena               
+ anil                
+ riya  
+
+
+11)Find the number of employees in each department.
+
+solution-select dept_id,count(dept_id) as total from employee group by dept_id order by dept_id;
+output-
+ dept_id | total 
+---------+-------
+       1 |     5
+       2 |     5
+       3 |     5
+       4 |     3
+       5 |     2
+
+
+
+12)Find the department id who is having minimun employees.
+
+solution-select dept_id ,count(dept_id) from employee group by dept_id order by count(dept_id) limit 1;
+output- 
+dept_id | count 
+---------+-------
+       5 |     2
+
+
+
+13)Find the names of employees having experience more than 2 years.
+
+solution-select name from employee where extract(year from age(current_date,join_date))>2;
+output-
+         name         
+----------------------
+ meena               
+ seema               
+ vinita 
+
+
+
+
+14)Find name and salary of employee who are earning more in department 1 and department2;
+
+solution-(select e.name ,e.salary from employee e join department d on e.dept_id=d.id where d.name='surgery' order by e.salary desc limit 1)
+union
+(select e.name,e.salary from employee e join department d on e.dept_id=d.id where d.name='cardiology' order by e.salary desc limit 1);
+output-
+         name         | salary 
+----------------------+--------
+ anil                 |  57000
+ priya                |  78000
+
+
+
+
+
+
+15)Find the patient name ,medicine name and amount he paid.
+
+solution-select p.name as patient_name ,m.name as medicine_name,a.amount from patient p join pharmacy m on p.id=m.p_id join account a on p.id=a.p_id where p.id=2;
+output-
+  patient_name     |    medicine_name     | amount 
+----------------------+----------------------+--------
+ vishnu               | Synthroid            |   1000
+
+
+
+16)Find the name of doctor and their department whose id=7.
+
+solution-select e.name,t.name from employee e join doctor d on e.id=d.e_id join department t on e.dept_id=t.id where d.id=7;
+output-
+         name         |         name         
+----------------------+----------------------
+ anil                 | surgery  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

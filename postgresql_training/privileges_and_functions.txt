@@ -1,0 +1,273 @@
+		
+		
+		
+		
+		                                        -----------PRIVILEGES----------------
+		
+		
+Whenever an object is created in a database, an owner is assigned to it. The owner is usually the one who executed the creation statement. For most kinds of objects, the initial state is that only the owner (or a superuser) can modify or delete the object. To allow other roles or users to use it, privileges or permission must be granted.
+
+Different kinds of privileges in PostgreSQL are −
+
+SELECT,
+INSERT,
+UPDATE,
+DELETE,
+TRUNCATE,
+REFERENCES,
+TRIGGER,
+CREATE,
+CONNECT,
+TEMPORARY,
+EXECUTE, and
+USAGE
+
+
+		
+		
+---->GRANT(used to assign privileges)		
+
+syntax-
+		GRANT privilege [, ...]
+		ON object [, ...]
+		TO { PUBLIC | GROUP group | username }
+
+.privilege − values could be: SELECT, INSERT, UPDATE, DELETE, RULE, ALL.
+.object − The name of an object to which to grant access. The possible objects are: table, view, sequence
+.PUBLIC − A short form representing all users.
+.GROUP group − A group to whom to grant privileges.
+.username − The name of a user to whom to grant privileges. PUBLIC is a short form representing all users.		
+		
+e.g->(giving all access to user_2)
+test=# CREATE USER user_2 WITH PASSWORD 'abc123';
+CREATE ROLE
+test=# GRANT ALL ON COMPANY TO user_2;
+GRANT
+		
+----->REVOKE(used to revoke privileges)
+
+syntax-
+
+		REVOKE privilege [, ...]
+		ON object [, ...]
+		FROM { PUBLIC | GROUP groupname | username }
+
+
+
+e.g->(revoking all privileges from user_2)
+test=# REVOKE ALL ON COMPANY FROM user_2;
+REVOKE
+
+
+
+-->DROP USER(to delete the user)
+
+syntax-DROP USER user_name
+e.g->test=# DROP USER user_2;
+DROP ROLE
+
+
+
+
+
+
+							-------FUNCTION-----------
+syntax-
+
+CREATE [OR REPLACE] FUNCTION function_name (arguments) 
+RETURNS return_datatype AS $variable_name$
+   DECLARE
+      declaration;
+      [...]
+   BEGIN
+      < function_body >
+      [...]
+      RETURN { variable_name | value }
+   END; LANGUAGE plpgsql;
+
+Where,
+
+.function-name specifies the name of the function.
+.[OR REPLACE] option allows modifying an existing function.
+.The function must contain a return statement.
+.RETURN clause specifies that data type you are going to return from the function. The return_datatype can be a base, composite, or domain type, or can reference the type of a table column.
+.function-body contains the executable part.
+.The AS keyword is used for creating a standalone function.
+.plpgsql is the name of the language that the function is implemented in. Here, we use this option for PostgreSQL, it Can be SQL, C, internal, or the name of a user-defined procedural language. For backward compatibility, the name can be enclosed by single quotes.
+	
+
+e.g->
+test=# SELECT * FROM COMPANY;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  5 | E    |  40 | INDIA                                              |  40000 | 2018-08-08
+  3 | C    |  33 | CHINA                                              |  20000 | 2021-02-06
+  4 | D    |  38 | FRANCE                                             |  30000 | 2021-10-10
+  6 | F    |  42 | JAPAN                                              |  55000 | 2017-11-11
+  7 | G    |  44 | NEPAL                                              |  65000 | 2016-11-21
+  8 | H    |  50 | BENGAL                                             |  70000 | 2013-12-11
+  1 | A    |  34 | DUBAI                                              |  45000 | 2021-02-02
+(8 rows)
+
+(create a function for calculating the total records)
+CREATE OR REPLACE FUNCTION totalRecords ()
+RETURNS integer AS $total$
+declare
+	total integer;
+BEGIN
+   SELECT count(*) into total FROM COMPANY;
+   RETURN total;
+END;
+$total$ LANGUAGE plpgsql;
+
+o/p-test# CREATE FUNCTION
+
+test=# select totalRecords();
+o/p->
+totalrecords 
+--------------
+            8
+(1 row)
+
+
+
+
+
+-------------PREDEFINED FUNCTIONS-------------
+
+-->COUNT(for counting records)
+
+ test=# SELECT COUNT(*) FROM COMPANY;
+ count 
+-------
+     8
+(1 row)
+
+
+-->MAX(to find maximum value)
+test=# SELECT MAX(SALARY) FROM COMPANY;
+  max  
+-------
+ 70000
+(1 row)
+
+
+-->MIN(to find minimum value)
+test=# SELECT MIN(SALARY) FROM COMPANY;
+  min  
+-------
+ 10000
+(1 row)
+
+
+-->AVG(find average value)
+test=# SELECT AVG(SALARY) FROM COMPANY;
+        avg         
+--------------------
+ 41875.000000000000
+(1 row)
+
+ 
+ 
+-->SUM(to find sum)
+test=# SELECT SUM(SALARY) FROM COMPANY;
+  sum   
+--------
+ 335000
+(1 row)
+
+
+---> ARRAY_AGG (function is used to concatenate the input values including null into an array.)
+test=# SELECT ARRAY_AGG(SALARY) FROM COMPANY;
+                     array_agg                     
+---------------------------------------------------
+ {10000,40000,20000,30000,55000,65000,70000,45000}
+(1 row)
+
+
+
+->ASCII(return ascii value)
+test=# SELECT ASCII('23');
+ ascii 
+-------
+    50
+(1 row)
+
+
+->CONCAT(concatenation)
+test=# SELECT CONCAT('ROH','IT');
+ concat 
+--------
+ ROHIT
+(1 row)
+
+->LENGTH(to find length)
+test=# SELECT LENGTH('ROHIT');
+ length 
+--------
+      5
+(1 row)
+
+
+->LOWER(to make letters lowercase)
+test=# SELECT LOWER('ROHIT');
+ lower 
+-------
+ rohit
+(1 row)
+
+
+->REVERSE(for reversing)
+test=# SELECT REVERSE('ROHIT');
+ reverse 
+---------
+ TIHOR
+(1 row)
+
+
+
+->UPPER(to make letters upper)
+test=# SELECT UPPER('dixit');
+ upper 
+-------
+ DIXIT
+(1 row)
+
+
+->AGE(timestamp, timestamp)
+test=# SELECT AGE(timestamp '2000-12-11',timestamp '1990-11-11');
+      age       
+----------------
+ 10 years 1 mon
+(1 row)
+
+
+->AGE(timestamp)
+test=# SELECT AGE(timestamp '2000-07-27');
+          age          
+-----------------------
+ 22 years 5 mons 1 day
+(1 row)
+
+
+->CURRENT DATE
+test=# SELECT CURRENT_DATE;
+ current_date 
+--------------
+ 2022-12-28
+(1 row)
+
+
+
+->CURRENT_TIME
+test=# SELECT CURRENT_TIME;
+     current_time      
+-----------------------
+ 16:03:46.909794+05:30
+(1 row)
+
+
+
+
+

@@ -1,0 +1,231 @@
+
+
+-----------HOSPITAL DATABASE--------------------
+ 
+ [DESCRIPTION OF TABLES]
+ 
+ 
+ 
+ -------------EMPLOYEE TABLE------------
+ 
+                        Table "public.employee"
+    Column     |         Type          | Collation | Nullable | Default 
+---------------+-----------------------+-----------+----------+---------
+ id            | integer               |           | not null | 
+ name          | character(20)         |           | not null | 
+ date_of_birth | date                  |           | not null | 
+ gender        | character(20)         |           | not null | 
+ salary        | integer               |           | not null | 
+ phone_number  | character varying(20) |           | not null | 
+ join_date     | date                  |           | not null | 
+ dept_id       | integer               |           | not null | 
+ address       | character(20)         |           |          | 
+Indexes:
+    "employee_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "f_k_d" FOREIGN KEY (dept_id) REFERENCES department(id)
+Referenced by:
+    TABLE "appointment" CONSTRAINT "f_k_a_e" FOREIGN KEY (doctor_id) REFERENCES employee(id)
+    TABLE "doctor" CONSTRAINT "f_k_d_p" FOREIGN KEY (e_id) REFERENCES employee(id)
+    TABLE "nurse" CONSTRAINT "f_k_e_n" FOREIGN KEY (e_id) REFERENCES employee(id)
+
+
+
+
+-------------DEPARTMENT TABLE------------------
+
+                Table "public.department"
+ Column |     Type      | Collation | Nullable | Default 
+--------+---------------+-----------+----------+---------
+ id     | integer       |           | not null | 
+ name   | character(20) |           | not null | 
+Indexes:
+    "department_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "employee" CONSTRAINT "f_k_d" FOREIGN KEY (dept_id) REFERENCES department(id)
+
+
+
+---------------PATIENT TABLE------------------
+
+                         Table "public.patient"
+    Column     |         Type          | Collation | Nullable | Default 
+---------------+-----------------------+-----------+----------+---------
+ id            | integer               |           | not null | 
+ name          | character(20)         |           | not null | 
+ address       | character(20)         |           | not null | 
+ phone_number  | character varying(13) |           | not null | 
+ gender        | character(7)          |           | not null | 
+ registration  | date                  |           | not null | 
+ date_of_birth | date                  |           |          | 
+Indexes:
+    "patient_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "appointment" CONSTRAINT "f_k_a_p" FOREIGN KEY (p_id) REFERENCES patient(id)
+    TABLE "admit" CONSTRAINT "f_k_p" FOREIGN KEY (p_id) REFERENCES patient(id)
+    TABLE "account" CONSTRAINT "f_p" FOREIGN KEY (p_id) REFERENCES patient(id)
+    TABLE "patient_diagnosis" CONSTRAINT "pd_d_p" FOREIGN KEY (p_id) REFERENCES patient(id)
+
+
+
+
+
+
+------------------DOCTOR---------------------------
+
+               Table "public.doctor"
+ Column |  Type   | Collation | Nullable | Default 
+--------+---------+-----------+----------+---------
+ id     | integer |           | not null | 
+ e_id   | integer |           | not null | 
+Indexes:
+    "doctor_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "f_k_d_p" FOREIGN KEY (e_id) REFERENCES employee(id)
+Referenced by:
+    TABLE "patient_diagnosis" CONSTRAINT "pd_d" FOREIGN KEY (doctor_id) REFERENCES doctor(id)
+
+
+
+------------------NURSE------------------------------
+
+               Table "public.nurse"
+ Column |  Type   | Collation | Nullable | Default 
+--------+---------+-----------+----------+---------
+ id     | integer |           | not null | 
+ e_id   | integer |           | not null | 
+Indexes:
+    "nurse_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "f_k_e_n" FOREIGN KEY (e_id) REFERENCES employee(id)
+
+
+
+-----------PATIENT_DIAGNOSIS--------------
+
+                   Table "public.patient_diagnosis"
+   Column    |          Type          | Collation | Nullable | Default 
+-------------+------------------------+-----------+----------+---------
+ id          | integer                |           | not null | 
+ p_id        | integer                |           | not null | 
+ doctor_id   | integer                |           | not null | 
+ date        | date                   |           | not null | 
+ time        | time without time zone |           | not null | 
+ disease_id  | integer                |           |          | 
+ medicine_id | integer                |           |          | 
+Indexes:
+    "patient_diagnosis_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "f_k_p_pd" FOREIGN KEY (medicine_id) REFERENCES pharmacy(code)
+    "f_k_pd_d" FOREIGN KEY (disease_id) REFERENCES disease(id)
+    "pd_d" FOREIGN KEY (doctor_id) REFERENCES doctor(id)
+    "pd_d_p" FOREIGN KEY (p_id) REFERENCES patient(id)
+
+
+
+
+
+
+----------------ACCOUNT TABLE-----------------
+
+              Table "public.account"
+ Column |  Type   | Collation | Nullable | Default 
+--------+---------+-----------+----------+---------
+ id     | integer |           | not null | 
+ p_id   | integer |           |          | 
+ amount | integer |           |          | 
+ date   | date    |           |          | 
+Indexes:
+    "account_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "f_p" FOREIGN KEY (p_id) REFERENCES patient(id)
+
+
+
+-----------------APPOINTMENT TABLE--------------
+
+                     Table "public.appointment"
+  Column   |          Type          | Collation | Nullable | Default 
+-----------+------------------------+-----------+----------+---------
+ id        | integer                |           | not null | 
+ p_id      | integer                |           | not null | 
+ doctor_id | integer                |           |          | 
+ date      | date                   |           | not null | 
+ time      | time without time zone |           | not null | 
+Indexes:
+    "appointment_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "f_k_a_e" FOREIGN KEY (doctor_id) REFERENCES doctor(id)
+    "f_k_a_p" FOREIGN KEY (p_id) REFERENCES patient(id)
+
+
+
+------------------PHARMACY TABLE----------------
+
+
+                  Table "public.pharmacy"
+ Column |     Type      | Collation | Nullable | Default 
+--------+---------------+-----------+----------+---------
+ code   | integer       |           | not null | 
+ name   | character(20) |           |          | 
+Indexes:
+    "medicine_pkey" PRIMARY KEY, btree (code)
+Referenced by:
+    TABLE "patient_diagnosis" CONSTRAINT "f_k_p_pd" FOREIGN KEY (medicine_id) REFERENCES pharmacy(code)
+
+
+
+
+
+
+-------------ADMIT TABLE-----------
+
+                           Table "public.admit"
+     Column     |          Type          | Collation | Nullable | Default 
+----------------+------------------------+-----------+----------+---------
+ no             | integer                |           | not null | 
+ p_id           | integer                |           | not null | 
+ room_no        | integer                |           | not null | 
+ admit_date     | date                   |           | not null | 
+ discharge_date | date                   |           | not null | 
+ admit_time     | time without time zone |           | not null | 
+ discharge_time | time without time zone |           | not null | 
+Indexes:
+    "admit_pkey" PRIMARY KEY, btree (no)
+Foreign-key constraints:
+    "f_k_p" FOREIGN KEY (p_id) REFERENCES patient(id)
+    
+
+
+---------------DISEASE TABLE----------------------
+
+                 Table "public.disease"
+ Column |     Type      | Collation | Nullable | Default 
+--------+---------------+-----------+----------+---------
+ id     | integer       |           | not null | 
+ name   | character(20) |           | not null | 
+Indexes:
+    "disease_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "patient_diagnosis" CONSTRAINT "f_k_pd_d" FOREIGN KEY (disease_id) REFERENCES disease(id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

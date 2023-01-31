@@ -1,0 +1,516 @@
+                                                                         BASIC CLAUSES
+ 
+ ->INSERT INTO (insert data into table)
+ syntax->INSERT INTO tablename (column1,column2..columnN) VALUES (value1,value2....valueN);
+ 
+test=# CREATE TABLE COMPANY(
+test(# ID INT PRIMARY KEY NOT NULL,
+test(# NAME TEXT,
+test(# AGE INT,
+test(# ADDRESS CHAR(50),
+test(# SALARY REAL,
+test(# JOIN_DATE DATE);
+
+-(ALL columns data is added)
+INSERT INTO COMPANY(ID,NAME,AGE,ADDRESS,SALARY,JOIN_DATE)VALUES(1,'A',30,'DELHI',1000.0,'2021-11-04');
+
+-(we left address so, it will be empty)
+INSERT INTO COMPANY(ID,NAME,AGE,SALARY,JOIN_DATE)VALUES(2,'B',33,10000.0,'2020-12-11');
+
+-(here we dont know join_date so,make it default)
+INSERT INTO COMPANY(ID,NAME,AGE,ADDRESS,SALARY,JOIN_DATE)VALUES(3,'C',33,'CHINA',10000.0,DEFAULT);
+
+-(Adding multiple rows)
+INSERT INTO COMPANY(ID,NAME,AGE,ADDRESS,SALARY,JOIN_DATE)VALUES(4,'D',34,'USA',10000.0,'2021-10-10'),(5,'E',20,'EUROPE',3000.0,'2022-09-05');
+
+
+->SELECT QUERY( SELECT statement is used to fetch the data from a database table, which returns data in the form of result table.)
+syntax-SELECT column1,column2,columnN from tablename;
+
+e.g-To fetch all data from table(syntax-select * from tablename)
+test=# SELECT * FROM COMPANY;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  1 | A    |  30 | DELHI                                              |   1000 | 2021-11-04
+  2 | B    |  33 |                                                    |  10000 | 2020-12-11
+  3 | C    |  33 | CHINA                                              |  10000 | 
+  4 | D    |  34 | USA                                                |  10000 | 2021-10-10
+  5 | E    |  20 | EUROPE                                             |   3000 | 2022-09-05
+(5 rows)
+
+
+e.g->
+test=# SELECT name,id from COMPANY;
+ name | id 
+------+----
+ A    |  1
+ B    |  2
+ C    |  3
+ D    |  4
+ E    |  5
+(5 rows)
+
+
+   ->OPERATORS
+                   .Arithmetic operators
+                   .Comparison operators
+                   .Logical operators
+                   .Bitwise operators
+                  
+                  
+-Arithmetic            
+             .Addition(+)
+             .subtraction(-)
+             .Multiplication(*)
+             .Division(/)
+             .Modulous(%)
+             .Exponentiation(^)
+             .square(|\) 
+             .cube(||\)
+             .factorial(!)  
+                  
+                  
+-Comparison
+            =	Checks if the values of two operands are equal or not, if yes then condition becomes true.	                                 (a = b) is not true.
+ 	   !=	Checks if the values of two operands are equal or not, if values are not equal then condition becomes true.	          (a != b) is true.
+	   <>	Checks if the values of two operands are equal or not, if values are not equal then condition becomes true.	          (a <> b) is true.
+           >	Checks if the value of left operand is greater than the value of right operand, if yes then condition becomes true.	   (a > b) is not true.
+	   <	Checks if the value of left operand is less than the value of right operand, if yes then condition becomes true.	           (a < b) is true.
+	   >=	Checks if the value of left operand is greater than or equal to the value of right operand, if yes then condition becomes true.(a >= b) is not true.
+	   <=	Checks if the value of left operand is less than or equal to the value of right operand, if yes then condition becomes true.   (a <= b) is true                
+                  
+                  
+ -Logical
+        AND-allows the existence of multiple conditions 
+        OR- is used to combine multiple condition
+        NOT-reverses the meaning of the logical operator with which it is used. Eg. NOT EXISTS, NOT BETWEEN, NOT IN etc. This is negate operator.                
+                  
+                  
+                  
+ -Bitwise
+         &-AND
+         |-OR
+         ~-ones complement
+         >>-Right shift
+         <<-Left shift
+          # - XOR              
+                  
+                  
+                  
+->WHERE CLAUSE
+ used to specify a condition while fetching the data from single table or joining with multiple tables.
+
+syntax- 
+        SELECT column1, column2, columnN
+        FROM table_name
+	WHERE [search_condition]                
+                  
+ e.g-> 
+test=# SELECT * FROM COMPNAY WHERE AGE<=30 AND SALARY>2000;
+                      ^
+test=# SELECT * FROM COMPANY WHERE AGE<=30 AND SALARY>2000; 
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  5 | E    |  20 | EUROPE                                             |   3000 | 2022-09-05
+(1 row)
+                
+                  
+ e.g->(Age either 33 or 30)
+ test=# SELECT * FROM COMPANY WHERE AGE IN(33,30);
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  1 | A    |  30 | DELHI                                              |   1000 | 2021-11-04
+  2 | B    |  33 |                                                    |  10000 | 2020-12-11
+  3 | C    |  33 | CHINA                                              |  10000 | 
+(3 rows)
+                
+                  
+ e.g->(Age neither 33 nor 30)
+ test=# SELECT * FROM COMPANY WHERE AGE NOT  IN(33,30);
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  4 | D    |  34 | USA                                                |  10000 | 2021-10-10
+  5 | E    |  20 | EUROPE                                             |   3000 | 2022-09-05
+(2 rows)
+
+
+
+e.g->  
+test=# SELECT * FROM COMPANY WHERE AGE<=30 OR  SALARY>2000; 
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  1 | A    |  30 | DELHI                                              |   1000 | 2021-11-04
+  2 | B    |  33 |                                                    |  10000 | 2020-12-11
+  3 | C    |  33 | CHINA                                              |  10000 | 
+  4 | D    |  34 | USA                                                |  10000 | 2021-10-10
+  5 | E    |  20 | EUROPE                                             |   3000 | 2022-09-05
+(5 rows)
+
+
+
+
+->UPDATE QUERY
+ modify the existing records in a table.
+ syntax-     
+          UPDATE table_name
+	  SET column1 = value1, column2 = value2...., columnN = valueN
+	  WHERE [condition]         
+                  
+                 
+                 
+e.g->
+test=# SELECT * FROM COMPANY;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  1 | A    |  30 | DELHI                                              |   1000 | 2021-11-04
+  4 | D    |  34 | USA                                                |  10000 | 2021-10-10
+  5 | E    |  20 | EUROPE                                             |   3000 | 2022-09-05
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  3 | C    |  33 | CHINA                                              |  10000 | 2021-02-06
+(5 rows)
+
+test=# UPDATE COMPANY SET SALARY=20000 WHERE ID = 5;
+UPDATE 1
+test=# SELECT * FROM COMPANY;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  1 | A    |  30 | DELHI                                              |   1000 | 2021-11-04
+  4 | D    |  34 | USA                                                |  10000 | 2021-10-10
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  3 | C    |  33 | CHINA                                              |  10000 | 2021-02-06
+  5 | E    |  20 | EUROPE                                             |  20000 | 2022-09-05
+(5 rows)
+
+
+e.g->
+test=# UPDATE COMPANY SET ADDRESS = 'FRANCE',AGE=38 WHERE NAME='D';
+UPDATE 1
+test=# SELECT * FROM COMPANY;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  1 | A    |  30 | DELHI                                              |   1000 | 2021-11-04
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  3 | C    |  33 | CHINA                                              |  10000 | 2021-02-06
+  5 | E    |  20 | EUROPE                                             |  20000 | 2022-09-05
+  4 | D    |  38 | FRANCE                                             |  10000 | 2021-10-10
+(5 rows)
+
+
+
+
+
+
+->DELETE QUERY
+delete the existing records from a table.
+syntax-
+	DELETE FROM table_name
+	WHERE [condition];
+
+e.g->
+test=# DELETE FROM COMPANY WHERE ID = 5;
+DELETE 1
+test=# SELECT * FROM COMPANY;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  1 | A    |  30 | DELHI                                              |   1000 | 2021-11-04
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  3 | C    |  33 | CHINA                                              |  10000 | 2021-02-06
+  4 | D    |  38 | FRANCE                                             |  10000 | 2021-10-10
+(4 rows)
+
+->...DELETE ALL DATA FROM TABLE THEN (DELETE FROM COMPNAY)                  
+                  
+                  
+                  
+->LIKE OPERATOR
+match text values against a pattern using wildcards.
+
+There are two wildcards used in conjunction with the LIKE operator −
+
+	.The percent sign (%)
+	.The underscore (_)
+
+
+(Postgres LIKE is String compare only. Hence, we need to explicitly cast the integer column to string )
+syntax-::text
+
+for e.g->(here age is int so we convert it to string using ::text)
+..-- show employess whose age ends with 3
+test=# SELECT * FROM COMPANY WHERE AGE::text  LIKE '%3';
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  3 | C    |  33 | CHINA                                              |  10000 | 2021-02-06
+(2 rows)
+
+
+
+
+for e.g->(address start with c)
+test=# SELECT * FROM COMPANY WHERE ADDRESS  LIKE 'C%';
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  3 | C    |  33 | CHINA                                              |  10000 | 2021-02-06
+(1 row)
+
+
+for e.g->(whose age's second digit will be 0)
+test=# SELECT * FROM COMPANY WHERE AGE::text  LIKE '_0%';
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  1 | A    |  30 | DELHI                                              |   1000 | 2021-11-04
+(1 row)
+
+
+for e.g->(where age starts with 3 and ends with 8)
+test=# SELECT * FROM COMPANY WHERE AGE::text LIKE '3%8';
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  4 | D    |  38 | FRANCE                                             |  10000 | 2021-10-10
+(1 row)
+
+
+e.g->(not start with 3 and end with 8)
+test=# SELECT * FROM COMPANY WHERE AGE::text NOT LIKE '3%8';
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  1 | A    |  30 | DELHI                                              |   1000 | 2021-11-04
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  3 | C    |  33 | CHINA                                              |  10000 | 2021-02-06
+(3 rows)
+
+
+
+e.g->(address is having R at any position)
+test=# SELECT * FROM COMPANY WHERE ADDRESS  LIKE '%R%';
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  4 | D    |  38 | FRANCE                                             |  10000 | 2021-10-10
+(2 rows)
+
+
+
+
+->LIMIT CLAUSE(limit the data amount returned by the SELECT statement.)
+syntax-
+        SELECT column1, column2, columnN
+	FROM table_name
+	LIMIT [no of rows]
+
+e.g->(show only 2 records)
+test=# SELECT * FROM COMPANY LIMIT 2;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  1 | A    |  30 | DELHI                                              |   1000 | 2021-11-04
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+(2 rows)
+
+
+e.g->(show 3 records)
+test=# SELECT * FROM COMPANY LIMIT 3;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  1 | A    |  30 | DELHI                                              |   1000 | 2021-11-04
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  3 | C    |  33 | CHINA                                              |  10000 | 2021-02-06
+(3 rows)
+
+                  
+   
+   
+->LIMIT WITH OFFSET
+.OFFSET(it will display records starting from offset+1)
+syntax-
+	SELECT column1, column2, columnN
+	FROM table_name
+	LIMIT [no of rows] OFFSET [row num]
+	
+e.g->(limit-2 means show 2 records and offset=2 means start from 3rd record)
+test=# SELECT * FROM COMPANY LIMIT 2 OFFSET 2;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  3 | C    |  33 | CHINA                                              |  10000 | 2021-02-06
+  4 | D    |  38 | FRANCE                                             |  10000 | 2021-10-10
+(2 rows)
+
+
+   
+->ORDER BY(sort the data in ascending or descending order, based on one or more columns. ASC-ASCENDING and DESC-DECENDING)
+syntax-
+
+	SELECT column-list
+	FROM table_name
+	[WHERE condition]
+	[ORDER BY column1, column2, .. columnN] [ASC | DESC]; 
+   
+   
+e.g->(sort salary in ascending order)
+test=# SELECT * FROM COMPANY ORDER BY SALARY ASC;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  1 | A    |  30 | DELHI                                              |   1000 | 2021-11-04
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  3 | C    |  33 | CHINA                                              |  10000 | 2021-02-06
+  4 | D    |  38 | FRANCE                                             |  10000 | 2021-10-10
+  5 | E    |  40 | INDIA                                              |  40000 | 2018-08-08
+(5 rows)
+
+
+
+e.g->(sort on age in descending order)
+test=# SELECT ID,NAME,ADDRESS FROM COMPANY ORDER BY AGE DESC;
+ id | name |                      address                       
+----+------+----------------------------------------------------
+  5 | E    | INDIA                                             
+  4 | D    | FRANCE                                            
+  2 | B    | BRAZIL                                            
+  3 | C    | CHINA                                             
+  1 | A    | DELHI                                             
+(5 rows)
+
+
+
+
+
+
+e.g->(sort based on multiple columns)
+test=# SELECT * FROM COMPANY ORDER BY AGE DESC,SALARY ASC;
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  5 | E    |  40 | INDIA                                              |  40000 | 2018-08-08
+  4 | D    |  38 | FRANCE                                             |  10000 | 2021-10-10
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  3 | C    |  33 | CHINA                                              |  10000 | 2021-02-06
+  1 | A    |  30 | DELHI                                              |   1000 | 2021-11-04
+(5 rows)
+
+
+
+
+  
+   
+   
+->GROUP BY
+It is used in collaboration with the SELECT statement to group together those rows in a table that have identical data. This is done to eliminate redundancy in the output and/or compute aggregates that apply to these groups.
+
+syntax-
+	SELECT column-list
+	FROM table_name
+	WHERE [ conditions ]
+	GROUP BY column1, column2....columnN
+	ORDER BY column1, column2....columnN  
+   
+   
+   
+   
+   
+e.g->( total amount of salary of each customer)
+test=# SELECT NAME , SUM(SALARY) FROM COMPANY GROUP BY NAME;
+ name |  sum  
+------+-------
+ B    | 10000
+ C    | 10000
+ D    | 10000
+ E    | 40000
+ A    |  1000
+(5 rows)
+
+
+
+
+e.g->(sort by names)
+test=# SELECT NAME , SUM(SALARY) FROM COMPANY GROUP BY NAME ORDER BY NAME;
+ name |  sum  
+------+-------
+ A    |  1000
+ B    | 10000
+ C    | 10000
+ D    | 10000
+ E    | 40000
+(5 rows)
+
+
+
+
+
+->HAVING CLAUSE( allows us to pick out particular rows where the function's result meets some condition.It is used to filter the groups of rows created by GROUP BY.)
+position-
+	SELECT
+	FROM
+	WHERE
+	GROUP BY
+	HAVING
+	ORDER BY
+
+
+syntax-
+	SELECT column1, column2
+	FROM table1, table2
+	WHERE [ conditions ]
+	GROUP BY column1, column2
+	HAVING [ conditions ]
+	ORDER BY column1, column2
+
+
+
+
+e.g->(it will show id of employess having salary > 20000)
+test=# SELECT ID ,SUM(SALARY) FROM COMPANY GROUP BY ID HAVING SUM(SALARY)> 20000;
+ id |  sum  
+----+-------
+  5 | 40000
+  4 | 30000
+  1 | 50000
+(3 rows)
+
+
+
+
+->DISTINCT(used in conjunction with SELECT statement to eliminate all the duplicate records and fetching only unique records.)
+syntax-
+	SELECT DISTINCT column1, column2,.....columnN
+	FROM table_name
+	WHERE [condition]
+	
+e.g->
+
+ id | name | age |                      address                       | salary | join_date  
+----+------+-----+----------------------------------------------------+--------+------------
+  2 | B    |  33 | BRAZIL                                             |  10000 | 2021-03-05
+  5 | E    |  40 | INDIA                                              |  40000 | 2018-08-08
+  3 | C    |  33 | CHINA                                              |  20000 | 2021-02-06
+  4 | D    |  38 | FRANCE                                             |  30000 | 2021-10-10
+  1 | A    |  30 | DELHI                                              |  50000 | 2021-11-04
+  6 | F    |  42 | JAPAN                                              |  55000 | 2017-11-11
+  7 | G    |  44 | NEPAL                                              |  65000 | 2016-11-21
+  8 | B    |  55 | NN                                                 |  22222 | 2022-11-11
+(8 rows)
+
+test=# SELECT NAME FROM COMPANY;
+ test
+ name 
+------
+ B
+ E
+ C
+ D
+ A
+ F
+ G
+ B
+(8 rows)
+
+test=# SELECT DISTINCT NAME FROM COMPANY;
+ test
+ name 
+------
+ B
+ C
+ D
+ E
+ F
+ G
+ A
+(7 rows)
+

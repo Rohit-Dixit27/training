@@ -1,0 +1,275 @@
+
+------------FOREIGN KEY-------
+
+.the foreign key is a column(s) in a table that points to a primary key or unique key column in the same or another table.
+.Foreign key establishes referential integrity between the parent and child tables. (data consistency after deletion and updation).
+
+
+syntax-(using create command)
+														(DELETE FOREIGN KEY CONSTRAINT)
+		[CONSTRAINT constraint_name]                                                                   ALTER TABLE table_name   
+                                                                                                            DROP CONSTRAINT constraint_fkey; 
+		FOREIGN KEY [foreign_key_name] (column_name, ...)    
+		REFERENCES parent_table_name (column_name,...)    
+		[ON DELETE referenceOption]    
+		[ON UPDATE referenceOption] 
+		
+		
+		
+		
+syntax-(using alter command)
+
+		ALTER TABLE child_table   
+		ADD CONSTRAINT [constraint_name]   
+		FOREIGN KEY (fk_columns)   
+		REFERENCES parent_table (parent_key_columns);  
+		
+
+for e.g->(table empoyee it is parent or base or Referenced table)
+
+test=# CREATE TABLE EMPLOYEE(
+test(# EMP_ID INT PRIMARY KEY NOT NULL,
+test(# NAME TEXT,
+test(# SALARY INT);
+
+
+
+(second table is department it is referencing or child table)
+test=# CREATE TABLE DEPARTMENT(
+test(# DEPT_ID INT PRIMARY KEY NOT NULL,
+test(#  DEPT_NAME TEXT,
+test(#  EMP_ID INT,
+test(#  CONSTRAINT FK_E_D
+test(# FOREIGN KEY(EMP_ID)
+test(#  REFERENCES EMPLOYEE(EMP_ID));
+
+
+REFERENTIAL OPTIONS-
+.SET DEFAULT
+.SET NULL
+.CASCADE
+.NO ACTION
+
+
+
+
+--->>>.NO ACTION(IT IS BY DEFAULT ,MEANS WO CANNOT DELETE OR UPDATE IN PARENT TABLE,BEACUSE IT IS CONNECTED WITH DEPT TABLE.)
+
+test=# SELECT * FROM EMPLOYEE;
+ emp_id | name  | salary 
+--------+-------+--------
+      1 | ROHIT |   1000
+      2 | ROHAN |   2000
+      3 | MOHAN |   3000
+(3 rows)
+
+
+
+
+test=# SELECT * FROM DEPARTMENT;
+ dept_id | dept_name | emp_id 
+---------+-----------+--------
+       1 | CS        |      1
+       2 | ME        |      1
+       3 | AB        |      2
+       4 | CD        |      3
+(4 rows)
+
+
+test=# DELETE FROM EMPLOYEE WHERE EMP_ID = 1;
+ERROR:  update or delete on table "employee" violates foreign key constraint "fk_e_d" on table "department"
+DETAIL:  Key (emp_id)=(1) is still referenced from table "department".
+
+
+
+----->>>>SET NULL(MEANS WHEN WE DELETE OR UPDATE THE EMPLOYEE TABLE THEN IN THE DEPT TABLE IT WILL SET NULL AT THAT LOCATIONS.)
+
+
+e.g->
+  parent table
+  
+test=# CREATE TABLE EMPLOYEE(
+test(# EMP_ID INT PRIMARY KEY NOT NULL,
+test(# NAME TEXT,
+test(# SALARY INT);
+
+
+
+child table
+
+CREATE TABLE DEPARTMENT(
+DEPT_ID INT PRIMARY KEY NOT NULL,
+ DEPT_NAME TEXT,
+EMP_ID INT,
+CONSTRAINT FK_E_D
+FOREIGN KEY(EMP_ID)
+REFERENCES EMPLOYEE(EMP_ID)
+ON DELETE SET NULL
+ON UPDATE SET NULL);
+
+
+test=# SELECT * FROM EMPLOYEE;
+ emp_id | name  | salary 
+--------+-------+--------
+      1 | ROHIT |   1000
+      2 | ROHAN |   2000
+      3 | MOHAN |   3000
+(3 rows)
+
+test=# SELECT * FROM DEPARTMENT;
+ dept_id | dept_name | emp_id 
+---------+-----------+--------
+       1 | CS        |      1
+       2 | ME        |      1
+       3 | AB        |      2
+       4 | CD        |      3
+(4 rows)
+
+test=# DELETE FROM EMPLOYEE WHERE EMP_ID =1;
+DELETE 1
+test=# SELECT * FROM EMPLOYEE;
+ emp_id | name  | salary 
+--------+-------+--------
+      2 | ROHAN |   2000
+      3 | MOHAN |   3000
+(2 rows)
+
+test=# SELECT * FROM DEPARTMENT;
+ dept_id | dept_name | emp_id 
+---------+-----------+--------
+       3 | AB        |      2
+       4 | CD        |      3
+       1 | CS        |       
+       2 | ME        |       
+(4 rows)
+
+
+
+
+
+
+
+
+
+--->>>SET CASCADE(MEANS WHEN WE DELETE OR UPDATE IN BASE TABLE IT WILL ALSO DONE IN CHILD TABLE AUTOMATICALLY)
+
+(parent table)
+
+test=# CREATE TABLE EMPLOYEE(
+test(# EMP_ID INT PRIMARY KEY NOT NULL,
+test(# NAME TEXT,
+test(# SALARY INT);
+
+
+
+child table
+
+CREATE TABLE DEPARTMENT(
+DEPT_ID INT PRIMARY KEY NOT NULL,
+ DEPT_NAME TEXT,
+EMP_ID INT,
+CONSTRAINT FK_E_D
+FOREIGN KEY(EMP_ID)
+REFERENCES EMPLOYEE(EMP_ID)
+ON DELETE SET CASCADE
+ON UPDATE SET CASCADE);
+
+test=# SELECT * FROM EMPLOYEE;
+ emp_id | name  | salary 
+--------+-------+--------
+      1 | ROHIT |   1000
+      2 | ROHAN |   2000
+      3 | MOHAN |   3000
+(3 rows)
+
+test=# SELECT * FROM DEPARTMENT;
+ dept_id | dept_name | emp_id 
+---------+-----------+--------
+       1 | CS        |      1
+       2 | ME        |      1
+       3 | AB        |      2
+       4 | CD        |      3
+(4 rows)
+
+test=# DELETE FROM EMPLOYEE WHERE EMP_ID =1;
+DELETE 1
+test=# SELECT * FROM EMPLOYEE;
+ emp_id | name  | salary 
+--------+-------+--------
+      2 | ROHAN |   2000
+      3 | MOHAN |   3000
+(2 rows)
+
+test=# SELECT * FROM DEPARTMENT;
+ dept_id | dept_name | emp_id 
+---------+-----------+--------
+       3 | AB        |      2
+       4 | CD        |      3
+(2 rows)
+
+
+
+--->>>>>SET DEFAULT(ON DELETION AND UPDATION IN PARENT TABLE IT WILL REPLACE WITH DEFAULT IN CHILD TABLE AT THAT LOCATION,BUT DEFAULT VALUE SHOULD BE IN PARENT TABLE IF NOT IT WILL REPLACE WITH NULL)
+
+
+
+
+(parent table)
+
+test=# CREATE TABLE EMPLOYEE(
+test(# EMP_ID INT PRIMARY KEY NOT NULL,
+test(# NAME TEXT,
+test(# SALARY INT);
+
+
+
+child table
+
+CREATE TABLE DEPARTMENT(
+DEPT_ID INT PRIMARY KEY NOT NULL,
+ DEPT_NAME TEXT,
+EMP_ID INT DEFAULT 3,
+CONSTRAINT FK_E_D
+FOREIGN KEY(EMP_ID)
+REFERENCES EMPLOYEE(EMP_ID)
+ON DELETE SET DEFAULT
+ON UPDATE SET DEFAULT;
+
+
+test=# SELECT * FROM EMPLOYEE;
+ emp_id | name  | salary 
+--------+-------+--------
+      1 | ROHIT |   1000
+      2 | ROHAN |   2000
+      3 | MOHAN |   3000
+(3 rows)
+
+test=# SELECT * FROM DEPARTMENT;
+ dept_id | dept_name | emp_id 
+---------+-----------+--------
+       1 | CS        |      1
+       2 | ME        |      1
+       3 | AB        |      2
+       4 | CD        |      3
+(4 rows)
+
+test=# DELETE FROM EMPLOYEE WHERE EMP_ID =1;
+DELETE 1
+test=# SELECT * FROM EMPLOYEE;
+ emp_id | name  | salary 
+--------+-------+--------
+      2 | ROHAN |   2000
+      3 | MOHAN |   3000
+(2 rows)
+
+test=# SELECT * FROM DEPARTMENT;
+ dept_id | dept_name | emp_id 
+---------+-----------+--------
+       3 | AB        |      2
+       4 | CD        |      3
+       1 | CS        |      3
+       2 | ME        |      3
+(4 rows)
+
+
+(note- here deletion places in department table replace with 3 i.e default but if 3 is not in employee then it will replace it with null)

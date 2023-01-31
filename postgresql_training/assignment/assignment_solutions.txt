@@ -1,0 +1,274 @@
+
+
+
+
+                                                      
+                                                     -------------------DATABASE ASSIGNMENT---------------------------
+
+
+---AIRLINE FLIGHT INFORMATION
+
+
+             Table Flights
+     ____________________________________        
+             flno      integer,
+             from      string,
+             to        string,
+             distance  integer,
+             departs    time,
+             arrives     time,
+             price      integer
+             
+          
+             
+             Table Aircraft
+      ____________________________________       
+      		aid		integer
+      		aname	 	string
+      		cruisingrange	integer
+      		
+      		
+      		
+      		Table Certified
+      ______________________________________		
+      		eid		integer
+      		aid 		integer
+      		
+      		
+      		
+      		
+      		Table Employees
+      _________________________________________
+      		eid		integer
+      		ename		string
+      		salary 	integer
+      		
+      		
+      		
+       		
+      		
+    [Note-Employees relation describes pilots and other kinds of employees as well.Every pilot is certified for some aircraft and only pilots are certified to fly.]  		
+      		
+  
+  
+  
+ QUERIE a).Find the names of aircraft such that all pilots certified to operate them earn more than $80,000.
+ 
+      	SOLUTION:-
+      			SELECT a.aname as Aircraft
+      			FROM EMPLOYEES e INNER JOIN
+      			CERTIFIED c ON e.eid=c.eid
+      			INNER JOIN AIRCRAFT a ON
+      			c.aid=a.aid WHERE e.salary>$80,000;
+      	
+      	
+      	
+ QUERIE b).For each pilot who is certified for more than three aircraft,find the eid and the maximum cruisingrange of the aircraft for which she or he is certified.
+ 
+ 	SOLUTION:-
+ 			
+ 			SELECT c.eid,MAX(a.cruisingrange) FROM
+ 			CERTIFIED c INNER JOIN AIRCRAFT a ON
+ 			c.aid=a.aid GROUP BY c.eid HAVING
+ 			COUNT(c.eid)>3; 
+ 			
+ 			
+ 			
+ 			
+ 			
+ 			
+ QUERIE c).Find the names of the pilots whose salary is less than the price of the cheapest route from Los Angeles to Honolulu.
+ 
+ 	SOLUTION:-
+ 			SELECT e.ename FROM EMPLOYEES e INNER JOIN
+ 			CERTIFIED c ON e.eid=c.eid WHERE salary<
+ 			(SELECT MIN(price)FROM FLIGHTS WHERE
+ 			from ='Los Angeles' AND to ='Honolulu');
+ 			
+ 			
+ 			
+ 	
+ QUERIE d).For all aircraft with cruisingrange over 1000 miles,find the name of the aircraft and the average salary of all pilots certified for this aircraft.
+ 
+ 	SOLUTION:-
+ 			SELECT a.aname,AVG(e.salary) FROM
+ 			EMPLOYEES e INNER JOIN CERTIFIED c
+ 			ON e.eid=c.eid INNER JOIN  aircraft a
+ 			ON c.aid=a.aid WHERE cruisingrange > 1000
+ 			GROUP BY a.aname;
+ 			
+ 			
+ 			
+ 			
+ QUERIE e).Find the names of pilots certified for some boeing aircraft.
+ 
+ 	SOLUTION:-
+ 			SELECT e.ename FROM EMPLOYEES  e 
+ 			INNER JOIN CERTIFIED c ON 
+ 			e.eid=c.eid INNER JOIN
+ 			AIRCRAFT a ON c.aid=a.aid
+ 			WHERE a.aname='Boeing';
+ 	
+ 	
+      		
+      		
+      		
+   QUERIE f).Find the aids of all aircraft that can be used on routes from Los Angeles to Chicago.
+ 
+ 	SOLUTION:-
+      			SELECT a.aid FROM AIRCRAFT a WHERE cruisingrange > (SELECT MIN(distance) FROM FLIGHTS WHERE from='Los Angeles'  AND to='Chicago');
+      			
+      		
+      		
+      		
+        		
+  QUERIE g).Identify the routes that can be piloted by every pilot who makes more than $ 100000.
+  	
+  	SOLUTION:-
+  	
+  	
+  			SELECT DISTINCT
+        		fro_m,
+        		t_o
+    		  FROM
+        		flights
+    			WHERE
+        			distance < (
+                    SELECT  MAX(a.cruisingrange)
+                    FROM    employees e
+                    
+                     JOIN
+                            certified c
+                            on e.e_id=c.e_id
+                                
+                     JOIN
+                            aircraft a
+                                ON (c.a_id = a.a_id)
+                    WHERE
+                            e.salary > $100000
+                    GROUP BY
+                            e.e_id
+                    
+                   limit 1 
+                );	
+      		
+      		
+      		
+  QUERIE h).Print the enames of pilots who can operate planes with cruisingrange greater than 3000 miles but are not certified on any boeing aircraft.
+  	
+  	SOLUTION:-
+  	
+  			SELECT DISTINCT e.e_name FROM
+  			EMPLOYEES e JOIN Certified c
+  			ON e.e_id = c.e_id JOIN aircraft a
+  			ON c.a_id=a.a_id WHERE a.cruisingrange>3000
+  			AND a.a_name <> 'boeing';
+  	
+  	
+  	
+  	
+  
+  QUERIE i).A customer wants to travel from Madison to New York with no more than two changes of flight.List the choice of departure times from Madison if the customer wants to arrive in New York by 6pm.
+  	SOLUTION:-
+  			SELECT F.departs
+			FROM flights F
+			WHERE F.flno IN ( 
+			( SELECT F0.flno
+			 FROM flights F0
+			 WHERE F0.fro_m = 'Madison' AND F0.t_o = 'New York'
+ 			AND F0.arrives < '18:00' )
+ 			UNION
+ 			( SELECT F0.flno
+ 			FROM flights F0, flights F1
+ 			WHERE F0.fro_m = 'Madison' AND F0.t_o <> 'New York'
+ 			AND F0.t_o = F1.fro_m AND F1.t_o = 'New York'
+ 			AND F1.departs > F0.arrives
+ 			AND F1.arrives < '18:00' )
+ 			UNION
+ 			( SELECT F0.flno
+ 			FROM flights F0, flights F1, flights F2
+ 			WHERE F0.fro_m = 'Madison'
+ 			AND F0.t_o = F1.from
+ 			AND F1.t_o = F2.from
+ 			AND F2.t_o = 'New York'
+ 			AND F0.t_o <> 'New York'
+ 			AND F1.t_o <> 'New York'
+ 			AND F1.departs > F0.arrives
+ 			AND F2.departs > F1.arrives
+ 			AND F2.arrives < '18:00' )) 
+  
+  QUERIE j).Compute the difference between the average salary of a pilot and the average salary of all employees(includin pilots).
+  
+  		SOLUTION:-
+  				 SELECT 
+      			  (SELECT AVG(salary ) FROM employees) AS emp_salary,
+      			  AVG(salary) AS pilot_salary,
+      			  (SELECT AVG(salary ) FROM employees) - AVG(salary) AS diff
+    			FROM 
+        		employees 
+    			WHERE 
+        				e_id IN (SELECT 
+               			     DISTINCT c.e_id
+               		 FROM 
+               			     certified c);
+  
+  QUERIE k).Print the name and salary of every nonpilot whose salary is more than the average salary for pilots.
+  
+  		SOLUTION:- 		
+  				SELECT e.e_name,salary FROM
+  				employees e WHERE NOT EXISTS
+  				(SELECT * FROM certified c WHERE e.e_id=c.e_id) AND e.salary>
+  				(SELECT AVG(e.salary) FROM employees e INNER JOIN certified c on e.e_id=c.e_id);
+  		
+  		
+  		
+  		
+  		
+  
+  QUERIE l).Print the names of employees who are certified only on aircrafts ith cruisingrange longer than 1000 miles.
+  
+  		SOLUTION:-
+  		
+  				SELECT DISTINCT e.e_name FROM employees e INNER JOIN certified c 
+  				ON e.e_id=c.c_id INNER JOIN aircraft a ON
+  				c.a_id=a.a_id WHERE cruisingrange > 1000
+  		
+  				
+  
+  QUERIE m).Print the names of employees who are certified only on aircrafts with cruisingrange longer than 1000 miles,but on at least two such aircrafts.
+  
+  		SOLUTION:-
+  				SELECT e.e_name FROM employees e WHERE e_id IN(
+  				SELECT COUNT(e_id) FROM certified c JOIN aircraft
+  				a ON c.a_id=a.a_id WHERE cruisingrange > 1000
+  				GROUP BY e_id HAVING COUNT(e_id)>=2);
+  		
+  		
+
+  
+  QUERIE n).Print the names of employees who are certified only on aircrfats with cruisingrange longer than 1000 miles and who are certified on some Boeing aircraft.      
+  		
+  		SOLUTION:-	
+  				SELECT e.e_name FROM employees e JOIN certified c ON e.e_id=c.e_id
+  				JOIN aircraft a ON c.a_id=a.a_id WHERE cruisingrange > 1000 AND a.a_name ='Boeing';
+  				
+      		
+      		
+      		
+      		
+      		   		
+      		
+      		
+      		
+      		
+      		
+      		
+      		
+      		
+      		
+      		
+      		
+      		
+      		
+      		
+      		

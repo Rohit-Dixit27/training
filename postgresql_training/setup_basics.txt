@@ -1,0 +1,247 @@
+
+
+                                                                              NAME-ROHIT DIXIT
+                                                                           BERYL SYSTEMS PVT.LTD
+
+
+->POSTGRESQL
+PostgreSQL (pronounced as post-gress-Q-L) is an open source relational database management system (DBMS) developed by a worldwide team of volunteers. PostgreSQL is not controlled by any corporation or other private entity and the source code is available free of charge.
+
+->It supports-
+-Complex SQL queries
+-SQL Sub-selects
+-Foreign keys
+-Trigger
+-Views
+-Transactions
+-Multiversion concurrency control (MVCC)
+-Streaming Replication (as of 9.0)
+-Hot Standby (as of 9.0)
+
+->Installation
+sudo apt-get install postresql postresql-contrib
+
+
+->service postgresql
+ouput-Usage: /etc/init.d/postgresql {start|stop|restart|reload|force-reload|status} [version ..]
+
+->open terminal
+syntax-sudo su postgres
+      -psql
+ 
+ ->close
+ syntax->\q     
+   
+->show all databases
+postgres=# \l
+                             List of databases
+   Name    |  Owner   | Encoding | Collate | Ctype |   Access privileges   
+-----------+----------+----------+---------+-------+-----------------------
+ postgres  | postgres | UTF8     | en_IN   | en_IN | 
+ template0 | postgres | UTF8     | en_IN   | en_IN | =c/postgres          +
+           |          |          |         |       | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_IN   | en_IN | =c/postgres          +
+           |          |          |         |       | postgres=CTc/postgres
+(3 rows)
+
+
+->show all the users
+postgres=# \du
+
+                                  List of roles
+ Role name |                         Attributes                         | Member of 
+-----------+------------------------------------------------------------+-----------
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+->To create new user
+postgres=# create user user_1 with password 'user_123'
+postgres=# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of 
+-----------+------------------------------------------------------------+-----------
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ user_1    |                                                            | {}
+
+
+
+
+->(make the user as superuser)
+postgres=# alter user user_1 with superuser;
+ALTER ROLE
+postgres=# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of 
+-----------+------------------------------------------------------------+-----------
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+ user_1    | Superuser 
+
+
+
+
+
+->(set user)
+postgres=# SET ROLE user_1;
+
+
+
+
+
+->show current user
+syntax->postgres=# select current_user;
+ current_user 
+--------------
+ user_1
+
+
+
+
+
+
+->To delete a user
+syntax->drop user username;
+
+
+->DATA TYPES
+               -> (Numeric)
+             .smallint-2 bytes
+             .integer-4 bytes
+             .bigint -8 bytes
+             .decimal - variable
+             .numeric - variable
+             .real - 4 bytes
+             .double precision - 8 bytes
+             .smallserial - 2 bytes
+             .serial - 4 bytes
+             .bigserial - 8 bytes
+             
+             
+            -> (Money)
+             .money- 8 bytes
+             
+           -> (character types)
+               .character varying(n),varchar(n) - variable length with limit
+               .character(n),char(n) - fixed length,blank padded
+                .test - variable unlimited length
+                
+              ->  (Binary)
+                .bytea -1 or 4 bytes plus the actual binary string
+                
+               -> (Date and Time)
+                .timestamp[(p)] - without timezone - 8 bytes
+                .TIMESTAMPTZ - 8 bytes
+                .date - 4 bytes
+                .time [(p)] - without time zone -8 bytes
+                .time [(p)] - with time zone- 12 bytes
+                .interval [fields][(p) - 12 bytes]
+                
+                -> (Boolean type)
+                .boolean - 1 byte
+                
+                
+                
+                
+                
+               ->(Enumerated Type)
+               .Enumerated (enum) types are data types that comprise a static, ordered set of values. Enumerated Types need to be created using CREATE TYPE command.
+
+               This type is used to store a static, ordered set of values. For example compass directions, i.e., NORTH, SOUTH, EAST, and WEST or days of the week as shown below −
+
+              CREATE TYPE week AS ENUM ('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
+               Enumerated, once created, can be used like any other type
+                
+                ->(Geometric type)
+                .point - 16 bytes
+                .line  - 32 bytes
+                .lseg  - 32 bytes
+                .box   - 32 bytes
+                .path   - 16+16n bytes
+                .polygon - 40+16n
+                .circle  -  24 bytes
+                
+                
+                ->(Network Address)
+                .cidr - 7 or 19 bytes
+                .inet - 7 or 19 bytes
+                .macaddr - 6 bytes
+                
+               -> A UUID (Universally Unique Identifiers) is written as a sequence of lower-case hexadecimal digits,
+
+
+               ->The XML data type can be used to store XML data.
+
+               ->The json data type can be used to store JSON (JavaScript Object Notation) data. 
+
+               ->Bit String Types are used to store bit masks. They are either 0 or 1. There are two SQL bit types: bit(n) and bit varying(n), where n is a positive integer.
+
+
+
+->CREATE DATABASE Dbname;
+->(connect to database)
+.from psql shell -  \c [databse_name]
+.directly form terminal window - psql -h [HOST] -p [PORT] -U [USER] [DATABASE]
+            
+e.g->sudo -su postgres psql -h localhost -p 5432 -U postgres dbname           
+          
+
+ ->Delete a database
+ deleting a database from OS command prompt −
+suntax-dropdb -h localhost -p 5432 -U postgress testdb
+Password for user postgress: ****       
+or
+DROP DATABASE dbname;
+
+
+->CREATE TABLE
+                      CREATE TABLE table_name(
+                      column1 datatype,
+                      column2 datatype,
+                      column3 datatype,
+                          .....
+                     columnN datatype,
+                  PRIMARY KEY( one or more columns )
+                                   );
+
+->SHOW TABLES IN DATABASE
+syntax-\d or \d tablename
+
+->DROP TABLE
+SYNTAX DROP TABLE tablename;
+
+->drop multiple tables-DROP TABLE tablename1,tablename2;
+
+
+->SCHEMA
+A schema is a named collection of tables. A schema can also contain views, indexes, sequences, data types, operators, and functions. Schemas are analogous to directories at the operating system level, except that schemas cannot be nested. PostgreSQL statement CREATE SCHEMA creates a schema.It allows many users to use one database without interfering with each other.
+
+
+syntax->CREATE SCHEMA schemaname;
+
+->create table in schema
+syntax-CREATE TABLE schemaname.tablename(
+);
+
+
+->show table of schema
+syntax-select * from  schemaname.tablename;
+
+->DROP SCHEMA IF EMPTY
+syntax-DROP SCHEMA schemananme;
+
+->DROP SCHEMA HAVING DATA
+syntax-DROP SCHEMA schemaname CASCADE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

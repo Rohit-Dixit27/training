@@ -1,0 +1,125 @@
+
+-->>CONSTRAINTS
+Constraints are the rules enforced on data columns on table. These are used to prevent invalid data from being entered into the database. This ensures the accuracy and reliability of the data in the database.
+
+Constraints could be column level or table level. Column level constraints are applied only to one column whereas table level constraints are applied to the whole table. Defining a data type for a column is a constraint in itself. For example, a column of type DATE constrains the column to valid dates.
+
+The following are commonly used constraints available in PostgreSQL.
+
+	>NOT NULL Constraint − Ensures that a column cannot have NULL value.
+
+	>UNIQUE Constraint − Ensures that all values in a column are different.
+
+	>PRIMARY Key − Uniquely identifies each row/record in a database table.
+
+	>FOREIGN Key − Constrains data based on columns in other tables.
+
+	>CHECK Constraint − The CHECK constraint ensures that all values in a column satisfy certain conditions.
+
+	>EXCLUSION Constraint − The EXCLUDE constraint ensures that if any two rows are compared on the specified column(s) or expression(s) using the specified operator(s), not all of these 		comparisons will return TRUE.
+
+
+
+--NOT NULL CONSTRAINT(we cannot left empty an not null constrained column)
+e.g->
+CREATE TABLE COMPANY(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT,   
+   AGE            INT,     
+   ADDRESS        CHAR(50),
+   SALARY         REAL
+);
+   
+   
+   
+              
+--UNIQUE CONSTRAINT(multiple columns can be unique,prevents two records from having identical values in a particular column.)    
+e.g->
+AGE column is set to UNIQUE, so that you cannot have two records with same age −
+
+CREATE TABLE COMPANY(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT,    
+   AGE            INT      UNIQUE,
+   ADDRESS        CHAR(50),
+   SALARY         REAL    
+);
+
+
+
+
+
+--PRIMARY KEY CONSTRAINT( constraint uniquely identifies each record in a database table)
+e.g->CREATE TABLE COMPANY(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT,    
+   AGE            INT,     
+   ADDRESS        CHAR(50),
+   SALARY         REAL
+);
+
+
+
+
+--FOREIGN KEY CONSTRAINT(A foreign key constraint specifies that the values in a column (or a group of columns) must match the values appearing in some row of another table. We say this maintains the referential integrity between two related tables. They are called foreign keys because the constraints are foreign; that is, outside the table. Foreign keys are sometimes called a referencing key.)
+
+e.g->
+CREATE TABLE COMPANY(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL,
+   ADDRESS        CHAR(50),
+   SALARY         REAL
+);
+
+The column EMP_ID is the foreign key and references the ID field of the table COMPANY.
+
+CREATE TABLE DEPARTMENT1(
+   ID INT PRIMARY KEY      NOT NULL,
+   DEPT           CHAR(50) NOT NULL,
+   EMP_ID         INT      references COMPANY(ID)
+);
+
+
+
+--CHECK CONSTRAINT(It enables a condition to check the value being entered into a record. If the condition evaluates to false, the record violates the constraint and is not entered into the table)
+e.g->(salary should be greater than zero)
+
+CREATE TABLE COMPANY5(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT    NOT NULL,
+   AGE            INT     NOT NULL,
+   ADDRESS        CHAR(50),
+   SALARY         REAL    CHECK(SALARY > 0)
+);
+
+
+--EXCLUSION CONSTRAINT
+Exclusion constraints ensure that if any two rows are compared on the specified columns or expressions using the specified operators, at least one of these operator comparisons will return false or null.
+e.g->
+CREATE TABLE COMPANY7(
+   ID INT PRIMARY KEY     NOT NULL,
+   NAME           TEXT,
+   AGE            INT  ,
+   ADDRESS        CHAR(50),
+   SALARY         REAL,
+   EXCLUDE USING gist
+   (NAME WITH =,
+   AGE WITH <>)
+);
+
+INSERT INTO COMPANY7 VALUES(1, 'R', 32, 'C', 20000.00 );
+INSERT INTO COMPANY7 VALUES(2, 'R', 32, 'T', 20000.00 );
+INSERT INTO COMPANY7 VALUES(3, 'R', 42, 'D', 20000.00 );
+For the first two INSERT statements, the records are added to the COMPANY7 table. For the third INSERT statement, the following error is displayed −
+
+ERROR:  conflicting key value violates exclusion constraint "company7_name_age_excl"
+DETAIL:  Key (name, age)=(Paul, 42) conflicts with existing key (name, age)=(Paul, 32).
+
+
+
+
+
+
+(TO DROP A CONSTRAINT)
+->ALTER TABLE table_name DROP CONSTRAINT some_name;
