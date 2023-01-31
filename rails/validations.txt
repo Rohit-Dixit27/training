@@ -1,0 +1,581 @@
+
+ 
+ 
+                                 -----------VALIDATIONS-------------
+
+	Validations are used to ensure that only valid data is saved into your database.
+
+
+
+---->When Does Validation Happen?
+
+	-There are two kinds of Active Record objects: those that correspond to a row inside your database and those that do not. 
+	-When you create a fresh object, for example using the new method, that object does not belong to the database yet. 
+	-Once you call save upon that object it will be saved into the appropriate database table.
+	-Active Record uses the new_record? instance method to determine whether an object is already in the database or not.
+
+
+
+3.0.0 :004 > emp=EmployeeName.new(name:'')
+ => #<EmployeeName:0x00005575560890c8 id: nil, name: "", created_at: nil, updated_at: nil> 
+3.0.0 :005 > emp.new_record?
+ => true 
+ 
+ 
+ 
+---->Methods trigger validations, and will save the object to the database only if the object is valid:
+
+create
+create!
+save
+save!
+update
+update!
+The bang versions (e.g. save!) raise an exception if the record is invalid. The non-bang versions don't: save and update return false, and create returns the object.
+
+
+----->Skipping Validations
+
+->Methods skip validations, and will save the object to the database regardless of its validity. They should be used with caution.
+
+decrement!
+decrement_counter
+increment!
+increment_counter
+insert
+insert!
+insert_all
+insert_all!
+toggle!
+touch
+touch_all
+update_all
+update_attribute
+update_column
+update_columns
+update_counters
+upsert
+upsert_all
+Note that save also has the ability to skip validations if passed validate:
+false as an argument. This technique should be used with caution.
+
+save(validate: false)
+
+
+---->valid? and invalid?
+
+	-we can check it is valid or not .Invalid is opposite of valid.
+	-when we create an object and put some data then an insert query will run.
+
+e.g->
+3.0.0 :010 > author=Author.create(name:'mohan').valid?
+3.0.0 :011 >   
+  TRANSACTION (0.3ms)  BEGIN
+  Author Create (0.4ms)  INSERT INTO "authors" ("name", "created_at", "updated_at", "salary") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "mohan"], ["created_at", "2023-01-31 07:14:51.961466"], ["updated_at", "2023-01-31 07:14:51.961466"], ["salary", nil]]                                              
+  TRANSACTION (8.8ms)  COMMIT                                                                            
+ => true 
+ 
+ 3.0.0 :012 > author=Author.create(name:nil).valid?
+3.0.0 :013 >   
+ => false 
+ 
+
+
+
+----->Errors
+
+	-After Active Record has performed validations, any errors found can be accessed through the errors instance method, which returns a collection of errors. 
+	-By definition, an object is valid if this collection is empty after running validations.
+
+Note that an object instantiated with new will not report errors even if it's technically invalid, because validations are automatically run only when the object is saved, such as with the create or save methods.
+
+e.g->
+
+3.0.0 :017 > author.errors.objects.first.full_message
+ => "Name can't be blank" "
+
+
+e.g->
+
+ 
+3.0.0 :018 > author=Author.new()
+3.0.0 :019 >   
+ => #<Author:0x00007f57a044d550 id: nil, name: nil, created_at: nil, updated_at: nil, salary: nil> 
+3.0.0 :020 > author.errors.objects.first.full_message
+(irb):20:in `<main>': undefined method `full_message' for nil:NilClass (NoMethodError)
+3.0.0 :021 > author.save
+3.0.0 :022 >   
+ => false 
+3.0.0 :023 > author.errors.objects.first.full_message
+ => "Name can't be blank" 
+
+
+
+------>errors[]
+
+ To verify whether or not a particular attribute of an object is valid, you can use errors[:attribute].
+ It returns an array of all the error messages for :attribute. If there are no errors on the specified attribute, an empty array is returned.
+
+3.0.0 :025 > Author.create.errors[:name].any?
+ => true 
+ 
+ 
+ 
+-----> Validation Helpers
+ 
+		-Active Record offers many pre-defined validation helpers that you can use directly inside your class definitions. 
+		-These helpers provide common validation rules.
+		-Every time a validation fails, an error is added to the object's errors collection, and this is associated with the attribute being validated
+
+
+-->acceptance
+
+	-This method validates that a checkbox on the user interface was checked when a form was submitted. 
+	-This is typically used when the user needs to agree to your application's terms of service, confirm that some text is read, or any similar concept.
+
+	class Person < ApplicationRecord
+	  validates :terms_of_service, acceptance: true
+	end
+
+
+
+ This check is performed only if terms_of_service is not nil. 
+ The default error message for this helper is "must be accepted".
+ You can also pass in a custom message via the message option.
+
+ class Person < ApplicationRecord
+  validates :terms_of_service, acceptance: { message: 'must be accepted' }
+ end
+
+
+-->validates_associated
+
+	-You should use this helper when your model has associations with other models and they also need to be validated.
+	-When you try to save your object, valid? will be called upon each one of the associated objects.
+
+	class Library < ApplicationRecord
+	  has_many :books
+	  validates_associated :books
+	end
+
+[This validation will work with all of the association types.]
+
+
+
+-->confirmation
+
+ 	-You should use this helper when you have two text fields that should receive exactly the same content. 
+ 	-For example, you may want to confirm an email address or a password.
+ 	-This validation creates a virtual attribute whose name is the name of the field that has to be confirmed with "_confirmation" appended.
+
+ class Person < ApplicationRecord
+   validates :email, confirmation: true
+ end
+
+In your view template you could use something like
+<%= text_field :person, :email %>
+<%= text_field :person, :email_confirmation %>
+
+
+--This check is performed only if email_confirmation is not nil. To require confirmation, make sure to add a presence check for the confirmation attribute.
+
+ class Person < ApplicationRecord
+   validates :email, confirmation: true
+   validates :email_confirmation, presence: true
+ end
+
+
+--There is also a :case_sensitive option that you can use to define whether the confirmation constraint will be case sensitive or not. This option defaults to true.
+
+class Person < ApplicationRecord
+  validates :email, confirmation: { case_sensitive: false }
+end
+
+[The default error message for this helper is "doesn't match confirmation".]
+
+
+
+
+--------comparison
+
+	-This check will validate a comparison between any two comparable values. 
+	-The validator requires a compare option be supplied. Each option accepts a value, proc, or symbol. 
+	-Any class that includes Comparable can be compared.
+
+class Promotion < ApplicationRecord
+  validates :start_date, comparison: { greater_than: :end_date }
+end
+
+
+--These options are all supported:
+
+:greater_than			 - Specifies the value must be greater than the supplied value. The default error message for this option is "must be greater than %{count}".
+:greater_than_or_equal_to	 - Specifies the value must be greater than or equal to the supplied value. The default error message for this option is "must be greater than or equal to %{count}".
+:equal_to 			 - Specifies the value must be equal to the supplied value. The default error message for this option is "must be equal to %{count}".
+:less_than			 - Specifies the value must be less than the supplied value. The default error message for this option is "must be less than %{count}".
+:less_than_or_equal_to		 - Specifies the value must be less than or equal to the supplied value. The default error message for this option is "must be less than or equal to %{count}".
+:other_than			 - Specifies the value must be other than the supplied value. The default error message for this option is "must be other than %{count}".
+
+
+
+
+
+---->format
+
+	-This helper validates the attributes' values by testing whether they match a given regular expression, which is specified using the :with option.
+
+class Product < ApplicationRecord
+  validates :legacy_code, format: { with: /\A[a-zA-Z]+\z/,
+    message: "only allows letters" }
+end
+
+Alternatively, you can require that the specified attribute does not match the regular expression by using the :without option.
+
+The default error message is "is invali
+
+
+
+----->length
+
+class Person < ApplicationRecord
+  validates :name, length: { minimum: 2 }
+  validates :bio, length: { maximum: 500 }
+  validates :password, length: { in: 6..20 }
+  validates :registration_number, length: { is: 6 }
+end
+
+
+
+
+
+------The possible length constraint options are:
+
+:minimum		 - The attribute cannot have less than the specified length.
+:maximum		 - The attribute cannot have more than the specified length.
+:in (or :within)	 - The attribute length must be included in a given interval. The value for this option must be a range.
+:is			 - The attribute length must be equal to the given value.
+
+-->The default error messages depend on the type of length validation being performed. You can customize these messages using the :wrong_length, :too_long, and :too_short options and %{count} as a placeholder for the number corresponding to the length constraint being used. You can still use the :message option to specify an error message.
+
+class Person < ApplicationRecord
+  validates :bio, length: { maximum: 1000,
+    too_long: "%{count} characters is the maximum allowed" }
+end
+
+
+
+---->numericality
+
+	-This helper validates that your attributes have only numeric values. By default, it will match an optional sign followed by an integer or floating point number.
+
+
+
+class Player < ApplicationRecord
+  validates :points, numericality: true
+  validates :games_played, numericality: { only_integer: true }
+end
+
+The default error message for :only_integer is "must be an integer".
+
+Besides :only_integer, this helper also accepts the following options to add constraints to acceptable values:
+
+:greater_than			 - Specifies the value must be greater than the supplied value. The default error message for this option is "must be greater than %{count}".
+:greater_than_or_equal_to	 - Specifies the value must be greater than or equal to the supplied value. The default error message for this option is "must be greater than or equal to %{count}".
+:equal_to			 - Specifies the value must be equal to the supplied value. The default error message for this option is "must be equal to %{count}".
+:less_than			 - Specifies the value must be less than the supplied value. The default error message for this option is "must be less than %{count}".
+:less_than_or_equal_to		 - Specifies the value must be less than or equal to the supplied value. The default error message for this option is "must be less than or equal to %{count}".
+:other_than			 - Specifies the value must be other than the supplied value. The default error message for this option is "must be other than %{count}".
+:in				 - Specifies the value must be in the supplied range. The default error message for this option is "must be in %{count}".
+:odd				 - Specifies the value must be an odd number if set to true. The default error message for this option is "must be odd".
+:even				 - Specifies the value must be an even number if set to true. The default error message for this option is "must be even"
+
+
+
+
+---->presence
+
+ 	-This helper validates that the specified attributes are not empty.
+ 	-It uses the blank? method to check if the value is either nil or a blank string, that is, a string that is either empty or consists of whitespace.
+
+ class Person < ApplicationRecord
+  validates :name, :login, :email, presence: true
+ end
+
+
+-->If you want to be sure that an association is present, you'll need to test whether the associated object itself is present, and not the foreign key used to map the association.
+ This way, it is not only checked that the foreign key is not empty but also that the referenced object exists.
+
+class Supplier < ApplicationRecord
+  has_one :account
+  validates :account, presence: true
+end
+
+
+
+---->absence
+
+  	-This helper validates that the specified attributes are absent.
+  	-It uses the present? method to check if the value is not either nil or a blank string, that is, a string that is either empty or    consists of whitespace.
+
+class Person < ApplicationRecord
+  validates :name, :login, :email, absence: true
+end
+
+-->If you want to be sure that an association is absent, you'll need to test whether the associated object itself is absent, and not the foreign key used to map the association.
+
+class LineItem < ApplicationRecord
+  belongs_to :order
+  validates :order, absence: true
+end
+
+
+
+
+
+---->uniqueness
+
+class Account < ApplicationRecord
+  validates :email, uniqueness: true
+end
+
+The validation happens by performing an SQL query into the model's table, searching for an existing record with the same value in that attribute
+
+
+
+
+---->validates_with
+
+	-This helper passes the record to a separate class for validation.
+	-The validates_with helper takes a class, or a list of classes to use for validation. There is no default error message for validates_with. You must manually add errors to the record's 	errors collection in the validator class.
+
+class GoodnessValidator < ActiveModel::Validator
+  def validate(record)
+    if record.first_name == "Evil"
+      record.errors.add :base, "This person is evil"
+    end
+  end
+end
+
+
+class Person < ApplicationRecord
+  validates_with GoodnessValidator
+end
+
+
+
+
+----> validates_each
+
+ 	-This helper validates attributes against a block. It doesn't have a predefined validation function. 
+ 	-You should create one using a block, and every attribute passed to validates_each will be tested against it. 
+ 	-In the following example, we don't want names and surnames to begin with lower case.
+
+class Person < ApplicationRecord
+  validates_each :name, :surname do |record, attr, value|
+    record.errors.add(attr, 'must start with upper case') if value =~ /\A[[:lower:]]/
+  end
+end
+
+
+
+
+-------------------------Common validation options-------------------------
+
+--->allow_nil
+
+	-The :allow_nil option skips the validation when the value being validated is nil.
+
+--->allow_blank
+
+	-The :allow_blank option is similar to the :allow_nil option. This option will let validation pass if the attribute's value is blank?, like nil or an empty string for example.
+
+class Topic < ApplicationRecord
+  validates :title, length: { is: 5 }, allow_blank: true
+end
+
+irb> Topic.create(title: "").valid?
+=> true
+irb> Topic.create(title: nil).valid?
+=> true
+
+
+---->message
+
+	-As you've already seen, the :message option lets you specify the message that will be added to the errors collection when validation fails. 
+	-When this option is not used, Active Record will use the respective default error message for each validation helper. The :message option accepts a String or Proc.
+
+
+------>on
+
+	-The :on option lets you specify when the validation should happen. 
+	-The default behavior for all the built-in validation helpers is to be run on save (both when you're creating a new record and when you're updating it).
+
+
+--------->Strict Validations
+
+	-You can also specify validations to be strict and raise ActiveModel::StrictValidationFailed when the object is invalid.
+
+class Person < ApplicationRecord
+  validates :name, presence: { strict: true }
+end
+
+irb> Person.new.valid?
+ActiveModel::StrictValidationFailed: Name can't be blank
+validates :email, uniqueness: true, on: :create
+
+
+
+
+------------>Conditional validations
+
+	-:if and :unless options, which can take a symbol, a Proc or an Array. 
+	-You may use the :if option when you want to specify when the validation should happen.
+	-If you want to specify when the validation should not happen, then you may use the :unless option.
+
+
+class Order < ApplicationRecord
+  validates :card_number, presence: true, if: :paid_with_card?
+
+  def paid_with_card?
+    payment_type == "card"
+  end
+end
+
+
+-->validates :password, confirmation: true, unless: -> { password.blank? }
+
+
+
+
+
+--->Errors
+
+class Person < ApplicationRecord
+  validates :name, presence: true, length: { minimum: 3 }
+end
+
+
+irb> person = Person.new
+irb> person.valid?
+=> false
+irb> person.errors.full_messages
+=> ["Name can't be blank", "Name is too short (minimum is 3 characters)"
+
+
+---->errors[]
+
+	-errors[] is used when you want to check the error messages for a specific attribute. 
+	-It returns an array of strings with all error messages for the given attribute, each string with one error message.
+	-If there are no errors related to the attribute, it returns an empty array.
+
+irb> person = Person.new(name: "JD")
+irb> person.valid?
+=> false
+irb> person.errors[:name]
+=> ["is too short (minimum is 3 characters)"]
+
+
+---->errors.where and error object
+
+	-where returns an array of error objects
+
+class Person < ApplicationRecord
+  validates :name, presence: true, length: { minimum: 3 }
+end
+Copy
+irb> person = Person.new
+irb> person.valid?
+=> false
+
+irb> person.errors.where(:name)
+=> [ ... ] # all errors for :name attribute
+
+
+----->errors.add
+
+	-The add method creates the error object by taking the attribute, the error type and additional options hash. This is useful for writing your own validator.
+
+class Person < ApplicationRecord
+  validate do |person|
+    errors.add :name, :too_plain, message: "is not cool enough"
+  end
+end
+
+irb> person = Person.create
+irb> person.errors.where(:name).first.type
+=> :too_plain
+irb> person.errors.where(:name).first.full_message
+=> "Name is not cool enough
+
+
+
+---->errors[:base]
+
+	-You can add errors that are related to the object's state as a whole, instead of being related to a specific attribute. 
+	-You can add errors to :base when you want to say that the object is invalid, no matter the values of its attributes.
+
+class Person < ApplicationRecord
+  validate do |person|
+    errors.add :base, :invalid, message: "This person is invalid because ..."
+  end
+end
+
+irb> person = Person.create
+irb> person.errors.where(:base).first.full_message
+=> "This person is invalid because ..."
+
+
+--->errors.clear
+
+	-The clear method is used when you intentionally want to clear the errors collection. 
+	-Of course, calling errors.clear upon an invalid object won't actually make it valid: 
+	-the errors collection will now be empty, but the next time you call valid? or any method that tries to save this object to the database, the validations will run again.
+	-If any of the validations fail, the errors collection will be filled again.
+
+class Person < ApplicationRecord
+  validates :name, presence: true, length: { minimum: 3 }
+end
+Copy
+irb> person = Person.new
+irb> person.valid?
+=> false
+irb> person.errors.empty?
+=> false
+
+irb> person.errors.clear
+irb> person.errors.empty?
+=> true
+
+irb> person.save
+=> false
+
+irb> person.errors.empty?
+=> false
+
+
+
+----->errors.size
+
+	-The size method returns the total number of errors for the object.
+
+class Person < ApplicationRecord
+  validates :name, presence: true, length: { minimum: 3 }
+end
+Copy
+irb> person = Person.new
+irb> person.valid?
+=> false
+irb> person.errors.size
+=> 2
+
+irb> person = Person.new(name: "rohit", email: "rohit@example.com")
+irb> person.valid?
+=> true
+irb> person.errors.size
+=> 0
+
+
+
+
+
+
