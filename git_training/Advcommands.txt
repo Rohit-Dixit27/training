@@ -1,0 +1,386 @@
+STASH COMMAND
+->git stash(save data in the file)
+->git stash save "messgae"
+->git list(show all stashes)
+->git show(changes in the stash)
+->git drop stashid(delete a particular stash)
+->git clear(deletes all the stash)
+
+
+CHERRY-PICK COMMAND
+
+(when we did commit to wrong branch then we can pick that commit from that branch and merge into the branch we want)
+beryl@beryl-Latitude-7490:~/Desktop/st$ cd ..
+beryl@beryl-Latitude-7490:~/Desktop$ cd prac
+beryl@beryl-Latitude-7490:~/Desktop/prac$ git init
+Initialized empty Git repository in /home/beryl/Desktop/prac/.git/
+beryl@beryl-Latitude-7490:~/Desktop/prac$ cat > aa.txt
+hiii
+^C
+beryl@beryl-Latitude-7490:~/Desktop/prac$ git add .
+beryl@beryl-Latitude-7490:~/Desktop/prac$ git commit -m "initial comit"
+[master (root-commit) 77d144a] initial comit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 aa.txt
+beryl@beryl-Latitude-7490:~/Desktop/prac$ git log
+commit 77d144a2ff77247646155fb2c1ab00ae8e8cc34b (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 11:49:34 2022 +0530
+
+    initial comit
+beryl@beryl-Latitude-7490:~/Desktop/prac$ git checkout -b new
+Switched to a new branch 'new'
+beryl@beryl-Latitude-7490:~/Desktop/prac$ cat >> aa.txt
+hello
+^C
+beryl@beryl-Latitude-7490:~/Desktop/prac$ git add .
+beryl@beryl-Latitude-7490:~/Desktop/prac$ git commit -m "commit to master branch"
+[new 339a93b] commit to master branch
+ 1 file changed, 1 insertion(+)
+beryl@beryl-Latitude-7490:~/Desktop/prac$ git log
+commit 339a93b90590e93e96bc008118be882afc53cac8 (HEAD -> new)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 11:50:19 2022 +0530
+
+    commit to master branch
+
+commit 77d144a2ff77247646155fb2c1ab00ae8e8cc34b (master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 11:49:34 2022 +0530
+
+    initial comit
+beryl@beryl-Latitude-7490:~/Desktop/prac$ git checkout master
+Switched to branch 'master'
+beryl@beryl-Latitude-7490:~/Desktop/prac$ git log
+commit 77d144a2ff77247646155fb2c1ab00ae8e8cc34b (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 11:49:34 2022 +0530
+
+    initial comit
+beryl@beryl-Latitude-7490:~/Desktop/prac$ git cherry-pick 339a93b90590e9 
+[master 09f85ae] commit to master branch
+ Date: Fri Dec 23 11:50:19 2022 +0530
+ 1 file changed, 1 insertion(+)
+beryl@beryl-Latitude-7490:~/Desktop/prac$ git log
+commit 09f85ae60264e98d3baf453dcc4d7334ab5bfbc5 (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 11:50:19 2022 +0530
+
+    commit to master branch
+
+commit 77d144a2ff77247646155fb2c1ab00ae8e8cc34b
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 11:49:34 2022 +0530
+
+
+
+
+
+                          REVERT
+beryl@beryl-Latitude-7490:~/Documents$ cd pl
+beryl@beryl-Latitude-7490:~/Documents/pl$ git init
+Initialized empty Git repository in /home/beryl/Documents/pl/.git/
+beryl@beryl-Latitude-7490:~/Documents/pl$ cat > aa.txt
+hii
+^C
+beryl@beryl-Latitude-7490:~/Documents/pl$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	aa.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+beryl@beryl-Latitude-7490:~/Documents/pl$ git add .
+beryl@beryl-Latitude-7490:~/Documents/pl$ git commit -m "initial commit"
+[master (root-commit) e2af738] initial commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 aa.txt
+beryl@beryl-Latitude-7490:~/Documents/pl$ git log
+commit e2af738a3f4dfa1daf8d6a5e734289873e143d77 (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 12:44:58 2022 +0530
+
+    initial commit
+beryl@beryl-Latitude-7490:~/Documents/pl$ cat >> aa.txt
+hello
+^C
+beryl@beryl-Latitude-7490:~/Documents/pl$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   aa.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+beryl@beryl-Latitude-7490:~/Documents/pl$ git add .
+beryl@beryl-Latitude-7490:~/Documents/pl$ git commit -m "second commit"
+[master 5ef5c36] second commit
+ 1 file changed, 1 insertion(+)
+beryl@beryl-Latitude-7490:~/Documents/pl$ git log
+commit 5ef5c36ba29275a63288d547902be08c5a5db7f2 (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 12:45:35 2022 +0530
+
+    second commit
+
+commit e2af738a3f4dfa1daf8d6a5e734289873e143d77
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 12:44:58 2022 +0530
+
+    initial commit
+beryl@beryl-Latitude-7490:~/Documents/pl$ git revert 5ef5c36ba2
+[master c30393b] Revert "second commit"
+ 1 file changed, 1 deletion(-)
+beryl@beryl-Latitude-7490:~/Documents/pl$ cat aa.txt
+hii
+beryl@beryl-Latitude-7490:~/Documents/pl$ 
+
+
+
+
+
+
+
+
+                   MERGING
+beryl@beryl-Latitude-7490:~$ cd Deskop
+bash: cd: Deskop: No such file or directory
+beryl@beryl-Latitude-7490:~$ cd Desktop
+beryl@beryl-Latitude-7490:~/Desktop$ mkdir po
+beryl@beryl-Latitude-7490:~/Desktop$ cd po
+beryl@beryl-Latitude-7490:~/Desktop/po$ git init
+Initialized empty Git repository in /home/beryl/Desktop/po/.git/
+beryl@beryl-Latitude-7490:~/Desktop/po$ cat > aa.txt
+hii
+^C
+beryl@beryl-Latitude-7490:~/Desktop/po$ git add .
+beryl@beryl-Latitude-7490:~/Desktop/po$ git commit -m "initial"
+[master (root-commit) c20e9d2] initial
+ 1 file changed, 1 insertion(+)
+ create mode 100644 aa.txt
+beryl@beryl-Latitude-7490:~/Desktop/po$ git log
+commit c20e9d280a308ef573a96043ea33819420e3f363 (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:31:10 2022 +0530
+
+    initial
+beryl@beryl-Latitude-7490:~/Desktop/po$ git branch new
+beryl@beryl-Latitude-7490:~/Desktop/po$ git checkout new
+Switched to branch 'new'
+beryl@beryl-Latitude-7490:~/Desktop/po$ cat >> aa.txt
+hello
+^C
+beryl@beryl-Latitude-7490:~/Desktop/po$ git status
+On branch new
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   aa.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+beryl@beryl-Latitude-7490:~/Desktop/po$ git add
+Nothing specified, nothing added.
+Maybe you wanted to say 'git add .'?
+beryl@beryl-Latitude-7490:~/Desktop/po$ git add .
+beryl@beryl-Latitude-7490:~/Desktop/po$ git commit -m "new 1"
+[new f6c1e93] new 1
+ 1 file changed, 1 insertion(+)
+beryl@beryl-Latitude-7490:~/Desktop/po$ git log
+commit f6c1e932973c1891b4de8fdc87f54e0dde59a805 (HEAD -> new)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:32:11 2022 +0530
+
+    new 1
+
+commit c20e9d280a308ef573a96043ea33819420e3f363 (master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:31:10 2022 +0530
+
+    initial
+beryl@beryl-Latitude-7490:~/Desktop/po$ git checkout master
+Switched to branch 'master'
+beryl@beryl-Latitude-7490:~/Desktop/po$ git log
+commit c20e9d280a308ef573a96043ea33819420e3f363 (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:31:10 2022 +0530
+
+    initial
+beryl@beryl-Latitude-7490:~/Desktop/po$ touch ab.txt
+beryl@beryl-Latitude-7490:~/Desktop/po$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	ab.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+beryl@beryl-Latitude-7490:~/Desktop/po$ git add .
+beryl@beryl-Latitude-7490:~/Desktop/po$ git commit -m "master2"
+[master 57555d5] master2
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 ab.txt
+beryl@beryl-Latitude-7490:~/Desktop/po$ git log
+commit 57555d5e5318e114abce6d51f1192fc7c22365d8 (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:33:01 2022 +0530
+
+    master2
+
+commit c20e9d280a308ef573a96043ea33819420e3f363
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:31:10 2022 +0530
+
+    initial
+beryl@beryl-Latitude-7490:~/Desktop/po$ git checkout new
+Switched to branch 'new'
+beryl@beryl-Latitude-7490:~/Desktop/po$ git merge master
+Merge made by the 'recursive' strategy.
+ ab.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 ab.txt
+beryl@beryl-Latitude-7490:~/Desktop/po$ git log
+commit 5f167d353e473ebae42ca485848b3da282501c03 (HEAD -> new)
+Merge: f6c1e93 57555d5
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:33:59 2022 +0530
+
+    Merge branch 'master' into new
+
+commit 57555d5e5318e114abce6d51f1192fc7c22365d8 (master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:33:01 2022 +0530
+
+    master2
+
+commit f6c1e932973c1891b4de8fdc87f54e0dde59a805
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:32:11 2022 +0530
+
+    new 1
+
+commit c20e9d280a308ef573a96043ea33819420e3f363
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:31:10 2022 +0530
+
+
+
+ 
+                         REBASE
+beryl@beryl-Latitude-7490:~$ cd Desktop
+beryl@beryl-Latitude-7490:~/Desktop$ mkdir cc
+beryl@beryl-Latitude-7490:~/Desktop$ cd cc
+beryl@beryl-Latitude-7490:~/Desktop/cc$ cat > aa.txt
+hii
+^C
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git init
+Initialized empty Git repository in /home/beryl/Desktop/cc/.git/
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	aa.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git add .
+beryl@beryl-Latitude-7490:~/Desktop/cc$  git commit -m "initial commit"
+[master (root-commit) e4aa9d3] initial commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 aa.txt
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git log
+commit e4aa9d38edefc3dc58d74e31cbcb6c9dc4690404 (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:37:55 2022 +0530
+
+    initial commit
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git checkout -b new
+Switched to a new branch 'new'
+beryl@beryl-Latitude-7490:~/Desktop/cc$ touch ab.txt
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git add .
+beryl@beryl-Latitude-7490:~/Desktop/cc$  git commit -m "new1"
+[new b765f67] new1
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 ab.txt
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git log
+commit b765f67da20b83b9ffb7d650929dbdb76b567658 (HEAD -> new)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:38:27 2022 +0530
+
+    new1
+
+commit e4aa9d38edefc3dc58d74e31cbcb6c9dc4690404 (master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:37:55 2022 +0530
+
+    initial commit
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git checkout master
+Switched to branch 'master'
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git log
+commit e4aa9d38edefc3dc58d74e31cbcb6c9dc4690404 (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:37:55 2022 +0530
+
+    initial commit
+beryl@beryl-Latitude-7490:~/Desktop/cc$ touch ac.txt
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git add .
+beryl@beryl-Latitude-7490:~/Desktop/cc$  git commit -m "master2"
+[master a52146b] master2
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 ac.txt
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git log
+commit a52146b0dabe6f48353273ec4bbb7fb3c300a62f (HEAD -> master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:39:02 2022 +0530
+
+    master2
+
+commit e4aa9d38edefc3dc58d74e31cbcb6c9dc4690404
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:37:55 2022 +0530
+
+    initial commit
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git checkout new
+Switched to branch 'new'
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git rebase master
+First, rewinding head to replay your work on top of it...
+Applying: new1
+beryl@beryl-Latitude-7490:~/Desktop/cc$ git log
+commit 8da4eab8e74263d81f48c4df4d5736dd0441a4b5 (HEAD -> new)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:38:27 2022 +0530
+
+    new1
+
+commit a52146b0dabe6f48353273ec4bbb7fb3c300a62f (master)
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:39:02 2022 +0530
+
+    master2
+
+commit e4aa9d38edefc3dc58d74e31cbcb6c9dc4690404
+Author: Rohit Dixit <rohitdxt1999@gmail.com>
+Date:   Fri Dec 23 14:37:55 2022 +0530
+
+    initial commit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
