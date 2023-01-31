@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_30_061212) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_31_072738) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,11 +22,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_30_061212) do
     t.integer "author_id"
     t.bigint "authors_id"
     t.index ["authors_id"], name: "index_articles_on_authors_id"
-  end
-
-  create_table "articles_authors", id: false, force: :cascade do |t|
-    t.bigint "article_id", null: false
-    t.bigint "author_id", null: false
   end
 
   create_table "authors", force: :cascade do |t|
