@@ -1,0 +1,252 @@
+
+
+-----------------FILES I/O-----------------------------
+
+---->1)puts (The puts statement instructs the program to display the value stored in the variable. This will add a new line at the end of each line it writes.)
+
+e.g->   puts "hello"
+	puts "hi"
+	
+output->
+hello
+hi
+
+
+----->2)gets(The gets statement can be used to take any input from the user from standard screen called STDIN.)
+
+e.g->
+	puts "enter value"
+	a=gets
+	puts "this is the value #{a}"
+	
+output->
+enter value:
+23
+this is the value 23
+
+
+------>3)putc(the putc statement can be used to output one character at a time.)
+
+e.g->
+	putc "hello"
+	output->h
+
+
+------>4)print( the cursor is positioned on the same line.)
+
+e.g-
+ print "hello"
+ print "hi"
+ 
+ output->hellohi
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ---------------COMMON MODES IN I/O PORT------------------------------
+ 
+ 
+"r": read-only mode is the default mode starts at beginning of file.
+"r+": read-write mode, starts at beginning of file.
+"w": write-only mode, either creates a new file or truncates an existing file for writing.
+"w+": read-write mode, either creates a new file or truncates an existing file for reading and writing.
+"a": write-only mode, if file exists it will append the file othrwise a new file will be created for writing only.
+"a+": read and write mode, if file exists it will append the file othrwise a new file will be created for writing and reading.
+ 
+ 
+ 
+ --------OPENING AND CLOSING FILE-----------------
+ 
+ TWO METHODS
+--->File.new(new file can be created for reading, writing or both.)
+ 
+ syntax-
+ 	f = File.new("fileName.rb") 
+ 	 #process
+ 	 f.close
+ 	
+ --->File.open(new file object is created. That file object is assigned to a file.)
+ 
+ syntax-
+ 	File.open("fileName.rb", "mode") do |f|  
+         # process
+         end
+ 
+ 
+ 
+ ------syswrite fro writing into the file-------------
+ 
+ afile=File.new("bs.txt","r+")
+if afile
+content=afile.syswrite("this is the first file ")
+else
+puts "unable to open the file"
+end
+ 
+ 
+ 
+ ---------sysread for reading file-------
+ 
+ afile=File.new("bs.txt","r+")
+if afile
+content=afile.sysread(30)
+puts content
+else
+puts "unable to open the file"
+end
+
+
+
+
+----------IO readlines---------------
+
+-Each line of the file will be an element in the array . 
+-Therefore, arr[0] will contain the first line, whereas arr[1] will contain the second line of the file.
+
+bs.txt file having three lines
+	first line
+	adding  second line
+	adding third line
+
+
+a=IO.readlines("bs.txt")
+puts a[0]
+puts a[1] 
+ 
+ 
+output->
+first line
+adding  second line
+ 
+ 
+ 
+-------------foreach---------------------------
+
+it is also return line by line but not use array concept.
+
+e.g->
+ 	IO.foreach("bs.txt") {|i| puts i
+ 
+ output->
+ first line
+adding  second line
+adding third line
+
+
+
+
+
+--------------RENAMING FILE--------------
+
+
+syntax-> File.rename("oldname","new_name")
+
+e.g->
+
+	File.rename("bs.txt","new.txt")
+	(now bs.txt will become new.txt)
+
+
+
+---------DELETING A FILE---------------
+
+syntax->
+	File.delete("name_of_file")
+
+e.g->
+	File.delete("kk.txt")
+
+
+
+
+----------FILE INQUIRES-----------------
+
+->checking before open file exist
+syntax-
+	File.open("file.rb") if File::exists?( "file.rb" )
+
+->whether a file is really is a file
+syntax-
+	File.file?( "text.txt" ) 
+	
+	
+-> finds out if the given file name is a directory −
+syntax-
+
+# a directory
+File::directory?( "/usr/local/bin" ) # => true
+
+# a file
+File::directory?( "file.rb" ) # => false
+
+
+
+-> find the permissions of file
+syntax-
+File.readable?( "test.txt" )   # => true
+File.writable?( "test.txt" )   # => true
+File.executable?( "test.txt" ) # => false
+
+
+->whether the file size is zero or not
+syntax-
+	File.zero?( "test.txt" )
+	
+	
+	
+->returns the size of file
+syntax-
+	File.size?( "text.txt" ) 
+	
+	
+->returns the type of file
+syntax-
+	File.ftype("filename")	
+	
+->creation ,modification and access time
+syntax-
+File::ctime("filename") #file creation time
+File::mtime("filename") #file modified time
+File::atime("filename") #file access time
+
+->creating directory
+syntax-
+	Dir.mkdir("name of directory",permissions)
+->deleting directory
+syntax-
+	Dir.delete("name of directory")
+->change directoty
+syntax-
+	Dir.chdir("/usr/bin")
+	
+->know current directory
+syntax-
+	puts Dir.pwd
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -1,0 +1,159 @@
+
+--------Ruby---------
+
+-Ruby is a dynamic, open source, object oriented and reflective programming language. 
+-Ruby is considered similar to Perl and Smalltalk programming languages. 
+-It runs on all types of platforms like Windows, Mac OS and all versions of UNIX
+
+
+--------VARIABLES-------
+
+-Ruby variables are locations which hold data to be used in the programs.
+- Each variable has a different name. These variable names are based on some naming conventions.
+- Unlike other programming languages, there is no need to declare a variable in Ruby.
+- A prefix is needed to indicate it.
+
+
+
+----------------TYPES OF VARIABLE--------------------------
+
+->Local variables
+->Class variables
+->Instance variables
+->Global variables
+
+
+
+----->LOCAL
+
+-A local variable name starts with a lowercase letter or underscore (_). 
+-It is only accessible or have its scope within the block of its initialization.
+-Once the code block completes, variable has no scope.
+-When uninitialized local variables are called, they are interpreted as call to a method that has no argument.
+
+
+----->CLASS
+
+-A class variable name starts with @@ sign. 
+-They need to be initialized before use. A class variable belongs to the whole class and can be accessible from anywhere inside the class.
+-If the value will be changed at one instance, it will be changed at every instance.
+-A class variable is shared by all the descendents of the class. An uninitialized class variable will result in an error.
+
+
+----->INSTANCE
+
+-An instance variable name starts with a @ sign. 
+-It belongs to one instance of the class and can be accessed from any instance of the class within a method. 
+-They only have limited access to a particular instance of a class.
+-They don't need to be initialize. An uninitialized instance variable will have a nil value.
+
+
+------>GLOBAL
+
+-A global variable name starts with a $ sign. Its scope is globally, means it can be accessed from any where in a program.
+-An uninitialized global variable will have a nil value. It is advised not to use them as they make programs cryptic and complex.
+-There are a number of predefined global variables in Ruby.
+
+
+
+---------------DATA TYPES-----------------
+
+Data types represents a type of data such as text, string, numbers, etc. There are different data types in Ruby:
+
+-->Numbers
+-->Strings
+-->Symbols
+-->Hashes
+-->Arrays
+-->Booleans
+
+
+
+
+----->NUMBERS
+
+Integers and floating point numbers come in the category of numbers.
+Integers are held internally in binary form. Integer numbers are numbers without a fraction. According to their size, there are two types of integers. One is Bignum and other is Fixnum
+
+e.g-2.3.0 :002 > 2+3
+ => 5 
+2.3.0 :003 > 2.0+3.0
+ => 5.0 
+
+
+---->STRING
+
+A string is a group of letters that represent a sentence or a word. Strings are defined by enclosing a text within single (') or double (") quote.
+e.g->2.3.0 :004 > 'a'
+ => "a" 
+2.3.0 :005 > "a"+"b"
+ => "ab" 
+ 
+ 
+ 
+----->SYMBOL
+
+ Symbols are like strings. A symbol is preceded by a colon (:). For example,
+
+:abcd  
+They do not contain spaces. Symbols containing multiple words are written with (_). One difference between string and symbol is that, if text is a data then it is a string but if it is a code it is a symbol.
+
+Symbols are unique identifiers and represent static values, while string represent values that change.
+e.g->
+
+
+
+------>HASHES
+
+A hash assign its values to its keys. They can be looked up by their keys. Value to a key is assigned by => sign. A key/value pair is separated with a comma between them and all the pairs are enclosed within curly braces.
+
+e.g->2.3.0 :006 > data={"a"=>"1","b"=>"2"}
+ => {"a"=>"1", "b"=>"2"} 
+2.3.0 :007 > data["a"]
+ => "1" 
+2.3.0 :0
+
+
+
+----->ARRAY
+
+An array stroes data or list of data. It can contain all types of data. Data in an array are separated by comma in between them and are enclosed by square bracket.
+
+e.g->2.3.0 :008 > arr=[1,2,3]
+ => [1, 2, 3] 
+2.3.0 :009 > arr[0]
+ => 1 
+ 
+ 
+----->BOOLEAN
+
+ Boolean data type represents only one bit of information either true or false.
+ e.g->if true
+  puts "It is True!"
+else
+  puts "It is False!"
+end
+
+o/p-it is true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

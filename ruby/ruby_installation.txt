@@ -1,0 +1,49 @@
+ 
+ 
+  ->Rvm Installation-
+  
+  
+     ->RVM is short for Ruby Version Manager. It is a platform of software for UNIX-like operating systems developed for managing more than one Ruby installation on similar devices.
+     
+     
+     
+     We can install and configure Ruby Version Manager in three different ways which are listed and explained below:
+
+	1. Single-User Installations (suggested): For a separated install in the $HOME directory of a user, not for sudo or root.
+
+	2. Multi-User Installations (recommended for server administrators): For the installation usable by every user on the system. Als	o, it used to be known as the System-Wide install. Using this 	kind of installation without knowing can lead to a big risk of security.
+
+	Note: Single-User Installation supersedes the Multi-User Installation.
+	
+	3. Mixed-Mode Installations: For the installation usable by every user on the system with separated gemsets/rubies in the $HOME directory of a user. The instructions of the installation are the 	same as for the installations of Multi-User, the only difference is the environment of the user.
+  
+     - sudo apt-get install -y software-properties-common  (install the software-properties-common Ubuntu package to permit the inclusion of the Personal Package Archive (or PPA))
+  
+     -sudo apt-add-repository -y ppa:rael-gc/rvm(add the Personal Package Archive for RVM with the help of the following command.)
+  
+     -sudo apt-get install -y rvm  ( install RVM )
+  
+     -source /etc/profile.d/rvm.sh 
+   
+     -rvm --version(to know the version)
+     
+     
+  
+ - revm install [version] (install ruby with specified version)
+  
+  
+  
+  
+
+     ->  Ruby language statements can be executed through 'irb' integrated shell.
+
+            $ irb
+
+            - now run any ruby statement
+
+    
+    ->  You can also run ruby files through :
+
+            $ ruby file_name.rb
+
+        *(ruby files have .rb extension)

@@ -1,0 +1,144 @@
+
+		
+		-----------ITERATORS-------------------
+		
+-Iterators are nothing but methods supported by collections. 
+-Objects that store a group of data members are called collections. 
+-In Ruby, arrays and hashes can be termed collections.	
+
+
+-------1)each iterator
+
+syntax->
+	collection.each do |variable|
+		   code
+	end	
+		
+		
+e.g->
+	a=[1,2,3,4,5]
+	a.each do |i|
+	print i
+	end
+
+output->12345		
+		
+		
+--------2)collect iterator
+
+-The collect iterator returns all the elements of a collection.
+-We normally use the collect method when we want to do something with each of the values to get the new array.		
+
+syntax-
+collection = collection.collect
+
+
+e.g-
+a=[1,2,3,4,5]
+b=a.collect {|i| i*10}
+puts b
+
+output->
+10
+20
+30
+40
+50
+		
+
+--------3)time iterator
+-A loop is executed specified number of times by the times iterator. Loop will start from zero till one less than specified number.
+
+
+syntax-
+x.times do |variable|  
+  code...  
+end 		
+		
+e.g-
+4.times do |i|
+print i
+end
+
+output->0123		
+		
+		
+----------4)up iterator
+
+syntax-
+	x.upto(y) do |variable|  
+	  code  
+	end  
+
+e.g-
+		
+	0.upto(5) do |i|
+	print i
+	end
+
+output-012345
+
+
+
+----------5)down to iterator
+
+syntax-
+	x.downto(y) do |variable|  
+	  code  
+	end  
+
+e.g-
+	5.downto(0) do |i|
+	print i
+	end
+
+output->543210		
+		
+		
+		
+----------6)step iterator(A step iterator is used to iterate while skipping over a range.)
+
+syntax-
+	(controller).step(x) do |variable|  
+	  code  
+	end  		
+
+e.g-
+	(0..20).step(5) do |i|
+	puts i
+	end
+
+output->
+0
+5
+10
+15
+20		
+		
+		
+		
+----------7)each_line iterator (it is used to iterate over a new line in a string.)
+
+e.g-
+	"All\nthe\nwords".each_line do |line|   
+	puts line   
+	end 		
+
+output->		
+All
+the
+words	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

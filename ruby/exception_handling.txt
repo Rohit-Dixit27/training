@@ -1,0 +1,227 @@
+
+--------------EXCEPTION HANDLING---------------------------
+
+-The execution and the exception always go together. If you are opening a file, which does not exist, will cause an error
+-The program stops if an exception occurs. So exceptions are used to handle various type of errors, which may occur during a program execution and take appropriate action instead of halting program completely.
+-Ruby provide a nice mechanism to handle exceptions. We enclose the code that could raise an exception in a begin/end block and use rescue clauses to tell Ruby the types of exceptions we want to handle.
+
+syntax-
+	begin  
+	# -  
+	rescue OneTypeOfException  
+	# -  
+	rescue AnotherTypeOfException  
+	# -  
+	else  
+	# Other exceptions
+	ensure
+	# Always will be executed
+	end
+
+
+
+[rescue]-->if any error occured then rescue will executed.
+ 	e.g->trying to open a non existing file
+        		begin
+					
+				afile=File.new("ab.txt","r+")
+				if afile
+				content=afile.sysread(10)
+				puts content
+				end
+				rescue 		# handle the error
+				puts "not exists"
+			end
+			
+	output->not exists
+	
+	
+[retry]-->if error occured then it will resume from beginning with new assigning values
+
+		e.g->
+				begin   
+			   x = Dir.mkdir "alreadyExist"   
+			   if x   
+			      puts "Directory created"   
+			   end   
+				rescue   
+				   y = "newDir"   
+			   retry   
+					end 
+					
+		output->new directory will be created	
+					
+					
+					
+					
+					
+					
+					
+[raise]-
+	raise statement to raise an exception. The following method raises an exception whenever it's called. It's second message will be printed.
+
+Syntax
+		raise 
+
+			OR
+
+			raise "Error Message" 
+
+			OR
+
+			raise ExceptionType, "Error Message"
+
+			OR
+
+			raise ExceptionType, "Error Message" condition
+			
+			
+	-The first form simply re-raises the current exception (or a RuntimeError if there is no current exception). This is used in exception handlers that need to intercept an 			exception before passing it on.
+	-The second form creates a new RuntimeError exception, setting its message to the given string. This exception is then raised up the call stack.
+	-The third form uses the first argument to create an exception and then sets the associated message to the second argument.
+	-The fourth form is similar to the third form but you can add any conditional statement like unless to raise an exception.
+
+		
+		e.g->
+				begin
+
+					puts " starting"
+
+				raise 
+					 puts "this is raised"
+ 
+					 rescue
+						  puts "finally rescued"
+  
+
+					end		
+					
+			output->
+					starting
+					finally rescued
+
+					
+					
+[ensure]-->the ensure block will get run always either exception occured or not.
+   	e.g-> 		
+   	
+   				begin
+
+		puts " starting"
+
+			raise 
+			 puts "this is raised"
+ 
+			 rescue
+			  puts "finally rescued"
+  
+			ensure
+			puts "enusred execution"
+  
+
+				end					
+					
+					
+	output->
+		starting
+		finally rescued
+		enusred execution
+				
+					
+
+
+[else]-->If the else clause is present, it goes after the rescue clauses and before any ensure.
+
+	-The body of an else clause is executed only if no exceptions are raised by the main body of code.
+
+
+
+e.g->	
+	begin
+
+		file=File.open("new.txt","r+")
+		content=file.sysread(10)
+		puts content
+
+		rescue 
+		puts "error"
+
+		else
+		puts "no error"
+
+
+		end
+
+output->First line
+       no error
+       
+
+
+------------catch and throw---------------------
+
+-While the exception mechanism of raise and rescue is great for abandoning the execution when things go wrong, it's sometimes nice to be able to jump out of some deeply nested construct during normal processing. This is where catch and throw come in handy.
+-The catch defines a block that is labeled with the given name (which may be a Symbol or a String). The block is executed normally until a throw is encountered.
+
+syntax->
+
+		throw :lablename
+		#.. this will not be executed
+		catch :lablename do
+		#.. matching catch will be executed after a throw is encountered.
+		end
+
+		OR
+
+		throw :lablename condition
+		#.. this will not be executed
+		catch :lablename do
+		#.. matching catch will be executed after a throw is encountered.
+		end
+
+e.g->(if throw occurs)
+	 
+	def mul
+ 		a=[0,1,2,3,4]
+ 	a.each do|i|
+ 	 throw:pass if i>2
+ 	 puts i # not executed if throw occurs
+ 	 end
+ 	 end
+ 	 catch :pass do
+ 	 puts "catch"
+ 	 mul
+  		end
+  
+  output->
+  		catch
+  		0
+		1
+		2
+
+
+e.g->(if throw not occured)
+
+ 	def mul
+ 		a=[0,1,2,3,4]
+ 	 a.each do|i|
+ 	 throw:pass if i>4
+ 	  puts i
+ 	 end
+ 	  end
+ 	 catch :pass do
+ 	  puts "catch"
+ 	 mul
+  		end
+  
+
+
+output->
+		catch
+		0
+		1
+		2
+		3
+		4
+
+
+

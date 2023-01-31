@@ -1,0 +1,317 @@
+
+
+		-----------Class Regexp--------------------
+
+-Regular expressions (regexps) are patterns which describe the contents of a string. They’re used for testing whether a string contains a given pattern, or extracting the portions that match. They are created with the /pat/ and %r{pat} literals or the Regexp.new constructor.
+
+------->=~ operator
+
+if match found return index of the re,otherwise return nil.
+
+e.g->
+"create"=~/r/
+output->1
+
+e.g->
+"create"=~/s/
+output->nil
+
+
+--------->match
+
+The match method returns a MatchData object:
+
+e.g->
+"create".match(/r/)
+ output-><MatchData "r"> 
+ 
+ 
+-------->Regexp interpolation
+ 
+ e.g->
+ str="show"
+puts "showme".match(/#{str}/)
+
+output->
+show
+
+--------->Metacharacters and escapes
+
+The following are metacharacters (, ), [, ], {, }, ., ?, +, *. They have a specific meaning when appearing in a pattern. To match them literally they must be backslash-escaped. To match a backslash literally, backslash-escape it:
+
+e.g->
+"a+b-c".match(/a+b-c/)
+output->nil
+
+e.g->
+"a+b-c".match(/a\+b\-c/)
+output->
+<MatchData "a+b-c"> 
+ 
+ 
+--------->character class
+
+
+/./ - Any character except a newline.
+
+/./m - Any character (the m modifier enables multiline mode)
+
+/\w/ - A word character ([a-zA-Z0-9_])
+
+/\W/ - A non-word character ([^a-zA-Z0-9_]). Please take a look at Bug #4044 if using /\W/ with the /i modifier.
+
+/\d/ - A digit character ([0-9])
+
+/\D/ - A non-digit character ([^0-9])
+
+/\h/ - A hexdigit character ([0-9a-fA-F])
+
+/\H/ - A non-hexdigit character ([^0-9a-fA-F])
+
+/\s/ - A whitespace character: /[ \t\r\n\f\v]/
+
+/\S/ - A non-whitespace character: /[^ \t\r\n\f\v]/
+
+/\R/ - A linebreak: \n, \v, \f, \r \u0085 (NEXT LINE), \u2028 (LINE SEPARATOR), \u2029 (PARAGRAPH SEPARATOR) or \r\n.
+
+
+
+/[[:alnum:]]/ - Alphabetic and numeric character
+
+/[[:alpha:]]/ - Alphabetic character
+
+/[[:blank:]]/ - Space or tab
+
+/[[:cntrl:]]/ - Control character
+
+/[[:digit:]]/ - Digit
+
+/[[:graph:]]/ - Non-blank character (excludes spaces, control characters, and similar)
+
+/[[:lower:]]/ - Lowercase alphabetical character
+
+/[[:print:]]/ - Like [:graph:], but includes the space character
+
+/[[:punct:]]/ - Punctuation character
+
+/[[:space:]]/ - Whitespace character ([:blank:], newline, carriage return, etc.)
+
+/[[:upper:]]/ - Uppercase alphabetical
+
+/[[:xdigit:]]/ - Digit allowed in a hexadecimal number (i.e., 0-9a-fA-F)
+
+Ruby also supports the following non-POSIX character classes:
+
+/[[:word:]]/ - A character in one of the following Unicode general categories Letter, Mark, Number, Connector_Punctuation
+
+/[[:ascii:]]/ - A character in the ASCII character set
+
+e.g->
+/[[:xdigit:]][[:xdigit:]]/.match("A6")  #=> #<MatchData "A6">
+
+ e.g->
+ puts "hi4123"=~/\d/ #=>2
+ puts "hi4123"=~/\D/ #=>0
+ puts "hi41 23"=~/\s/ #=>4
+ 
+ e.g->
+ /[0-9a-f]/.match('9f') #=> #<MatchData "9">
+
+
+
+----------->Repetition
+
+The constructs described so far match a single character. They can be followed by a repetition metacharacter to specify how many times they need to occur. Such metacharacters are called quantifiers.
+
+* - Zero or more times
+
++ - One or more times
+
+? - Zero or one times (optional)
+
+{n} - Exactly n times
+
+{n,} - n or more times
+
+{,m} - m or less times
+
+{n,m} - At least n and at most m times
+
+e.g->
+
+At least one uppercase character (‘H’), at least one lowercase character (‘e’), two ‘l’ characters, then one ‘o’:
+
+"Hello".match(/[[:upper:]]+[[:lower:]]+l{2}o/) #=> #<MatchData "Hello">
+
+
+----------->capturing
+
+Parentheses can be used for capturing. The text enclosed by the nth group of parentheses can be subsequently referred to with n. Within a pattern use the backreference \n (e.g. \1); outside of the pattern use MatchData[n] (e.g. MatchData[1]).
+
+
+Ruby also supports \0 as a special backreference, which references the entire matched string. This is also available at MatchData[0]. Note that the \0 backreference cannot be used inside the regexp, as backreferences can only be used after the end of the capture group, and the \0 backreference uses the implicit capture group of the entire match. However, you can use this backreference when doing substitution:
+
+e.g->
+"The cat sat in the hat".gsub(/[csh]at/, '\0s')
+  # => "The cats sats in the hats"
+  
+  
+---------->Grouping
+
+The pattern below matches a vowel followed by 2 word characters:
+
+/[aeiou]\w{2}/.match("Caenorhabditis elegans") #=> #<MatchData "aen">
+ 
+  
+ ----------->Anchors
+ 
+ ^ - Matches beginning of line
+
+$ - Matches end of line
+
+\A - Matches beginning of string.
+
+\Z - Matches end of string. If string ends with a newline, it matches just before newline
+
+\z - Matches end of string
+
+\G - Matches first matching position: 
+  
+  
+---------->Regex options
+
+Options	Description
+i	   ruby regex case insensitive
+m	   dot matches newline
+x	   ignore whitespace
+
+e.g->
+puts "hi"=~/[A-Z]/i #=>0
+
+  
+  
+---------->regexp == object → true or false
+  
+Returns true if object is another Regexp whose pattern, flags, and encoding are the same as self, false otherwise:
+
+/foo/ == Regexp.new('foo')                          # => true
+/foo/ == /foo/i                                     # => false
+  
+  
+---------->regexp === string → true or false
+  
+Returns true if self finds a match in string:
+
+/^[a-z]*$/ === 'HELLO' # => false
+/^[A-Z]*$/ === 'HELLO' # => true
+  
+ 
+---------->regexp =~ string → integer or nil
+
+Returns the integer index (in characters) of the first match for self and string, or nil if none; also sets the rdoc-ref:Regexp Global Variables:
+
+/at/ =~ 'input data' # => 7
+$~                   # => #<MatchData "at">
+/ax/ =~ 'input data' # => nil 
+  
+  
+  
+--------->casefold?→ true or false
+
+Returns true if the case-insensitivity flag in self is set, false otherwise:
+
+/a/.casefold?           # => false
+/a/i.casefold?          # => true
+/(?i:a)/.casefold?      # => false
+
+
+
+---------->eql? == object -> true or false
+
+Returns true if object is another Regexp whose pattern, flags, and encoding are the same as self, false otherwise:
+
+/foo/ == Regexp.new('foo')                          # => true
+/foo/ == /foo/i                                     # => false
+
+
+---------->match(string, offset = 0) → matchdata or nil
+
+match(string, offset = 0) {|matchdata| ... } → object
+With no block given, returns the MatchData object that describes the match, if any, or nil if none; the search begins at the given character offset in string:
+
+/abra/.match('abracadabra')      # => #<MatchData "abra">
+/abra/.match('abracadabra', 4)   # => #<MatchData "abra">
+
+
+-------->match?(string) → true or false
+
+match?(string, offset = 0) → true or false
+Returns true or false to indicate whether the regexp is matched or not without updating $~ and other related variables. If the second parameter is present, it specifies the position in the string to begin the search.
+
+/R.../.match?("Ruby")    # => true
+/R.../.match?("Ruby", 1) # => false
+
+
+
+--------->names → array_of_names
+
+Returns an array of names of captures (see Named Captures):
+
+/(?<foo>.)(?<bar>.)(?<baz>.)/.names # => ["foo", "bar", "baz"]
+
+
+---------->options → integer
+
+Returns an integer whose bits show the options set in self.
+
+The option bits are:
+
+Regexp::IGNORECASE # => 1
+Regexp::EXTENDED   # => 2
+Regexp::MULTILINE  # => 4
+
+Examples:
+
+/foo/.options    # => 0
+/foo/i.options   # => 1
+/foo/x.options   # => 2
+/foo/m.options   # => 4
+/foo/mix.options # => 7
+
+
+------------>source → string
+
+Returns the original string of self:
+
+/ab+c/ix.source # => "ab+c"
+
+
+----------->to_s → string
+
+Returns a string showing the options and string of self:
+
+r0 = /ab+c/ix
+s0 = r0.to_s # => "(?ix-m:ab+c)"
+
+
+----------->~ rxp → integer or nil
+
+Equivalent to rxp =~ $_:
+
+$_ = "input data"
+~ /at/ # => 7
+
+
+
+
+
+
+
+
+   
+  
+  
+  
+  
+  
+

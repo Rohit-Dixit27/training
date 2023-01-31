@@ -1,0 +1,126 @@
+
+
+         -------------------TrueClass----------------------
+
+The global value true is the only instance of class TrueClass and represents a logically true value in boolean expressions. The class provides operators allowing true to be used in logical expressions.
+
+
+------->true & obj → true or false
+
+And—Returns false if obj is nil or false, true otherwise.
+
+e.g->
+ true&1 # => true 
+ true&nil #=> false 
+ true&false #=> false 
+ true&0 #=> true
+ 
+------->obj === other → true or false
+
+e.g->
+1===1 #=> true 
+1===2 #=> false 
+
+
+-------->true ^ obj → !obj
+
+Exclusive Or—Returns true if obj is nil or false, false otherwise.
+
+e.g->
+true^1 #=> false 
+true^nil #=> true 
+true^false #=> true 
+
+
+-------->to_s → "true"
+
+The string representation of true is “true
+
+e.g->
+true.to_s #=> "true"
+
+
+--------->true | obj → true
+
+Or—Returns true. As obj is an argument to a method call, it is always evaluated; there is no short-circuit evaluation in this case.
+e.g->
+true | puts("or") #or #=> true 
+3.0.0 :042 > true || puts("or") #=> true 
+3.0.0 :043 > true || puts("logical or") #=> true 
+
+
+
+
+    --------------FalseClass--------------------
+    
+The global value false is the only instance of class FalseClass and represents a logically false value in boolean expressions. The class provides operators allowing false to participate correctly in logical expressions.
+
+-------->false & obj → false
+nil & obj → false
+And—Returns false. obj is always evaluated as it is the argument to a method call—there is no short-circuit evaluation in this case.    
+    
+ e.g->
+  false&1 #=> false 
+  false&false #=> false 
+  false&nil #=> false 
+  nil&12 #=> false    
+ 
+ 
+--------->obj === other → true or false
+
+e.g->
+ 1===2 #=> false    
+   
+-------->false ^ obj → true or false
+
+nil ^ obj → true or false
+Exclusive Or—If obj is nil or false, returns false; otherwise, returns true.
+
+e.g->
+false^nil #=> false 
+false^false #=> false 
+false^1 #=> true 
+false^2 #=> true   
+    
+ 
+---------->to_s
+
+e.g->
+false.to_s #=> "false"    
+ 
+    
+---------->false | obj → true or false
+
+nil | obj → true or false
+Or—Returns false if obj is nil or false; true otherwise.
+
+e.g->
+  false|nil #=> false 
+  false|false #=> false 
+  false | 1   #=> true    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

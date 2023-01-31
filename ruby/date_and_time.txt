@@ -1,0 +1,773 @@
+
+	
+							----------Time---------------
+
+-Time is an abstraction of dates and times. Time is stored internally as the number of seconds with subsecond since the Epoch, 1970-01-01 00:00:00 UTC.
+-This class may be unable on your system to represent dates before 1970 or after 2038.
+
+
+e.g->
+	t1=Time.new
+	puts t1 
+
+	output->2023-01-12 10:31:44 +0530
+
+	or
+
+	t1=Time.now
+	puts t1 
+
+	output->2023-01-12 10:31:44 +0530
+
+
+----getting components of date and time-----------
+
+ time=Time.new
+
+
+
+	puts "Current Time : " + time.inspect
+	puts time.year    # => Year of the date 
+	puts time.month   # => Month of the date (1 to 12)
+	puts time.day     # => Day of the date (1 to 31 )
+	puts time.wday    # => 0: Day of week: 0 is Sunday
+	puts time.yday    # => 365: Day of year
+	puts time.hour    # => 23: 24-hour clock
+	puts time.min     # => 59
+	puts time.sec     # => 59
+	puts time.usec    # => 999999: microseconds
+	puts time.zone    # => "UTC": timezone name
+
+
+
+e.g->
+
+		time=Time.now
+
+			puts time.inspect  #=>2023-01-12 10:31:44 +0530
+			puts time.year     #=>2023
+			puts time.month    #=>1
+			puts time.day      #=>12
+			puts time.wday	    #=>4
+			puts time.yday	    #=>12
+			puts time.hour      #=>10
+			puts time.min       #=>37
+			puts time.sec       #=>43
+			puts time.usec      #=>937393
+			puts time.zone      #=>IST
+			puts time.monday?  #=>false
+
+
+e.g->
+
+time=Time.new(2023,1,12)
+
+puts time.friday?  #=>flase
+puts time.thursday? #=>true
+
+e.g->
+time=Time.new(2023,1,12,9)
+puts time.hour #=>9
+
+
+---Time.utc, Time.gm and Time.local Functions----
+
+-These functions can be used to format date in a standard format as follows −
+
+
+e.g->
+
+	puts Time.local(2021,9,8) #=>2021-09-08 00:00:00 +0530
+	puts Time.gm(2020,9,8,11,34)#=>2020-09-08 11:34:00 UTC
+	puts Time.utc(2019,9,8,12,35)#=>2019-09-08 12:35:00 UTC
+
+
+
+-------Array format of time-----------
+
+[sec,min,hour,day,month,year,wday,yday,isdst,zone]
+
+e.g->
+	t1=Time.new
+	puts t1  #=>2023-01-12 10:47:06 +0530
+
+	t2=t1.to_a
+	print t2 #=>[6, 47, 10, 12, 1, 2023, 4, 12, false, "IST"]
+
+
+--->This array could be passed to Time.utc or Time.local functions to get different format of dates as follows −
+
+e.g->
+	t1=Time.new
+	t2=t1.to_a
+	puts Time.utc(*t2) #=>2023-01-12 10:50:15 UTC
+
+
+----> number of seconds since epoch
+	t1=Time.now.to_i
+	puts t1 #=>1673501073
+
+
+-->second since epoch which includes microseconds
+	t1=Time.now.to_f
+	puts t1  #=>1673501245.9062378
+
+
+
+---------Timezones and Daylight Savings Time
+
+			time = Time.new
+
+
+				time.zone       # => "UTC": return the timezone
+				time.utc_offset # => 0: UTC is 0 seconds offset from UTC
+				time.zone       # => "PST" (or whatever your timezone is)
+				time.isdst      # => false: If UTC does not have DST.
+				time.utc?       # => true: if t is in UTC time zone
+				time.localtime  # Convert to local timezone.	
+				time.gmtime     # Convert back to UTC.
+				time.getlocal   # Return a new Time object in local zone
+				time.getutc     # Return a new Time object in UTC
+
+
+e.g->
+			time=Time.new
+
+				puts time.zone #=>IST
+				puts time.utc_offset #=>19800
+				puts time.zone #=>IST
+				puts time.isdst #=>false
+				puts time.utc? #=>false
+				puts time.localtime #=>2023-01-12 11:00:27 +0530
+				puts time.gmtime #=>2023-01-12 05:30:27 UTC
+				puts time.getlocal #=>2023-01-12 11:00:27 +0530
+				puts time.getutc #=>2023-01-12 05:30:27 UTC
+
+
+--------------Time Arithmetic
+
+	time = Time.new
+	puts time  #=>2023-01-12 11:07:35 +0530
+
+	add=time+10(seconds will add)
+	puts add #=>2023-01-12 11:07:45 +0530
+
+	sub=time-10(seconds will subtract)
+	puts sub #=>2023-01-12 11:07:25 +0530
+
+
+
+
+------------creating a new  time instance--------------
+
+-we can pass year,month,date,utc,or timezone
+
+->puts Time.new(2021) #=>2021-01-01 00:00:00 +0530
+
+->puts Time.new(2021,10) #=>2021-10-01 00:00:00 +0530
+
+->puts Time.new(2021,10,9) #=>2021-10-09 00:00:00 +0530
+
+->puts Time.at(266868865) #seconds is used
+ output->1978-06-16 23:44:25 +0530
+
+->puts Time.at(7874784684,68789787)
+
+->puts Time.at(708784684,68789787)  # pass seconds,milliseconds
+output->1992-06-17 18:09:12 +0530
+
+
+
+------parse-----------------
+
+e.g->
+
+require 'time'
+puts Time.parse("2022-07-07") #=>2022-07-07 00:00:00 +0530
+
+puts Time.parse("01:00") #=>2023-01-12 01:00:00 +0530
+
+
+
+-------strptime-----------------
+
+[there is a list of directives.]
+
+-we need to specify the format on our own.
+
+e.g->(here i put day before month and i specified this, so output be in -yyyy-mm-dd format)
+require 'time'
+puts Time.strptime("2022-07-09","%Y-%d-%m") 
+
+output->2022-09-07 00:00:00 +0530
+
+
+-----------asctime-----------------
+
+-Returns a canonical string representation of time.
+
+e.g->
+	puts Time.now         #=> 2023-01-12 11:44:03 +0530
+	puts Time.now.asctime #=>Thu Jan 12 11:44:03 2023
+	puts Time.now.ctime   #=>Thu Jan 12 11:44:03 2023
+
+
+
+-------------ceil---------------------
+
+-Ceils subsecond to a given precision in decimal digits (0 digits by default). It returns a new Time object. ndigits should be zero or a positive integer.
+
+t = Time.utc(2010,3,30, 5,43,25.0123456789r)
+t                      #=> 2010-03-30 05:43:25 123456789/10000000000 UTC
+t.ceil                 #=> 2010-03-30 05:43:26 UTC
+t.ceil(0)              #=> 2010-03-30 05:43:26 UTC
+t.ceil(1)              #=> 2010-03-30 05:43:25.1 UTC
+t.ceil(2)              #=> 2010-03-30 05:43:25.02 UTC
+t.ceil(3)              #=> 2010-03-30 05:43:25.013 UTC
+t.ceil(4)              #=> 2010-03-30 05:43:25.0124 UTC
+
+
+----------floor-------------------
+
+-Floors subsecond to a given precision in decimal digits (0 digits by default). It returns a new Time object. ndigits should be zero or a positive integer.
+
+t = Time.utc(2010,3,30, 5,43,25.123456789r)
+t                       #=> 2010-03-30 05:43:25.123456789 UTC
+t.floor                 #=> 2010-03-30 05:43:25 UTC
+t.floor(0)              #=> 2010-03-30 05:43:25 UTC
+t.floor(1)              #=> 2010-03-30 05:43:25.1 UTC
+t.floor(2)              #=> 2010-03-30 05:43:25.12 UTC
+t.floor(3)              #=> 2010-03-30 05:43:25.123 UTC
+t.floor(4)              #=> 2010-03-30 05:43:25.1234 UTC
+
+
+
+
+---------------httpdate-------------------
+
+-Representation[day-of-week, DD month-name CCYY hh:mm:ss GMT]
+
+e.g->
+require 'time'
+time=Time.now
+puts time.httpdate #=>Thu, 12 Jan 2023 06:27:56 GMT
+
+
+---------inspect------------
+
+-Returns a detailed string representing time
+
+e.g->
+t = Time.now
+puts t.inspect                             #=> 2023-01-12 12:00:44.965095869 +0530
+
+puts t.strftime "%Y-%m-%d %H:%M:%S.%N %z"  #=> 2023-01-12 12:00:44.965095869 +0530
+
+
+
+-------------round---------------
+
+Rounds subsecond to a given precision in decimal digits (0 digits by default). It returns a new Time object. ndigits should be zero or a positive integer.
+
+t = Time.utc(2010,3,30, 5,43,25.123456789r)
+t                       #=> 2010-03-30 05:43:25.123456789 UTC
+t.round                 #=> 2010-03-30 05:43:25 UTC
+t.round(0)              #=> 2010-03-30 05:43:25 UTC
+t.round(1)              #=> 2010-03-30 05:43:25.1 UTC
+t.round(2)              #=> 2010-03-30 05:43:25.12 UTC
+t.round(3)              #=> 2010-03-30 05:43:25.123 UTC
+t.round(4)              #=> 2010-03-30 05:43:25.1235 UTC
+
+
+
+----------------strftime--------------------------
+
+.strftime(format string)   ->  string
+            
+            : Time formatting
+            : The directives begin with a percent (%) character.
+            : If for nay field directive is not listed or mentioned then it will have its default formatting
+
+            : The directive consists of 
+                - a percent (%) character, 
+                - zero or more flags, 
+                - optional minimum field width, 
+                - optional modifier; and 
+                - a conversion specifier
+
+  Directive format : % <flags> <width> <modifier> <conversion>         # there should be no space in-between.
+
+
+    <flags>
+
+        -  don't pad a numerical output
+        _  use spaces for padding
+        0  use zeros for padding
+        ^  upcase the result string
+        #  change case
+        :  use colons for %z
+
+    <width>
+
+        The minimum field width specifies the minimum width.
+
+    <modifier>
+
+        Modifiers are 'E' or 'O'. They are ignored.
+
+    <conversion>    (some main formats)
+
+        Date (year, Month, Day) : 2021-08-01
+
+            %Y - 2021
+            %C - 20
+            %y - 21
+
+            %m - 08, zero padding is default
+            %B - January
+            %b - Jan
+            %h - %b
+
+            %d - 01, zero padding is default
+            %e - 1,blank padded
+            %j - day of year
+
+        Time (hour, minute, second, subsecond) : 14:09:04.7777777777
+
+            %H - 14, zero padding ,24 hour clock
+            %k - 14, blank padded ,24 hour clock
+            %I - 02, zero padding ,12 hour clock
+            %l - 02 ,blank padding ,12 hour clock
+
+            %P - am, pm      # Note : Its capital 'P' for lower "am / pm"
+            %p - AM, PM
+
+            %M - 09 , minute
+
+            %S - 04 , second
+
+            %L - 000-999, milliseconds
+
+        Time Zone:
+
+            %z   - +0900
+            %:z  - +09:00
+            %::z - +09:00:00
+
+        Weekday:
+
+            %A - Sunday
+            %a - Sun
+
+            %u - Day of the week (Monday is 1, 1..7)   so, sunday is 7
+            %w - Day of the week (Sunday is 0, 0..6)   so, sunday is 0
+
+            %U - Week number of year,week starts with sunday
+            %W - Week number of year,week start with monday
+
+        Literal string:
+        
+            %n - Newline character (\n)
+            %t - Tab character (\t)
+            %% - Literal ``%'' character
+
+        Combination:
+            
+            %c - date and time (%a %b %e %T %Y)
+            
+            %D - Date (%m/%d/%y)
+            %x - Same as %D
+            
+            %F - The ISO 8601 date format (%Y-%m-%d)
+            %v - VMS date (%e-%b-%Y)
+            
+            %r - 12-hour time (%I:%M:%S %p)
+            %R - 24-hour time (%H:%M)
+            
+            %T - 24-hour time (%H:%M:%S)
+            %X - Same as %T
+            %+ - date(1) (%a %b %e %H:%M:%S %Z %Y)
+
+e.g->
+t = Time.new(2020,10,20,8,37,41,"-04:00")  
+puts t.strftime("month,day,year= %m/%d/%Y")  #=> month,day,year=10/20/2020
+
+puts t.strftime("at %I:%M %p")               #=>at 08:37 AM
+
+
+
+-----------nsec----------------
+
+-Returns the number of nanoseconds for the subsecond part of time. The result is a non-negative integer less than 10**9.
+
+e.g->
+t = Time.now
+print t.nsec #=>798629634
+
+------------subsec----------------
+
+-returns the subsecond
+
+e.g->
+t = Time.now
+puts t.subsec #=>36822931/62500000
+
+
+-----rfc2822()--------
+
+-Returns a string which represents the time as date-time defined by RFC 2822:
+
+format->day-of-week, DD month-name CCYY hh:mm:ss zone
+
+e.g->
+require 'time'
+t = Time.now
+print t.rfc2822
+
+output->Thu, 12 Jan 2023 12:12:59 +0530
+
+
+
+
+
+--------------------date---------------------------------
+
+A subclass of Object that includes the Comparable module and easily handles date.
+
+A Date object is created with Date::new, Date::jd, Date::ordinal, Date::commercial, Date::parse, Date::strptime, Date::today, Time#to_date, etc.
+
+e.g->
+require 'date'
+
+puts Date.new(2002,2,3)
+puts Date.new(2023,01,-2)
+puts Date.jd(2451944)
+puts Date.ordinal(2004,34)
+puts Date.commercial(2009,5,6)
+puts Date.parse('2006-02-03')
+puts Date.strptime('03-02-2010', '%d-%m-%Y')
+puts Time.new(2004,2,3).to_date
+
+output->
+2002-02-03
+2023-01-30
+2001-02-03
+2004-02-03
+2009-01-31
+2006-02-03
+2010-02-03
+2004-02-03
+
+
+
+
+--------_parse------------------
+
+-Parses the given representation of date and time, and returns a hash of parsed elements.
+
+e.g->
+require 'date'
+
+puts Date._parse('2001-9-9')
+
+output->
+{:year=>2001, :mon=>9, :mday=>9}
+
+
+-----------strptime-------------------
+
+-Parses the given representation of date and time with the given template, and returns a hash of parsed elements. _strptime does not support specification of flags and width unlike strftime.
+
+
+require 'date'
+
+puts Date._strptime('2022-02-03', '%Y-%m-%d')
+
+output->
+{:year=>2022, :mon=>2, :mday=>3}
+
+
+
+-------------commercial----------------------
+
+Creates a date object denoting the given week date.
+
+The week and the day of week should be a negative or a positive number (as a relative week/day from the end of year/week when negative). They should not be zero.
+
+e.g->
+require 'date'
+
+puts Date.commercial(2023,01,2)
+
+output->2023-01-03
+
+
+
+------------------gregorian_leap?------------------
+
+Returns true if the given year is a leap year of the proleptic Gregorian calendar.
+
+e.g->
+require 'date'
+
+puts Date.gregorian_leap?(2000)  #true
+puts Date.gregorian_leap?(2001)  #false
+
+
+------------httpdate-----------------
+
+Creates a new Date object by parsing from a string according to some RFC 2616 format.
+
+e.g->
+require 'date'
+
+puts Date.httpdate('thu, 12 Jan 2023 00:00:00 GMT') #=>2023-01-12
+
+
+-------------jd-------------------
+
+Creates a date object denoting the given chronological Julian day number.
+
+e.g->
+require 'date'
+
+puts Date.jd(2451945) #=>2001-02-04
+
+
+--------------julian_leap?-------------
+
+Returns true if the given year is a leap year of the proleptic Julian calendar.
+
+e.g->
+Date.julian_leap?(1900)           #=> true
+Date.julian_leap?(1901)           #=> false
+
+
+------------------ordinal---------------------------
+
+Creates a date object denoting the given ordinal date.
+
+The day of year should be a negative or a positive number (as a relative day from the end of year when negative). It should not be zero.
+
+e.g->
+Date.ordinal(2001)        #=> #<Date: 2001-01-01 ...>
+Date.ordinal(2001,34)     #=> #<Date: 2001-02-03 ...>
+Date.ordinal(2001,-1)     #=> #<Date: 2001-12-31 ...>
+
+
+----------strptime-------------------
+
+Parses the given representation of date and time with the given template, and creates a date object. strptime does not support specification of flags and width unlike strftime.
+
+e.g->
+Date.strptime('2001-02-03', '%Y-%m-%d')   #=> #<Date: 2001-02-03 ...>
+Date.strptime('03-02-2001', '%d-%m-%Y')   #=> #<Date: 2001-02-03 ...>
+
+
+
+-------------today-------------
+
+require 'date'
+
+puts Date.today
+output->2023-01-12
+
+
+----valid_date?-------------
+
+Returns true if the given calendar date is valid, and false if not. Valid in this context is whether the arguments passed to this method would be accepted by ::new.
+
+e.g->
+Date.valid_date?(2001,2,3)        #=> true
+Date.valid_date?(2001,2,29)       #=> false
+Date.valid_date?(2001,2,-1)       #=> true
+
+
+--------------valid_commercial?----------
+
+Returns true if the given week date is valid, and false if not.
+
+e.g->
+Date.valid_commercial?(2001,5,6)  #=> true
+Date.valid_commercial?(2001,5,8)  #=> false
+
+
+------------valid_ordinal?-----------
+
+Returns true if the given ordinal date is valid, and false if not.
+
+e.g->
+Date.valid_ordinal?(2001,34)      #=> true
+Date.valid_ordinal?(2001,366)     #=> false
+
+
+
+-----------Arithmetic--------------------
+
+->puts Date.today+1 #=>2023-01-13
+
+->puts Date.new(2022,2,3)+1 #=>2022-02-04
+
+->puts Date.new(2022,2,3)-1 #=>2022-02-02
+
+
+---->d << n
+[Returns a date object pointing n months before self. The argument n should be a numeric value.]
+(subtract months)
+
+-puts Date.new(2022,2,3)<<1 #=>2022-01-03
+-puts Date.new(2022,2,3)<<-3#=>2022-05-03
+-puts Date.new(2022,2,3)<<3 #=>2021-11-03
+-puts Date.new(2022,4,3)<<1<<1 #=>2022-02-03
+
+
+---->d <=> other
+
+--if first date is greater than other then output=1
+--if first is less than other than output =-1
+--if both equal output=0
+
+puts Date.new(2001,2,3) <=> Date.new(2001,2,4)   #=> -1
+puts Date.new(2001,2,3) <=> Date.new(2001,2,3)   #=> 0
+puts Date.new(2001,2,3) <=> Date.new(2001,2,2)   #=> 1
+
+
+----->d===other
+
+Returns true if they are the same day.
+
+
+-puts Date.new(2001,2,3) === Date.new(2002,2,4)   #=> false
+-puts Date.new(2001,2,3) === Date.new(2001,2,3)   #=> true
+-puts Date.new(2001,2,3) === Date.new(2001,2,2)   #=> false
+
+
+------>d >> n
+
+Returns a date object pointing n months after self. The argument n should be a numeric value.
+(adds months)
+
+-puts Date.new(2022,4,3) >> 1 #=>2022-05-03
+-puts Date.new(2022,4,3) >> -2 #=>2022-02-03
+
+
+------->ajd->rational
+
+Returns the astronomical Julian day number. This is a fractional number, which is not adjusted by the offset.
+
+-puts DateTime.new(2001,2,3,4,5,6,'+7').ajd     #=> (11769328217/4800)
+-puts DateTime.new(2001,2,2,14,5,6,'-7').ajd    #=> (11769328217/4800)
+
+------->amjd->rational
+
+Returns the astronomical modified Julian day number. This is a fractional number, which is not adjusted by the offset.
+
+-puts DateTime.new(2001,2,3,4,5,6,'+7').amjd    #=> (249325817/4800)
+-puts DateTime.new(2001,2,2,14,5,6,'-7').amjd   #=> (249325817/4800)
+
+
+------->cwday
+
+Returns the day of calendar week (1-7, Monday is 1).
+
+-puts DateTime.new(2023,1,15).cwday #=>7
+
+------>cweek
+
+-Returns the calendar week number (1-53).
+
+-puts DateTime.new(2023,12,30).cweek #=>52
+
+------>cwyear
+
+Returns the calendar week based year.
+
+-puts DateTime.new(2023,12,30).cwyear #=>2023
+
+
+------>day
+
+Returns the day of the month (1-31).
+
+-puts DateTime.new(2023,12,30).day #=>30
+
+
+------>day_fraction
+
+Returns the fractional part of the day.
+
+-puts DateTime.new(2023,12,30).day_fraction #=>0/1
+
+
+------------day?-----------
+
+-puts DateTime.new(2023,1,13).friday? #=>true
+-puts DateTime.new(2023,1,12).friday? #=>false
+
+
+-----------ld------------------
+
+Returns the Lilian day number. This is a whole number, which is adjusted by the offset as the local time.
+
+
+-puts DateTime.new(2023,1,13).ld #=>160798
+-puts DateTime.new(2023,1,12).ld #=>160797
+
+
+------------next--------
+
+Returns a date object denoting the following day.
+
+
+-puts DateTime.new(2023,1,13).next_year #=>2024-01-13T00:00:00+00:00
+
+-puts DateTime.new(2001,1,12).next_year(2) #=>2003-01-12T00:00:00+00:00
+
+-puts DateTime.new(2002,11,12).next_day(2) #=>2002-11-14T00:00:00+00:00
+
+-puts DateTime.new(2003,10,12).next_month(2) #=>2003-12-12T00:00:00+00:00
+
+
+
+----------prev-----------------
+
+-puts DateTime.new(2023,1,13).prev_year #=>2022-01-13T00:00:00+00:00
+
+-puts DateTime.new(2001,1,12).prev_year(2) #=>1999-01-12T00:00:00+00:00
+
+-puts DateTime.new(2002,11,12).prev_day(2) #=>2002-11-10T00:00:00+00:00
+
+-puts DateTime.new(2003,10,12).prev_month(2) #=>2003-08-12T00:00:00+00:00
+
+
+
+---------------strftime-------------------
+
+d = DateTime.new(2007,11,19,8,37,48,"-06:00") #=> #<DateTime: 2007-11-19T08:37:48-0600 ...>
+puts d.strftime("Printed on %m/%d/%Y")   #=> "Printed on 11/19/2007"
+puts d.strftime("at %I:%M%p")    #=>at 08:37AM
+
+
+-------->wday
+
+Returns the day of week (0-6, Sunday is zero).
+
+-puts Date.new(2023,1,12).wday #=>4
+
+
+--------->yday
+
+Returns the day of the year (1-366).
+
+-puts Date.new(2023,1,12).yday #=>12
+
+-------->year
+
+Returns the year
+
+-puts Date.new(2021,1,12).year #=>2021
+
+
+
+
+

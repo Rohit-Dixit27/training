@@ -1,0 +1,384 @@
+		
+		
+		
+		
+		
+					--------------CONTROL STATEMENTS-------------------------
+					
+
+----------->if statement(Ruby if statement tests the condition. The if block statement is executed if condition is true.)
+
+	syntax-
+
+	if (condition)  
+	//code to be executed  
+	end  
+
+e.g->
+a=5
+if a>3
+puts "greater"
+end
+
+output->greater
+
+
+
+2)----------->if else statement
+
+	syntax-
+	if(condition)  
+	    //code if condition is true  
+	else  
+	//code if condition is false  
+	end  
+
+e.g->
+a=5
+if a>6
+puts "greater"
+else
+puts "not greater"
+end
+
+o/p-not greater
+
+
+
+
+3)----------->if else if
+
+	syntax-
+
+	if(condition1)  
+	//code to be executed if condition1is true  
+	elsif (condition2)  
+	//code to be executed if condition2 is true  
+	else (condition3)  
+	//code to be executed if condition3 is true  
+	end  
+
+e.g->
+a=5
+if a>5
+puts "greater"
+elsif a<5
+puts "not greater"
+else
+puts "equal"
+end
+
+output->equal
+
+
+4)------------>Ternary
+
+	syntax-
+	test-expression ? if-true-expression : if-false-expression  
+
+e.g->
+puts(2>3?2:3)
+
+ouput->3
+
+
+
+
+5)----------->case
+
+	syntax-
+	
+	case expression  
+	[when expression [, expression ...] [then]  
+	   code ]...  
+	[else  
+	   code ]  
+	end  
+
+e.g->
+
+print "Enter your day: "   
+day = gets.chomp   
+case day   
+when "Tuesday"   
+  puts 'Wear Red or Orange'   
+when "Wednesday"   
+  puts 'Wear Green'   
+when "Thursday"   
+  puts 'Wear Yellow'   
+ when "Friday"   
+  puts 'Wear White'   
+ when "Saturday"   
+  puts 'Wear Black'   
+else   
+  puts "Wear Any color"   
+end   
+
+
+ouput->
+Enter your day: sunday
+Wear Any color
+
+
+
+
+------------LOOPS------------------------------
+
+1)----->for
+
+	syntax-
+	for variable [, variable ...] in expression [do]  
+	   code  
+	end  
+
+
+e.g->
+a=5
+for i in 1..5 do
+puts i
+end
+
+output-
+1
+2
+3
+4
+5
+
+
+e.g->(in arrays)
+arr=[1,2,3,4,5]
+for i in arr do 
+puts i
+end
+output-
+1
+2
+3
+4
+5
+
+
+
+2)-------->while 
+
+	syntax-
+	
+	while conditional [do]  
+	   code  
+	end  
+
+e.g->
+x = 3   
+while x >= 0    
+  puts x   
+  x -=1   
+end  
+output->
+3
+2
+1
+0
+
+
+
+
+3)---------->do while
+
+	syntax-
+	loop do   
+	  #code to be executed  
+	  break if booleanExpression  
+	end   
+
+e.g->
+loop do
+puts "hello"
+i=gets.chomp.to_i
+if i==4
+break
+end
+end
+
+
+
+
+4)---------->until loop
+
+	syntax-
+	until conditional  
+	   code  
+	end  
+
+e.g->
+i=i
+until i==4
+puts "hello"
+i+=1
+end
+
+output->
+hello
+hello
+hello
+
+
+
+
+5-------->break(to come out from loops)
+e.g->
+i=1
+while i<5
+if i==2
+break
+end
+puts "hello"
+i+=1
+end
+
+
+output->
+hello
+
+
+
+
+
+6)---------->next(used to skip the iteration)
+
+e.g->
+for i in 1..5 do
+if i==2 then
+next
+end
+puts i
+end
+
+output->
+1
+3
+4
+5
+
+
+
+
+
+7)--------->redo (statement is used to repeat the current iteration of the loop. it  is executed without evaluating the loop's condition.The redo statement is used inside a loop)
+
+e.g->
+i = 0   
+while(i < 5)     
+  puts i   
+  i += 1   
+   redo if i == 5   
+end
+output-
+0
+1
+2
+3
+4
+5
+[it will ott check condition it will repeat the statements for 5 also]
+
+
+
+
+
+
+8)------------>retry(The retry statement in Ruby is used to repeat the whole loop iteration from the start. It is always used inside the loop.)
+
+e.g->
+retry_again = 1
+
+#using retry inside for loop
+for i in 1..5
+  begin
+    puts "i = #{i}"
+
+    raise if i >= 3
+  rescue
+    #using retry statement 
+    #retry_again variable is used to run
+    #the retry statement 4 times
+    #without this condition program will
+    #keep on printing i = 3
+    retry if (retry_again += 1) < 5
+  end
+end
+
+output->
+i = 1
+i = 2
+i = 3
+i = 3
+i = 3
+i = 3
+i = 4
+i = 5
+
+
+9)------------->Unless
+The Unless statement is used to execute a block of code when the condition is evaluated to be false. When the condition is evaluated to be true, the program will skip the unless-code block.
+
+	Syntax-
+	unless condition [then]
+	  statements
+	end
+
+
+e.g->
+i=3
+unless i!=3
+ puts"false"
+ end
+ 
+output->false
+
+
+10)------->unless else
+The else statement can be used with unless statement. It is used to execute block of codes whenever unless condition gives true result
+
+e.g->
+i=3
+unless i==3
+ puts"false"
+ else
+ puts "true"
+ end
+
+output->true
+
+
+
+
+----------------COMMENTS----------------
+->single line(#)
+->multiline
+=begin 
+comments
+=end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,120 @@
+
+          ------------Float Class---------------
+
+----->%
+
+ 10.0%3  #=> 1.0 
+
+ 
+----->*
+
+ 2.3*2.3
+ => 5.289999999999999
+
+----->**
+
+1.2**3 #=> 1.7279999999999998 
+
+
+----->self < other → true or false
+
+Returns true if self is numerically less than other:
+
+2.0 < 3              # => true
+2.0 < 3.0            # => true
+2.0 < Rational(3, 1) # => true
+2.0 < 2.0            # => false
+
+
+------><=>
+
+return 0 if self==other
+return 1 if self greater than other
+return -1 if self less than other
+
+ 2.0<=>2.0 # => 0 
+ 3.1<=>2  #=> 1 
+ 3.1<=>4.1 #=> -1 
+ 
+------>==
+
+2.0==2.0 # => true 
+3.1==2.0  #=> false
+ 
+ 
+------>coerce
+
+Returns a 2-element array containing other converted to a Float and self:
+
+12.coerce(13) #=>[13, 12]
+
+ 
+------>abs
+
+return absolute value
+
+12.abs #=>12
+-12.abs #=>12
+
+
+-------->ceil
+
+(12.1).ceil #=>13
+(12.0).ceil #=>12
+
+
+------->floor
+
+(12.1).floor #=>12
+(13.9).floor #=>13
+
+
+-------->eql?
+
+return true and false
+
+ 2.0.eql?2.0  #=> true 
+ 3.0.eql?2.0 #=> false 
+
+--------next_float
+
+0.1.next_float #=> 0.10000000000000002 
+2.2.next_float #=> 2.2000000000000006
+
+
+-------->prev_float
+
+3.0.prev_float #=> 2.9999999999999996 
+2.2.prev_float #=> 2.1999999999999997 
+
+
+
+-------->to_i
+
+Returns self truncated to an Integer.
+
+3.3333.to_i #=> 3
+
+
+-------->to_s
+
+convert to string
+
+ 11.1.to_s
+ => "11.1" 
+ 
+ 
+-------->truncate
+
+return ndigits after the decimal
+
+12.345.truncate(1) #=> 12.3
+123.4556745.truncate(2) #=> 123.45 
+
+
+
+
+
+
+
+

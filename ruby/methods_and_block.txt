@@ -1,0 +1,262 @@
+	
+	
+	          -----------METHODS---------------
+
+-Method names should begin with a lowercase letter. If you begin a method name with an uppercase letter. 
+-Ruby might think that it is a constant and hence can parse the call incorrectly.
+
+syntax-
+
+	->(without parameters)
+	def method_name 
+	   expr..
+	end
+
+
+	->(with parameters)
+	def method_name(var1,var2)
+	expr..
+	end
+
+	->(with default values, if not used passed any arguments)
+	def method_name(var1=value1,var2=value2)
+	expr..
+	end
+
+
+for e.g->
+def show(a=10,b=21)
+puts a
+puts b
+end
+
+show # output will be default values
+show 1,2 # output will be as per arguments.replace default values.
+
+output->
+10
+21
+1
+2
+
+
+--------------RETURN VALUES IN METHODS------------
+
+	e.g->
+	def show
+	a=1
+	b=2
+	end
+
+	puts(show)
+
+o/p-2
+[if we not use return then by default it will return the last statement.]
+
+
+
+	e.g->
+	def show
+	a=1
+	b=2
+	return a,b
+	end
+
+puts(show)
+
+o/p->
+1
+2
+
+
+-----VARIABLE NUMBER OF PARAMETERS--------
+
+	(we can pass multiple value means, * method_name will acts as an array of variables)
+	def show(*test)
+	for i in 0...test.length do
+	puts test[i];
+	end
+	end
+ 
+show 1,2,3
+
+output->
+1
+2
+3
+
+
+
+--------------[If we defined an function with class name then it can be called without creating the object]------------------
+
+	class Sample
+	def Sample.show1 # function show1 is defined with class name 
+	puts "show1"
+	end
+	end
+
+Sample.show1  # no need to create object for calling that function.
+
+output->
+show
+show1
+
+
+
+
+------------BLOCKS--------------------
+
+-Ruby code blocks are called closures in other programming languages. 
+-It consist of a group of codes which is always enclosed with braces or written between do..end. 
+-A block is always invoked with a function. Blocks can have their own arguments.
+
+It can be written using two ways
+		-Multi-line between do and end (multi-line blocks are niot inline)
+		-Inline between braces {}
+
+
+
+syntax-
+		block_name{  
+		   statement1  
+		   statement2  
+   		..........  
+		}	 
+
+
+
+e.g->(multiline block)
+
+	[1,2,3].each do|i|
+	puts "#{i}"
+	end
+
+output->
+1
+2
+3
+
+
+e.g->(inline block)
+	[1,2,3].each {|i|puts "#{i}"}
+
+output->
+1
+2
+3
+
+
+--->yield statement
+
+-The yield statement is used to call a block within a method with a value.
+
+
+e.g->
+	def show
+	puts "method"
+	yield
+	puts "method"
+	end
+	show {puts "block"}
+
+output->
+method
+block
+method
+
+[note:-While the execution of show method, when we reach at yield line, the code inside the block is executed. When block execution finishes, code for show method continues]
+
+
+--->passing paramters with yield statement
+
+e.g->
+	def show
+	puts "method"
+	yield 1
+	puts "method"
+	yield 2
+	end
+	show {|i|puts "block#{i}"}
+
+
+output->
+method
+block1
+method
+block2
+
+
+------>we can use same variable inside and ouside the block-----
+
+e.g->
+	    x = "Outer variable"    
+    3.times do |x|    
+      puts "Inside the block: #{x}"    
+    end    
+    puts "Outside the block: #{x}" 
+    
+    
+ output->
+Inside the block: 0
+Inside the block: 1
+Inside the block: 2
+Outside the block: Outer variable
+
+
+
+----->[begin block executes firs and end block will execute at last]
+ BEGIN {
+ puts "starting"}
+ END{
+ puts "ending"}
+   puts"between"
+
+output->
+starting
+between
+ending
+
+
+
+
+---------->(Ampersand parameter)
+
+-The &block is a way to pass a reference (instead of a local variable) to the block to a method.
+-The block variable inside method show is a reference to the block.
+-It is executed with the call mehtod. The call method is same as yield method.
+e.g->
+	def show(&block)
+	puts "method"
+	block.call
+	end
+	show {puts "block"}
+
+output->
+method
+block
+
+
+---->(Initialising object with default values)
+
+-Ruby has an initializer called yield(self). Here, self is the object being initialized.
+
+class Novel
+	attr_accessor :pages,:title
+   def initialize
+      yield(self)
+    end
+end
+
+
+novel=Novel.new do|i|
+i.pages=10
+i.title="horror"
+end
+
+puts "this have #{novel.pages} pages and it is #{novel.title} story"
+
+
+output->
+this have 10 pages and it is horror story
+
+

@@ -1,0 +1,1045 @@
+
+
+			--------------String------------------------
+
+A String object holds and manipulates an arbitrary sequence of bytes, typically representing characters. String objects may be created using String::new or as literals.
+
+-->With no arguments, returns the empty string with the Encoding ASCII-8BIT:
+
+e.g->
+s=String.new
+puts s        #=>""
+puts s.encoding #=>ASCII-8BIT
+
+-->With the single String argument string, returns a copy of string with the same encoding as string:
+
+e.g->
+s=String.new("hiii hello")
+puts s				#hiii hello
+puts s.encoding		#UTF-8
+
+
+-->With keyword encoding, returns a copy of str with the specified encoding:
+
+e/g->
+s=String.new("hiii hello",encoding:'ASCII')
+puts s.encoding 	#US-ASCII
+
+
+-------(<<)-------------
+
+Concatenates object to self and returns self:
+
+e.g->
+a="h"
+a<<"i"
+output->
+hi
+
+--------------(<=>)----------
+
+Compares self and other_string, returning:
+
+-1 if other_string is larger.
+
+0 if the two are equal.
+
+1 if other_string is smaller.
+
+nil if the two are incomparable.
+
+e.g->
+puts "ab"<=>"ab" #=>0
+puts "ab"<=>"a" #=>1
+puts "a"<=>"ab" #=>-1
+
+
+--------(==)--------
+
+Returns true if object has the same length and content; as self; false otherwise:
+
+e.g->
+puts "ab"=="ab" #=>true
+puts "ab"=="a" #=>false
+
+--------(=~)---------
+
+Returns the Integer index of the first substring that matches the given regexp, or nil if no match found:
+
+e.g->
+puts 'abc' =~ /b/ # => 1
+puts 'abc' =~ /c/ # => 2
+puts 'abc' =~ /x/ # => nil
+
+
+---------indexing with length-----------------
+
+-->When the single Integer argument index is given, returns the 1-character substring found in self at offset index:
+
+e.g->
+puts 'abc'[2] #=>c
+
+--->Counts backward from the end of self if index is negative:
+
+e.g->
+puts 'abc'[-2] #=>b
+
+--->Returns nil if index is out of range:
+
+e.g->
+puts 'abc'[-4] #=>nil
+puts 'abc'[3] #=>nil
+
+
+---->When the two Integer arguments start and length are given, returns the substring of the given length found in self at offset start:
+
+e.g->
+puts 'abc'[0,2]#=>ab
+puts 'abc'[0,0]#=>""
+
+--->Counts backward from the end of self if start is negative:
+
+e.g->
+puts 'abc'[-2,2]#=>bc
+
+---->Special case: returns a new empty String if start is equal to the length of self:
+
+e.g->
+puts 'abc'[3,2]#=>""
+
+---->Returns nil if start is out of range:
+
+e.g->
+puts 'abc'[4,2]#=>nil
+puts 'abc'[-4,2]#=>nil
+
+----->Returns the trailing substring of self if length is large:
+
+e.g->
+puts 'abc'[1,10]#=>bc
+
+---->Returns nil if length is negative:
+
+e.g->
+puts 'abc'[0,-1]#=>nil
+
+
+ ----------range
+ 
+ e.g->
+puts 'abc'[0..2] #=>abc
+puts 'abc'[0...2]#=>ab
+
+----------->When the single String argument substring is given, returns the substring from self if found, otherwise nil:
+
+e.g->
+puts 'abc'['z'] #=>nil
+puts 'abc'['a']#=>a
+
+
+------------bytesize--------------------
+
+e.g->
+puts 'abc'.bytesize #=>3
+
+
+--------------byteslice------------------
+
+e.g->
+puts 'abc'.byteslice(2) #=>c
+puts 'abc'.byteslice(-1)#=>c
+puts 'abc'.byteslice(1,2) #=>bc
+puts 'abc'.byteslice(0..2)#=>abc
+
+
+---------capitalize------------------
+
+Returns a copy of str with the first character converted to uppercase and the remainder to lowercase.
+e.g->
+puts 'abc'.capitalize #=>Abc
+
+
+---------------capitalize!--------------------
+
+Modifies str by converting the first character to uppercase and the remainder to lowercase. Returns nil if no changes are made. There is an exception for modern Georgian (mkhedruli/MTAVRULI), where the result is the same as for String#downcase, to avoid mixed case.
+
+e.g->
+a='abc'
+puts a.capitalize! #=>Abc
+
+
+
+------------casecmp-----------------------
+
+Compares self and other_string, ignoring case, and returning:
+
+if first and other equal then 0
+if first is greater from other  then  1
+if first is smaller from other  then -1
+if incomparable then nil
+
+e.g->
+puts 'abc'.casecmp('abc') #=>o
+puts 'abc'.casecmp('ab') #=>1
+puts 'ab'.casecmp('abc') #=>-1
+puts 'abc'.casecmp(1) #=>nil
+
+
+-------------casecmp?--------------------
+
+Returns true if self and other_string are equal after Unicode case folding, otherwise false:
+
+e.g->
+puts 'abc'.casecmp?('abc') #=>true
+puts 'abc'.casecmp?('ab') #=>false
+puts 'ab'.casecmp?('abc') #=>false
+puts 'abc'.casecmp?(1) #=>nil
+
+
+-----------center-----------------------
+
+Centers str in width. If width is greater than the length of str, returns a new String of length width with str centered and padded with padstr; otherwise, returns str.
+
+syntax->center(width, padstr=' ') → new_str
+
+e.g->
+"hello".center(4)         #=> "hello"
+"hello".center(20)        #=> "       hello        "
+"hello".center(20, '123') #=> "1231231hello12312312"
+
+
+-----------chomp----------------------------
+
+Returns a new String with the given record separator removed from the end of str (if present). If $/ has not been changed from the default Ruby record separator, then chomp also removes carriage return characters (that is it will remove \n, \r, and \r\n). If $/ is an empty string, it will remove all trailing newlines from the string.
+
+syntax->
+chomp(separator=$/) → new_str
+
+e.g->
+puts "hello".chomp                #=> "hello"
+puts "hello\n".chomp              #=> "hello"
+puts "hello\r\n".chomp            #=> "hello"
+puts "hello\n\r".chomp            #=> "hello\n"
+puts "hello\r".chomp              #=> "hello"
+puts "hello \n there".chomp       #=> "hello \n there"
+puts "hello".chomp("llo")         #=> "he"
+puts "hello\r\n\r\n".chomp('')    #=> "hello"
+print "hello\r\n\r\r\n".chomp('')  #=> "hello\r\n\r"
+
+
+-----------chomp!,--------------------
+
+returning str, or nil if no modifications were made.
+
+puts "hello".chomp!  #=>nil
+
+
+-------------chop---------------
+
+Returns a new String with the last character removed. If the string ends with \r\n, both characters are removed. Applying chop to an empty string returns an empty string. String#chomp is often a safer alternative, as it leaves the string unchanged if it doesn't end in a record separator.
+
+e.g->
+"string\r\n".chop   #=> "string"
+"string\n\r".chop   #=> "string\n"
+"string\n".chop     #=> "string"
+"string".chop       #=> "strin"
+"x".chop.chop       #=> ""
+
+
+------------chop!---------------
+
+Processes str as for String#chop, returning str, or nil if str is the empty string. 
+
+
+---------chr------------------
+
+Returns a one-character string at the beginning of the string.
+
+
+e.g->
+a="abcd"
+puts a.chr  #=>a
+
+-----------clear------------------
+
+Makes string empty.
+
+a="abcd"
+puts a.clear #=>""
+
+---------concat--------------
+
+Concatenates each object in objects to self and returns self:
+
+e.g->
+a="ab"
+puts a.concat('ef') #=>abef
+
+
+e.g->
+a='ab'
+puts a.concat('ef','gh') #=>abefgh
+
+e.g->(converted to character)
+a='ab'
+puts a.concat(65,'ef','gh')
+
+
+-------------count-------------
+
+Each other_str parameter defines a set of characters to count. The intersection of these sets defines the characters to count in str.
+
+a = "hello world"
+a.count "lo"                   #=> 5
+a.count "lo", "o"              #=> 2
+
+
+-----------delete-----------------------
+
+Returns a copy of str with all characters in the intersection of its arguments deleted.
+
+e.g->
+puts 'hello'.delete 'l' #=>heo
+puts 'hello'.delete 'l' ,'o' #=>he
+puts 'hello'.delete 'lo' #=>he
+puts 'hello'.delete 'aeo' ,'^o' #hllo
+
+
+------------------delete!---------------
+
+Performs a delete operation in place, returning str, or nil if str was not modified.
+
+puts 'hello'.delete! 'k' #=>nil
+
+
+
+-----------delete_prefix------------
+
+Returns a copy of str with leading prefix deleted.
+
+puts 'hello'.delete_prefix('he') #=>llo
+puts 'hello'.delete_prefix('o') #=>hello
+
+
+-----------delete_prefix!---------------
+
+Deletes leading prefix from str, returning nil if no change was made.
+
+
+puts 'hello'.delete_prefix!('he') #=>llo
+puts 'hello'.delete_prefix!('o') #=>nil
+
+
+
+----------delete_suffix----------------
+
+Returns a copy of str with trailing suffix deleted.
+
+puts 'hello'.delete_suffix('he') #=>hello
+puts 'hello'.delete_suffix('o') #=>hell
+
+
+-----------delete_suffix!--------------
+
+Deletes trailing suffix from str, returning nil if no change was made.
+
+
+puts 'hello'.delete_suffix!('he') #=>hello
+puts 'hello'.delete_suffix!('o') #=>hell
+
+
+-----------downcase-----------------
+
+Returns a copy of str with all uppercase letters replaced with their lowercase counterparts
+
+puts 'HeLlo'.downcase #=>hello
+
+
+-----------downcase!----------------
+
+Downcases the contents of str, returning nil if no changes were made.
+
+puts 'hello'.downcase!
+
+
+-------------dump--------------
+
+
+Returns a printable version of main string, enclosed in double-quotes, 
+with special characters escaped, and with non-printing characters replaced by hexadecimal notation.
+
+       
+ ->"hello\n".dump #=> "\"hello\\n\""
+
+        
+-------------each_byte-------------
+
+Passes each byte in str to the given block, or returns an enumerator if no block is given.
+
+'abc'.each_byte{|c| print c } #=>97 98 99
+ 
+
+-------------each_char----------------
+
+Passes each character in str to the given block, or returns an enumerator if no block is given.
+
+
+'abc'.each_char{|c| print c, ''} # a b c
+
+
+------------each_line------------------
+
+-Splits str using the supplied parameter as the record separator ($/ by default), passing each substring in turn to the supplied block. 
+-If a zero-length record separator is supplied, the string is split into paragraphs delimited by multiple successive newlines.
+-If chomp is true, separator will be removed from the end of each line.
+-If no block is given, an enumerator is returned instead.
+
+e.g->
+
+-->"hello\nworld".each_line {|s| p s}
+ prints:
+   "hello\n"
+   "world"
+
+
+-->"hello\nworld".each_line('l') {|s| p s}
+ prints:
+   "hel"
+   "l"
+   "o\nworl"
+  "d"
+
+-->"hello\nworld".each_line(chomp: true) {|s| p s}
+ prints:
+   "hello"
+   "world"
+
+
+----------------empty?--------------
+
+Returns true if the length of self is zero, false otherwise:
+
+
+
+puts 'a'.empty? # false
+puts ''.empty?  # true
+
+
+--------------end_with?----------------
+
+Returns true if str ends with one of the suffixes given.
+
+
+
+puts 'abc'.end_with?('c') # true
+puts 'abc'.end_with?('a')  # false
+
+[if any string matches then true]
+puts 'abc'.end_with?('c','e') # true
+puts 'abc'.end_with?('d','e') #false
+
+
+----------------eql?-----------------
+
+Returns true if object has the same length and content; as self; false otherwise:
+
+a='how'
+puts a.eql?('howw') #false
+puts a.eql?('how') #true
+
+
+----------gsub--------------------
+
+replace all occurrence of string
+
+a="hello world"
+a.gsub('l' ,'p')
+ => "heppo worpd"
+
+
+
+
+-------------include?----------------
+
+Returns true if str contains the given string or character.
+
+a='how'
+puts a.include?('m') #false
+puts a.include?('h') #true
+puts a.include?('wo') #false
+puts a.include?('ow') #true
+
+
+-----------------index--------------------
+
+Returns the Integer index of the first occurrence of the given substring, or nil if none found:
+
+a='how'
+puts a.index('o') #=>1
+puts a.index('m') #=>nil
+
+
+-->Returns the Integer index of the first match for the given Regexp regexp, or nil if none found:
+
+a='how'
+puts a.index(/o/) #=>1
+puts a.index(/m/) #=>nil
+
+
+--->Integer argument offset, if given, specifies the position in the string to begin the search:
+
+a='how'
+puts a.index('o',2) #=>nil
+puts a.index('o',1) #=>1
+
+--->If offset is negative, counts backward from the end of self:
+
+a='how'
+puts a.index('o',-2) #=>1
+puts a.index('o',-3) #=>1
+
+
+
+---------replace--------------------
+
+->Replaces the contents of str with the corresponding values in other_str.
+
+
+a='how'
+a.replace "however"
+puts a #=>however
+
+
+-------------insert-------------
+
+->Inserts the given other_string into self; returns self.
+
+-->If the Integer index is positive, inserts other_string at offset index:
+
+puts 'hom'.insert(0,'w') #=>whom
+
+--->If the Integer index is negative, counts backward from the end of self and inserts other_string at offset index+1 (that is, after self[index]):
+
+
+puts 'hom'.insert(-1,'e') #=>home
+
+-->Returns a printable version of str, surrounded by quote marks, with special characters escaped.
+
+a="hello\n" 
+a.inspect
+ => "\"hello\\n\""
+ 
+ 
+ ---------intern----------------
+ 
+-> Returns the Symbol corresponding to str, creating the symbol if it did not previously exist. See Symbol#id2name.
+
+"hom".intern =>:hom
+"home".to_sym =>:home
+"abc and def".to_sym=>:"abc and def"
+
+
+-----------length--------------------
+
+->Returns the count of characters (not bytes) in self:
+
+puts "hom".length #=>3
+
+
+---------lines-------------
+
+->Returns an array of lines in str split using the supplied record separator ($/ by default).
+If chomp is true, separator will be removed from the end of each line.
+
+"hello\nworld\n".lines              #=> ["hello\n", "world\n"]
+"hello  world".lines(' ')           #=> ["hello ", "world"]
+"hello\nworld\n".lines(chomp: true) #=> ["hello", "world"]
+
+
+-----------ljust-------------------
+
+->If integer is greater than the length of str, returns a new String of length integer with str left justified and padded with padstr; otherwise, returns str.
+[integer is less or more no matter it will return the whole string,but integer  is greater than length ,with string then it will append at the end]
+
+
+puts "hom".ljust(0) #=>hom
+puts "hom".ljust(10) #=>hom
+puts "hom".ljust(10,'12')#=>hom1212121
+
+
+------------lstrip-------------
+
+->only space infront of string removed
+
+"  hello  ".lstrip   #=> "hello  "
+"hello".lstrip       #=> "hello"
+
+
+
+---------lstrip!---------------
+
+->if changes made return string else return nil
+
+"  hello  ".lstrip!  #=> "hello  "
+"hello  ".lstrip!    #=> nil
+"hello".lstrip!      #=> nil
+
+
+----------match-------------------
+
+->With no block given, returns the computed matchdata:if matches else nil
+
+
+ "hello".match('l') #=> <MatchData "l"> 
+ "hello".match('m') #=> nil 
+
+
+----->If Integer argument offset is given, the search begins at index offset:
+
+
+"hello".match('e',2) #=> nil 
+"hello".match('e',1) #=><MatchData "e"> 
+
+
+
+---->With a block given, calls the block with the computed matchdata and returns the block's return value:
+
+
+ "hello".match(/o/){|matchdata|matchdata} # => #<MatchData "o"> 
+ "hello".match(/h/,1){|matchdata|matchdata} #=> nil 
+
+
+
+------------match?--------------
+
+->return true if found else false
+
+ "hello".match?('e',1) #=> true 
+ "hello".match?('m') #=> false 
+
+
+--------successor----------
+
+->increment the rightmost digit,alphanumeric or character
+
+->"09".succ =>"10"
+->"hello".succ =>"hellp"
+
+-->The successor to a letter is another letter of the same case, carrying to the next-left character for a rollover, and prepending another same-case letter if necessary:
+
+'aa'.succ # => "ab"
+'az'.succ # => "ba"
+'zz'.succ # => "aaa"
+'AA'.succ # => "AB"
+'AZ'.succ # => "BA"
+'ZZ'.succ # => "AAA"
+
+-->Carrying can occur between and among mixtures of alphanumeric characters:
+
+s = 'zz99zz99'
+s.succ # => "aaa00aa00"
+s = '99zz99zz'
+s.succ # => "100aa00aa"
+
+
+---------oct----------------
+
+convert to octal.
+
+->"123".oct       #=> 83
+->"-377".oct      #=> -255
+->"bad".oct       #=> 0
+
+
+
+--------ord------------
+
+->Returns the Integer ordinal of a one-character string.
+
+"A".ord #=>65
+
+
+--------partition------------
+
+->return the string before and after based on the partition
+if partition not found retutn two empty strings
+
+ "know".partition("o") #=> ["kn", "o", "w"] 
+"know".partition("m") #=> ["know", "", ""] 
+
+
+--------prepend---------------
+
+->prepend strings 
+
+a="hello"
+a.prepend("first" "second")
+
+output->firstsecondhello
+
+
+---------reverse-------------
+
+->Returns a new string with the characters from str in reverse order.
+
+
+a="many"
+puts a.reverse #=>ynam
+puts a #=>many
+
+
+-----------reverse!----------------
+
+->Returns a new string with the characters from str in reverse order.
+
+
+
+a="many"
+puts a.reverse! #=>ynam
+puts a      #=>ynam
+
+
+
+---------------rindex--------------
+
+->Returns the Integer index of the last occurrence of the given substring, or nil if none found:
+
+puts a="manya".rindex('a') #=>4
+puts b="anyone".rindex(/n/) #=>4
+puts c='anay'.rindex('m') #=>nil
+
+[if integer argument is given then it starting position and we check the substring index behind from starting]
+
+puts a="manya".rindex('a',1)#=>1
+puts a="manya".rindex('a',0)#=>nil
+puts a="manya".rindex('a',3)#=>1
+puts a="manya".rindex('a',5) #=>4
+
+[if integer argument is given and negative then it starting position will be sum of inetegr and length of starting and we check the substring index behind from starting]
+
+puts a="manya".rindex('a',-1)#=>4[strating index will 5+(-1)=4]
+puts a="manya".rindex('a',-2)#=>1[starting will be 3]
+puts a="manya".rindex('a',-3)#=>1
+puts a="manya".rindex('a',-5) #=>nil
+puts a="manya".rindex('a',-6) #=>nil
+
+
+-----------rjust----------------
+
+->If integer is greater than the length of str, returns a new String of length integer with str right justified and padded with padstr; otherwise, returns str.
+
+"hello".rjust(4)            #=> "hello"
+"hello".rjust(20)           #=> "               hello"
+"hello".rjust(20, '1234')   #=> "123412341234123hello"
+
+
+--------rpartition------------------
+
+->Searches sep or pattern (regexp) in the string from the end of the string, and returns the part before it, the match, and the part after it. If it is not found, returns two empty strings and str.
+
+-> "manyast".rpartition('a') #=> ["many", "a", "st"] 
+-> "manyast".rpartition('h') # => ["", "", "manyast"] 
+
+
+-------------rstrip---------------------
+
+->removes whitespace after the string and return the copy of string
+ a=" hello   "
+ a.strip   #=>" hello"
+ a         #=>" hello   "
+ 
+ 
+ ---------------rstrip!----------------
+ 
+ ->removes whitespace after string in self or return nil if no change made.
+ 
+ a=" hello   "
+ a.strip!   #=>" hello"
+ a         #=>" hello"
+
+
+---------------scan-------------------
+
+ a="hello world"
+ ->a.scan("wo") #=>["wo"]
+ ->a.scan("he") #=> ["he"] 
+
+
+
+
+--------------scrub----------------
+
+->If the string is invalid byte sequence then replace invalid bytes with given replacement character, else returns self. If block is given, replace invalid bytes with returned value of the block.
+
+"abc\u3042\x81".scrub #=> "abc\u3042\uFFFD"
+
+
+--------------slice!-------------------
+
+->Deletes the specified portion from str, and returns the portion deleted.
+
+->a="hello"
+puts a.slice!(2) #=>l
+puts a #=>helo
+
+
+->a="hello"
+puts a.slice!(2..4) #=>llo
+puts a #=>he
+
+->a="hello"
+puts a.slice!('o') #=>o
+puts a #=>hell
+
+->a="hello"
+puts a.slice!(/e/) #=>e
+puts a #=>hllo
+
+
+
+--------------split---------------------------
+
+- split the given string into an array of substrings based on a pattern specified.
+
+ "abc and bcd".split            #=> ["abc", "and", "bcd"] 
+"hello".split(//)               #=> ["h", "e", "l", "l", "o"]
+"hello".split(//, 3)            #=> ["h", "e", "llo"]
+
+
+
+-----------squeeze---------------------
+
+-remove the repeating characters.if they together
+
+
+->"hello".squeeze #=> "helo" 
+->"abb aba".squeeze  #=> "ab aba"
+
+
+
+--------------squeeze!--------------
+
+remove and return the string ,if no changes made return nil.
+
+
+->"hello".squeeze! #=> "helo" 
+->"ab ab".squeeze!  #=> nil
+
+
+------------start_with?[prefix]--------------
+
+Returns true if str starts with one of the prefixes given. Each of the prefixes should be a String or a Regexp.
+
+->"abc".start_with?('a') #=> true
+->"abc".start_with?('c') #=> false
+->"abc".start_with?('c','a') # => true [if any argument matches return true]
+
+
+
+----------------strip---------------
+
+-removes whitespace either beg of string or end of string,return copy of string
+
+->"  hello  ".strip #=>"hello"
+
+
+------------strip!---------------
+
+Removes leading and trailing whitespace from the receiver. Returns the altered receiver, or nil if there was no change.
+
+->"hello".strip! #=>nil
+
+-------------sub--------------
+
+replace only first occurrence. 
+
+ a="hello world"
+ a.gsub('l' ,'p')
+ => "heplo world"
+ 
+
+--------swapcase----------------
+
+Returns a copy of str with uppercase alphabetic characters converted to lowercase and lowercase characters converted to uppercase.
+
+->"hELLo".swapcase #=> "HellO" 
+
+
+-----------swapcase!-------------------
+
+ modifies the receiver in place, returning str, or nil if no changes were made.
+
+
+------------complex-------------
+
+convert to complex using to_c.
+
+->'9'.to_c #=> (9+0i) 
+
+
+-----------to_d------------
+
+Returns the result of interpreting leading characters in str as a BigDecimal.
+
+require 'bigdecimal'
+require 'bigdecimal/util'
+puts '9'.to_d             #=>0.9e1
+
+
+--------------to_f
+
+convert to float
+
+puts '9'.to_f            #=>9.0
+
+-------------to_i(base=10)->integer
+
+Returns the result of interpreting leading characters in str as an integer base base (between 2 and 36)
+
+"12345".to_i             #=> 12345
+"99 red balloons".to_i   #=> 99
+"0a".to_i                #=> 0
+"0a".to_i(16)            #=> 10
+"hello".to_i             #=> 0
+"1100101".to_i(2)        #=> 101
+
+-----------to_r ->Rational
+
+Returns the result of interpreting leading characters in str as a rational
+
+'  2  '.to_r       #=> (2/1)
+'300/2'.to_r       #=> (150/1)
+
+
+
+----------tr(from_str , to_str)
+
+Returns a copy of str with the characters in from_str replaced by the corresponding characters in to_str
+
+"hello".tr('el', 'ip')      #=> "hippo"
+"hello".tr('aeiou', '*')    #=> "h*ll*"
+"hello".tr('^aeiou', '*')   #=> "*e**o"
+
+
+-----------tr! 
+
+Returns str, or nil if no changes were made.
+
+
+------------tr_s
+
+-Processes a copy of str, then removes duplicate characters in regions that were affected by the translation.
+
+
+"hello".tr_s('l', 'r')     #=> "hero"
+"hello".tr_s('el', '*')    #=> "h*o"
+"hello".tr_s('el', 'hx')   #=> "hhxo"
+
+
+------------tr_s!
+
+returning str, or nil if no changes were made.
+
+
+-------------undump
+
+Returns an unescaped version of the string
+
+"\"hello \\n ''\"".undump #=> "hello \n ''"
+
+
+-------------upcase
+
+convert lower to upper
+
+"hello".upcase #=>HELLO
+
+
+------------upcase!
+
+return str or nil if no change is made.
+
+"HELLO".upcase! #=>nil
+
+------------upto-------------------
+
+-With a block given, calls the block with each String value returned by successive calls to String#succ; 
+-the first value is self, the next is self.succ, and so on; 
+-the sequence terminates when value other_string is reached; returns self:
+
+
+->a6'.upto('b5'){|s| print s, ' '}
+
+output->
+a6 a7 a8 a9 b0 b1 b2 b3 b4 b5  => "a6"
+
+
+->'a6'.upto('b5',true){|s| print s, ' '} # make b5 exclusive
+
+output->
+a6 a7 a8 a9 b0 b1 b2 b3 b4  => "a6" 
+
+---->If other_string would not be reached, does not call the block:
+
+'c6'.upto('b5'){|s| print s, ' '}
+ => "c6"
+ 
+--->With no block given, returns a new Enumerator:
+
+'a6'.upto('b5')
+ => #<Enumerator: "a6":upto("b5")> 
+
+
+--------unpack---------------
+
+Decodes str (which may contain binary data) according to the format string, returning an array of each value extracted. 
+
+"abc \0\0abc \0\0".unpack('A6Z6')   #=> ["abc", "abc "]
+
+
+-------unpack1---------------
+
+Decodes str (which may contain binary data) according to the format string, returning the first value extracted.
+
+"abc \0\0abc \0\0".unpack1('A6Z6')  #=> "abc"
+
+
+--------valid_encoding-------------
+
+Returns true for a string which is encoded correctly.
+
+"\xc2\xa1".force_encoding("UTF-8").valid_encoding?  #=> true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

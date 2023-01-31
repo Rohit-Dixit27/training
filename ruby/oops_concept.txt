@@ -1,0 +1,267 @@
+
+                            
+                           --------OBJECT ORIENTED PROGRAMMING ------------------------
+
+
+Ruby is a pure object-oriented language and everything appears to Ruby as an object.
+
+--->class
+
+	->A class definition starts with the keyword class followed by the class name and is delimited with an end.
+	class Box
+	   #code
+	end
+	
+	
+	
+---->object 
+
+	->A class provides the blueprints for objects, so basically an object is created from a class. 
+	
+	box1=Box.new # box1 is object of the class
+	
+	
+----->Initialize method
+
+	->The initialize method is useful when you want to initialize some class variables at the time of object creation. This method may take a list of parameters and like any other ruby method it 		  would be preceded by def keyword.
+	
+	def initialize(a,b)
+		@a=a
+		@b=b
+	end
+	
+	
+	
+-------->Instance variables
+
+	->The instance variables are kind of class attributes and they become properties of objects once objects are created using the class. Every object's attributes are assigned individually and 		  share no value with other objects,declared usin @ operator
+	def initialize(a,b)
+		@a=a #@ and @b are instance variables.
+		@b=b
+	end
+	
+	
+	
+	
+	
+----->Accessor and setter methods
+
+    ->To make the variables available from outside the class, they must be defined within accessor methods, these accessor methods are also known as a getter methods. 
+    ->Similar to accessor methods, which are used to access the value of the variables, Ruby provides a way to set the values of those variables from outside of the class using setter methods,
+    
+e.g->
+
+		class Box
+		def initialize(w,h)
+			@width=w
+			@height=h
+		end
+		 def getWidth #accessor method
+		       @width
+  		end
+  
+  		def getHeight   #accessor method
+  			@height
+  		end 
+  		def setWidth(value)  #setter method
+  			@width=value
+  		 end
+   
+  		 def setHeight(value)  #setter method
+  		 	@height=value
+  		 end
+   
+	end
+
+box1=Box.new(10,20)
+box1.setWidth(30)
+box1.setHeight(40)
+x = box1.getWidth()
+y = box1.getHeight()
+puts "width is :#{x}"
+puts "height is :#{y}"
+
+output->
+width is :30
+height is :40
+
+
+
+----------->Instance methods
+
+	->The instance methods are also defined in the same way as we define any other method using def keyword and they can be used using a class instance only 
+
+
+e.g->
+		class Box
+			def initialize(w,h)
+				@width=w
+				@height=h
+			end
+			 def area
+				 c=@width*@height
+			 return c
+			  end
+ 
+		end
+
+box1=Box.new(10,20)
+area=box1.area
+puts area #=>200
+
+
+------------>class methods and variables
+
+		-class variable is shared by all the objects like count here count is incremented by objects and the updated value of count will be used by other object.it started with @@.
+		-A class method is defined using def self.methodname(), which ends with end delimiter and would be called using the class name as classname.methodname
+
+e.g->
+		class Box
+			@@count=0
+		 def counting
+			 @@count+=1
+		  end
+  
+		  def self.printcount
+			  puts @@count
+		  end
+ 
+			end
+
+box1=Box.new
+box2=Box.new
+box1.counting
+box2.counting
+Box.printcount #=>2
+
+
+
+------------->Access Control
+
+	->public methods   :   Public methods can be called by anyone. Methods are public by default except for initialize, which is always private.
+	->private methods  :   Private methods cannot be accessed, or even viewed from outside the class. Only the class methods can access private members.
+	->protected methods:  A protected method can be invoked only by objects of the defining class and its subclasses. Access is kept within the family.
+
+
+
+
+e.g->
+		class Box
+		def initialize(w,h)
+			@width=w
+			@height=h
+		end
+
+		 def area
+			 c=@width*@height
+			 return c
+		  end
+ 
+		 private :area #area method is private
+		end
+
+box1=Box.new(10,20)
+area=box1.area
+puts area
+
+output->
+private method `area' called for #<Box:0x0000557d0779b718 @width=10, @height=20> (NoMethodError)
+
+
+
+--------------Inheritance
+
+	->Inheritance provides an opportunity to reuse the code functionality and fast implementation time 
+
+e.g->
+		class Box
+
+		 def area(a,b)
+			 @width=a
+			 @height=b
+		 puts @width*@height
+ 
+		  end
+ 
+		end
+
+class Box2 < Box # Box2 class inherit Box class
+end
+
+box1=Box.new
+box1.area(2,3) #=> 6
+box2=Box2.new
+box2.area(4,5) #=>20 (area method can be accessed by Box2 class)
+
+
+
+----------->override
+
+	->when we have to change the behavior of already defined method in a parent class.
+
+e.g->
+			class Box
+	
+				 def area(a,b)
+				 @width=a
+				 @height=b
+			 puts @width*@height
+		 
+			  end
+ 
+			end
+
+			class Box2 < Box # Box2 class inherit Box class
+
+				def area (a,b) # method is override
+					@width=a
+					@height=b
+					 puts @width*@width
+					 end
+				end
+
+box1=Box.new
+box1.area(2,3) #=> 6 call its own method
+box2=Box2.new
+box2.area(4,5) #=>16 (area method is override)
+
+
+
+
+-------------->class constants
+
+		-cannot change its value but you can access a constant directly inside a class much like a variable but if you want to access a constant outside of the class then you would have to 			use classname::constant 
+		-we keep constant names in upper case.
+
+e.g->
+		class Box
+			WEIGHT=10 #constant variable.
+		 def area(a,b)
+			 @width=a
+			 @height=b
+		 puts @width*@height
+ 
+		  end
+ 
+		end
+
+
+
+box1=Box.new
+box1.area(2,3) 
+puts Box::WEIGHT #=>accessing constant
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

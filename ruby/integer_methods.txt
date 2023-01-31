@@ -1,0 +1,135 @@
+
+            
+            --------Integer class methods--------------
+
+
+------>%
+e.g->3%2=1
+
+
+------>gcd(other_int) → integer
+
+Returns the greatest common divisor of the two integers. The result is always positive. 0.gcd(x) and x.gcd(0) return x.abs.
+
+36.gcd(60)                  #=> 12
+
+
+------>gcdlcm(other_int) → array
+
+Returns an array with the greatest common divisor and the least common multiple of the two integers, [gcd, lcm].
+
+36.gcdlcm(60)                  #=> [12, 180]
+
+
+
+-------->lcm(other_int) → integerclick to toggle source
+
+Returns the least common multiple of the two integers. The result is always positive. 0.lcm(x) and x.lcm(0) return zero.
+
+36.lcm(60)                  #=> 180
+
+
+-------->sqrt
+
+Integer.sqrt(625) #=>25
+
+
+-------->next()
+
+Returns the successor integer of self (equivalent to self + 1):
+
+1.succ  #=> 2
+-1.succ #=> 0
+
+
+-------->odd?
+
+5.odd? #=>true
+6.odd? #=>false
+
+
+-------->even?
+
+5.even? #=>false
+8.even?#=>true
+
+---------->pow(numeric) → numeric
+
+pow(integer, integer) → integer
+Returns (modular) exponentiation
+
+3.pow(2) #=>9
+
+--------->pred → next_integer
+
+Returns the predecessor of self (equivalent to self - 1):
+
+1.pred  #=> 0
+-1.pred #=> -2
+
+
+---------->remainder(other) → real_number
+
+Returns the remainder after dividing self by other.
+
+15.remainder(4) #=>3
+
+
+
+---------->size->int
+
+Returns the number of bytes in the machine representation of int (machine dependent).
+
+12.size #=>8
+
+
+--------->to_f → float
+
+Converts self to a Float:
+
+11.to_f #=>11.0
+
+
+--------->to_r → rational
+
+Returns the value as a rational.
+
+11.to_r #=>11/1
+
+
+---------->zero? ->true or false
+
+1.zero? #=>false
+0.zero? #=>true
+
+
+---------->chr → string
+
+chr(encoding) → string
+Returns a 1-character string containing the character represented by the value of self, according to the given encoding.
+
+65.chr #=> "A"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

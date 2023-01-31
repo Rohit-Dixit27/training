@@ -1,0 +1,573 @@
+
+
+----------------Hash----------------------
+
+A Hash maps each of its unique keys to a specific value.
+
+syntax->
+ 		h={a:1,b:2} #=> {:a=>1, :b=>2} 
+ 		        or
+ 	       s={:a=>1,:b=>2} #=> {:a=>1, :b=>2} 
+ 	                or
+ 	       hash=Hash[:a,1:b,3] #=>{:a=>1, :b=>3}
+ 	       
+ 	       
+------creation of hash-
+
+	->Hash.new
+	->Hash[]
+	->{}
+	
+	
+e.g->hash=Hash.new
+e.g->hash1=Hash[a:1,b:2]
+e.g->hash3={a:1,b:2}
+
+
+hash3[:a]  #=>1
+
+
+-------default values-
+
+if not assigned any value then return nil else return value.
+-->h1=Hash.new
+	 h1.default #=>nil
+	 h1.default=3  #set dafault value to 3
+	 h1.default #=>3
+
+-->h2=Hash.new(5)
+	h2.default #=>5
+	
+	
+-------default_proc
+
+if not assigned any value then return nil else return value.
+
+-->h3=Hash.new
+ h3.default_proc #=>nil
+ 
+ --set default_proc by using block with Hash.new
+ 
+ h4=Hash.new {|hash,key| "value of key"}
+h4.default_proc.class  #=>Proc
+
+
+-------->hash < other_hash
+
+return true if hash is a proper subset of other_hash else false.
+
+h1={:a=>1,b=>2}
+h2={:a=>1,b=>2,c=>3}
+
+h1<h2 #=>true
+h2<h1 #=>false
+h1<h1 #=>false
+
+
+--------->hash <= other_hash
+
+return true if hash is a subset of other_hash else false.
+
+h1={:a=>1,b=>2}
+h2={:a=>1,b=>2,c=>3}
+
+h1<=h2 #=>true
+h2<=h1 #=>false
+h1<=h1 #=>true
+
+
+-------->hash==object
+
+--Returns true if all of the following are true:
+  .object is a Hash object.
+  .hash and object have the same keys (regardless of order).
+  .For each key key, hash[key] == object[key].
+
+Otherwise, returns false
+
+e.g->
+h1={:a=>1,b=>2,c=>3}
+h2={:a=>1,b=>2,c=>3}
+h3={c=>3,a=>1,b=>2}
+h1==h2 #=>true
+h1==h3 #=>true
+
+
+------>hash[key]==value ,if found else default value
+
+h1={:a=>1,b=>2,c=>3}
+h1[:c]=3
+h1[:d]=nil
+
+
+------------>store
+
+if value of key exists then replace order will not change ,it not then new entry will append at last
+h1={:a=>1,b=>2,c=>3}
+h1[:a]=5 or h1.store(:a,5)
+
+h1={:a=>5,b=>2,c=>3}
+h1[:d]=10
+h2={:a=>5,b=>2,c=>3,d=>10}
+
+
+------->any?
+
+return true if any element satisfy a given criterion else false.
+
+e.g->
+h1={:a=>1,b=>2,c=>3}
+h1.any?([:b,2])  #=>true
+
+h1.any?([:e,4])  #=>false
+
+h1.any? {|key,value| value < 3}  #=> true
+h1.any? {|key,value| value > 13} #=> false 
+
+
+------------>assoc
+
+If the given key is found, returns a 2-element Array containing that key and its value: else nil
+
+e.g->
+h1.assoc(:a) #=>[:a, 9] 
+h1.assoc(:e) #=> nil
+
+
+
+------------->clear
+
+Removes all hash entries; returns self.
+
+e.g->
+h2={:c=>3, :a=>1, :b=>2}
+h2.clear  #=> {}
+
+
+----->compact
+
+Returns a copy of self with all nil-valued entries removed:
+
+e.g->
+h1={:a=>1, :b=>2, :c=>nil} 
+h1.compact   #=> {:a=>1, :b=>2} 
+h1           #=> {:a=>1, :b=>2, :c=>nil} 
+
+
+
+-------->compact!
+
+Returns self with all its nil-valued entries removed (in place):
+
+h1={:a=>1, :b=>2, :c=>nil} 
+h1.compact!  #=> {:a=>1, :b=>2} 
+h1           #=> {:a=>1, :b=>2} 
+
+
+-------------default(key)
+
+always return default value either it having value.
+h1={:a=>1, :b=>2,}
+h1.default(:a) #=>nil 
+
+
+-----------delete
+
+if key found delete, else return nil.(when no block is given)
+if key found delete, else call block(when block is given)
+
+e.g->
+h1={:a=>1, :b=>2} 
+h1.delete(:c) #=>nil
+
+h1.delete(:a) #=>1
+h1  #=>{:b=>2} 
+
+(with block)
+h1={:b=>2, :a=>1} 
+ 
+h1.delete(:c){|key|"key not found"}   #=> "key not found"
+
+h1.delete(:a) #=>1
+h1            #=>{:b=>2}
+
+
+
+-----------delete_if
+
+If a block given, calls the block with each key-value pair; deletes each entry for which the block returns a truthy value; returns self:
+
+
+-h1={:b=>2, :a=>1} 
+
+ h1.delete_if {|key,value| value > 1}   #=>{:a=>1} 
+
+-If no block given, returns a new Enumerator:
+
+h1.delete_if #=> #<Enumerator: {:a=>1}:delete_if> 
+
+
+
+----------dig
+
+Finds and returns the object in nested objects that is specified by key and identifiers. The nested objects may be instances of various classes. See Dig Methods.
+Nested Hashes:
+
+e.g->
+h1={:a=>{:b=>{:c=>2}}}
+
+h1.dig(:a)  #=> {:b=>{:c=>2}}
+
+h1.dig(:a,:b) #=> {:c=>2}
+
+h1.dig(:a,:b,:c)  #=> 2
+
+
+
+--------each
+
+-->h1.each {|key,value|"#{key}: #{value}"} #=>{:a=>1, :b=>2, :c=>3} 
+         or
+         
+-->h1.each_pair {|key,value|"#{key}: #{value}"} #=>{:a=>1, :b=>2, :c=>3} 
+
+
+-->h1.each_value {|value| puts value} 
+output-> 
+1
+2
+3
+
+-->h1.each_key {|key| puts key} 
+output->
+a
+b
+c
+
+ 
+----->empty?
+return true if hash is empty else false
+h1.empty? #=>false
+
+h5={}
+h5.empty? #=>true
+
+
+
+----------eql?
+
+return true if equal else false
+
+e.g->
+h1={:a=>1,b=>2,c=>3}
+h2={:a=>1,b=>2,c=>3}
+h3={c=>3,a=>1,b=>2}
+h1.eql?h2 #=>true
+h1.eql?h3 #=>true
+
+
+----------except
+
+excluding an key and returning a new hash
+
+e.g->
+h1= {:a=>1, :b=>2, :c=>3} 
+h1.except(:b) #=> {:a=>1, :c=>3} 
+
+
+
+
+----------fetch
+
+return value if key is found
+
+h1={:a=>1, :b=>2, :c=>3} 
+h1.fetch(:a)    #=>1
+
+ 
+-----------fetch_value
+
+Returns a new Array containing the values associated with the given keys *keys:
+
+h1={:a=>1, :b=>2, :c=>3} 
+h1.fetch_values(:a,:b) #=> [1, 2]
+
+
+-------select
+
+Returns a new Hash object whose entries are those for which the block returns a truthy value:
+
+
+h1={:a=>1, :b=>2, :c=>3} 
+h1.select {|key,value| value > 2}  #=> {:c=>3}
+h1				    #=>{:a=>1, :b=>2, :c=>3}  
+
+
+
+----------select!
+
+Returns self, whose entries are those for which the block returns a truthy value:
+
+
+h1={:a=>1, :b=>2, :c=>3} 
+h1.select! {|key,value| value > 2}  #=> {:c=>3}
+h1				     #=>  {:c=>3}  
+
+
+
+-----------flatten
+
+h2={:a=>0, :b=>[:c, [:d, [:e]]]} 
+
+- h2.flatten(1) #=> [:a, 0, :b, [:c, [:d, [:e]]]] 
+- h2.flatten(2) #=> [:a, 0, :b, :c, [:d, [:e]]] 
+- h2.flatten(3) #=> [:a, 0, :b, :c, :d, [:e]] 
+- h2.flatten(4) #=> [:a, 0, :b, :c, :d, :e]
+
+
+
+
+-->When level is negative, flattens all nested Arrays:
+h2={:a=>0, :b=>[:c, [:d, [:e]]]} 
+ h2.flatten(-1)  #=> [:a, 0, :b, :c, :d, :e] 
+
+--->When level is zero, returns the equivalent of to_a :
+h2={:a=>0, :b=>[:c, [:d, [:e]]]} 
+ h2.flatten(0) #=> [[:a, 0], [:b, [:c, [:d, [:e]]]
+
+
+--------->replace
+h2={:a=>0, :b=>[:c, [:d, [:e]]]} 
+
+h2.replace({d:11,e:22})  #=> {:d=>11, :e=>22} 
+
+h2                       #=> {:d=>11, :e=>22}
+
+
+-------has_key?
+
+h1={:a=>1,:b=>2}
+h1.has_key?(:a) #=>true
+h1.has_key?(:e) #=>false
+h1.include?(:a) #=>true
+h1.has_values?(2) #=>true
+
+
+---------inspect
+
+Returns a new String containing the hash entries:
+
+
+h2={:d=>11, :e=>22} 
+h2.inspect #=> "{:d=>11, :e=>22}" 
+
+
+
+----------invert
+
+Returns a new Hash object with the each key-value pair inverted:
+h2={:d=>11, :e=>22} 
+h2.invert #=> {11=>:d, 22=>:e} 
+
+
+----return any one if same value is given to multiple keys.
+h3={:a=>1, :b=>1, :c=>1} 
+ h3.invert #=> {1=>:c} 
+
+
+
+--------keep_if
+
+Calls the block for each key-value pair; retains the entry if the block returns a truthy value; otherwise deletes the entry; returns self.
+
+e.g->
+h2={:d=>11, :e=>22} 
+h2.keep_if {|key,value| value > 20 }      #=>{:e=>22} 
+h2                                        #=>{:e=>22} 
+
+
+
+--------key
+
+return the key whose value if first found in hash.if not found value then nil
+
+e.g->
+h3={:a=>1, :b=>2, :c=>1} 
+
+h3.key(2) #=>:b
+h3.key(1) #=>:a
+h3.key(4) #=>nil
+
+
+--------keys
+
+return an array containing all keys
+
+h3={:a=>1, :b=>2, :c=>1}
+h3.keys     #=>[:a, :b, :c]
+
+
+----------length
+
+h3={:a=>1, :b=>2, :c=>1}
+h3.length #=>3
+h3.size   #=>3
+
+
+-------------merge
+
+Returns the new Hash formed by merging each of other_hashes into a copy of self.
+
+-each duplicate value will overwrite the previous value.
+
+e.g->
+h1={:a=>1,:b=>2}
+h2={:b=>3,:c=>5}
+h3=>{:c=>6,:d=>9}
+h1.merge(h2,h3)
+
+output->
+{:a=>1,:b=>3,:c=>6,:d=>9}
+
+
+e.g->
+h1={:a=>1,:b=>2}
+h2={:b=>3,:c=>5}
+h3=>{:c=>6,:d=>9}
+h1.merge(h2,h3) {|key,old_value,new_value| old_value+new_value}
+output->
+ {:a=>1, :b=>5, :c=>11, :d=>9}
+
+
+----------merge!
+
+Merges each of other_hashes into self; returns self.
+
+e.g->
+h1={:a=>1,:b=>2}
+h2={:b=>3,:c=>5}
+h3=>{:c=>6,:d=>9}
+h1.merge!(h2,h3)
+
+output->
+{:a=>1,:b=>3,:c=>6,:d=>9}
+
+
+-----------rassoc
+
+return key and value whose value matches first in case of duplicates.
+
+h4={:a=>1, :b=>2, :c=>2} 
+h4.rassoc(2) #=> [:b, 2]
+
+
+
+---------reject
+
+Returns a new Hash object whose entries are all those from self for which the block returns false or nil:
+
+
+h4={:a=>1, :b=>2, :c=>2} 
+h4.reject {|key,value| value ==2} #=>{:a=>1} 
+h4				   #=>{:a=>1, :b=>2, :c=>2} 
+
+
+---------reject!
+
+Returns self, whose remaining entries are those for which the block returns false or nil:
+
+
+h4={:a=>1, :b=>2, :c=>2} 
+h4.reject! {|key,value| value ==2} #=>{:a=>1} 
+h4				    #=>{:a=>1} 
+
+
+
+
+-------shift
+
+remove first entry
+
+h3={:c=>6, :d=>9} 
+h3.shift #=>[:c, 6] 
+h3       #=>{:d=>9} 
+
+
+-------slice
+
+Returns a new Hash object containing the entries for the given keys:
+
+e.g->
+h1={:a=>1, :b=>3, :c=>6, :d=>9} 
+h1.slice(:a,:c) #=> {:a=>1, :c=>6} 
+ 
+ 
+ ---------to_a
+ 
+ Returns a new Array of 2-element Array objects; each nested Array contains a key-value pair from self:
+
+e.g->
+h1={:a=>1, :b=>3, :c=>6, :d=>9} 
+h1.to_a #=>[[:a, 1], [:b, 3], [:c, 6], [:d, 9]
+ 
+ 
+---------to_hash
+
+returning self
+
+e.g->
+h1={:a=>1, :b=>3, :c=>6, :d=>9} 
+h1.to_hash={:a=>1, :b=>3, :c=>6, :d=>9} 
+ 
+ 
+---------to_proc
+
+Returns a Proc object that maps a key to its value:
+
+e.g->
+h1={:a=>1, :b=>3, :c=>6, :d=>9} 
+Proc=h1.to_proc
+Proc.call(:a) #=>1
+ 
+ 
+ 
+---------transform
+
+Returns a new Hash object; each entry has:
+.A key provided by the block.
+.The value from self.
+ 
+ e.g->
+ h1={:a=>1, :b=>3, :c=>6, :d=>9} 
+ h2= h1.transform_keys {|key| key.to_s } #=>{"a"=>1, "b"=>3, "c"=>6, "d"=>9}
+ 
+ 
+-------transform !
+
+Returns self, whose keys are unchanged, and whose values are determined by the given block.
+
+
+
+h1={:a=>1, :b=>3, :c=>6, :d=>9} 
+h1.transform_keys {|key| key.to_s } #=>{"a"=>1, "b"=>3, "c"=>6, "d"=>9}
+
+
+-----------values
+
+Returns a new Array containing all values in self:
+
+
+e.g->
+h1={:a=>1, :b=>3, :c=>6, :d=>9}
+h1.values  #=> [1, 3, 6, 9] 
+
+
+----------values_at
+
+Returns a new Array containing values for the given keys:
+
+e.g->
+h1={:a=>1, :b=>3, :c=>6, :d=>9}
+h1.values_at(:a,:d)  #=> [1, 9]
+
+

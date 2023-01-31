@@ -1,0 +1,170 @@
+
+
+           
+             -----------------Range class-----------------------
+A Range object represents a collection of values that are between given begin and end values.
+
+----->new(begin, end, exclude_end = false) → new_range
+
+Returns a new range based on the given objects begin and end. Optional argument exclude_end determines whether object end is included as the last object in the range:
+
+
+ Range.new(2,4)  #=> 2..4 (4 is include)
+ Range.new(2,4,true) #=> 2...4  (4 is exclude)
+ 
+ 
+----->self == other → true or false
+
+Returns true if and only if:
+-other is a range.
+-other.begin == self.begin.
+-other.end == self.end.
+-other.exclude_end? == self.exclude_end?.
+-Otherwise returns false.
+
+e.g->
+--> r=(1..5)
+--> r==(2..5) #=> false 
+--> r==(1..5) #=> true 
+--> r==(1..4) #=> false 
+
+
+-------->self === object → true or false
+
+Returns true if object is between self.begin and self.end. false otherwise:
+
+e.g->
+r=(1..5)
+r===2 #=>true
+r===6 #=>false
+
+
+-------->begin → object
+
+Returns the object that defines the beginning of self.
+
+e.g->
+ (1..2).begin #=> 1 
+ (..2).begin #=> nil 
+
+
+
+---------->count
+
+Returns the count of elements, based on an argument or block criterion, if given.
+
+e.g->
+(1..4).count #=> 4 
+(1...4).count #=> 3 
+(..4).count  #=> Infinity 
+(2..).count #=> Infinity 
+ 
+ 
+ 
+-------->cover?(object)
+
+Returns true if the given argument is within self, false otherwise.
+
+
+e.g->
+(1...4).cover?(3) #=> true 
+(1...4).cover?(4) #=> false 
+
+ 
+--------->end → object
+
+Returns the object that defines the end of self
+ 
+e.g->
+ (1...4).end #=> 4 
+ (1..4).end  #=> 4 
+ 
+ 
+ 
+------->to_a
+
+Returns an array containing the elements in self, if a finite collection; raises an exception otherwise.
+
+e,g->
+(1..4).to_a #=> [1, 2, 3, 4] 
+(1...4).to_a #=> [1, 2, 3] 
+ 
+ 
+-------->eql?
+
+eql?(other) → true or false
+
+Returns true if and only if:
+
+other is a range.
+other.begin eql? self.begin.
+other.end eql? self.end.
+other.exclude_end? == self.exclude_end?.
+Otherwise returns false
+
+e.g->
+r=(1..3)
+r.eql?(1..3) #=> true 
+r.eql?(1...3) #=> false 
+ 
+ 
+------->first and last
+
+e.g->
+(1..4).first #=> 1 
+(1..4).first(2) #=> [1, 2] 
+(1..4).last(2) #=> [3, 4] 
+(1..4).last #=> 4 
+(1...4).last #=> 4 
+(1...4).last(2) #=> [2, 3]
+ 
+ 
+ 
+------->max
+
+e.g->
+ (1..4).max(2) #=> [4, 3] 
+ (1...4).max(2) #=> [3, 2] 
+ 
+ 
+------>min
+
+e.g->
+
+(1..4).min(2) #=> [1, 2] 
+(1..4).min #=> 1
+ 
+
+
+------->minmax
+e.g->
+
+(1..4).minmax #=> [1, 4]  
+
+
+------->size
+e.g->
+(1..4).size  #=> 4 
+(1...4).size #=> 3 
+
+
+------->to_s
+e.g->
+
+(1...4).to_s #=> "1...4"  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -1,0 +1,3105 @@
+
+
+
+----------ARRAY------------------
+
+->An Array is an ordered, integer-indexed collection of objects, called elements. 
+-Any object may be an Array element.It can store dissimilar data.
+
+->Array indexing starts at 0, as in C or Java.
+
+--->A positive index is an offset from the first element:
+
+-Index 0 indicates the first element.
+
+-Index 1 indicates the second element.
+
+
+--->A negative index is an offset, backwards, from the end of the array:
+
+-Index -1 indicates the last element.
+
+-Index -2 indicates the next-to-last element.
+
+
+
+-----------------CREATING ARRAYS-------------------
+
+->A new array can be created by using the literal constructor []
+
+	e.g->arr=[1,2,3.4,"rohit"]\
+
+->An array can also be created by explicitly calling Array.new with zero, one (the initial size of the Array) or two arguments (the initial size and a default object).
+
+	e.g->arr=Array.new(0) # size is zero
+		e.g->arr=Array.new(4) # size is four
+			e.g->arr=Array.new(5,2) #size is five and stored 2 at all locations
+
+
+->To create an array with separate objects a block can be passed instead. This method is safe to use with mutable objects such as hashes, strings or other arrays:
+
+	e.g->arr=Array.new(4) {Hash.new} #=> [{}, {}, {}, {}]
+		e.g->Array.new(4) {|i| i.to_s } #=> ["0", "1", "2", "3"]
+
+
+->create multidimensional arrays
+	
+		arr=Array.new(2) {Array.new(2)} #=> [[nil, nil], [nil nil]] 
+		
+->An array can also be created by using the Array() method, provided by Kernel, which tries to call to_ary, then to_a on its argument.
+
+		e.g->Array({:a => "a", :b => "b"}) #=> [[:a, "a"], [:b, "b"]]
+		
+		
+		
+--------------ACCESSING ELEMENTS--------------------------
+
+e.g->
+arr=Array[0,1,2,3,4,5,6]
+puts arr[0] #0
+puts arr.at(3) # 3
+puts arr[-2] #5
+puts arr[1..5] #1 2 3 4  5
+puts arr[1..-2] #1 2 3 4 5
+puts arr[20] # nil
+puts arr[2,2] # 2 3
+
+
+----------at-----------		
+		
+puts arr.at(3) # 3		
+		
+
+-----------fetch--(To raise an error for indices outside of the array bounds or else to provide a default value when that happens)
+
+arr=Array[0,1,2,3,4,5,6]
+puts (arr.fetch(11,"oops")) #oops		
+		
+		
+		
+---------first and last----
+
+arr=Array[0,1,2,3,4,5,6]
+puts (arr.first) #0
+puts (arr.last) #6
+
+
+---------take(return first n elements)
+
+arr=Array[0,1,2,3,4,5,6]
+puts(arr.take(3)) # 0,1,2
+		
+		
+		
+--------drop(it will exclude first n elements)
+
+arr=Array[0,1,2,3,4,5,6]
+puts(arr.drop(3)) # 3,4,5,6		
+		
+		
+
+
+
+-----------OBTAINING INFORMATION ABOUT ARRAY---------------
+
+---->length and count and size
+
+->arr=Array[0,1,2,3,4,5,6]
+->puts(arr.length) #7
+->puts(arr.count) #7
+->puts(arr.size) #7		
+
+
+---->empty(to check is it empty)
+
+arr=Array[0,1,2,3,4,5,6]
+puts(arr.empty?) #false		
+		
+arr1=[]
+puts(arr1.empty?) # true		
+		
+		
+		
+----include(to check whether the element is exists or not)
+
+arr=Array[0,1,2,3,4,5,6]
+puts(arr.include? 4) # true
+
+arr=Array[0,1,2,3,4,5,6]
+puts(arr.include? 9)  # false 		
+		
+		
+		
+		
+		
+-------------ADDING ITEMS TO ARRAYS-----------------
+
+---->push and << will apppend the item at last
+
+arr=Array[0,1,2,3,4,5,6]
+arr.push(7) # 7 will append at the end
+puts arr
+  
+output-> 0,1,2,3,4,5,6,7
+
+arr=Array[0,1,2,3,4,5,6,7]
+arr<<8
+puts arr 
+
+output-> 0,1,2,3,4,5,6,7,8
+		
+		
+		
+-------unshift(add item at beginning of array)
+
+arr=Array[2,3,4,5]
+arr.unshift(1)
+puts arr 
+
+output->1,2,3,4,5
+		
+
+-------insert(adding at any position) or at multiple positions.
+
+arr=Array[2,3,4,5]
+arr.insert(2,1)
+puts arr 
+output-> 2,3,1,4,5
+
+arr=Array[1,5]
+arr.insert(1,2,3,4)
+print arr 
+output-> 1,2,3,4,5		
+[here start at position 1 insert 2 and reamining will be  add after 1st position]		
+		
+		
+
+
+
+
+
+
+
+-----------------REMOVING ITEMS FROM AN ARRAY-------------------
+
+
+----->pop(The method pop removes the last element in an array and returns it:)		
+		
+arr=Array[1,2,3,4,5]
+arr.pop
+print arr  
+output-> 1,2,3,4
+
+----->	shift(return the item ans also remove that item from array)
+
+arr=Array[1,2,3,4,5]
+arr.shift
+puts arr 
+
+output->2,3,4,5	
+
+
+------>delete_at(To delete an element at a particular index:)
+
+arr=Array[1,2,3,4,5]
+arr.delete_at(1)
+puts arr
+
+output-> 1,3,4,5
+
+
+------>delete(To delete a particular element anywhere in an array if it is reapeated then also deleted.)
+
+arr=Array[1,2,3,4,5]
+arr.delete(4)
+puts arr
+
+output->1,2,3,5
+
+
+
+->arr=Array[1,2,2,2,2,3,4,5,2,2,2,2]
+arr.delete(2)
+puts arr
+
+output->1,3,4,5
+
+
+
+
+---->compact(used to remove nil values,this non destructive array reamins unchanged)
+
+arr=Array[1,2,nil,3,nil]
+arr.compact
+puts arr	
+		
+output-> 1 2  3[empty space is showing at nil location]
+	
+
+------>compact!(remove nil,values and not showing empty space there this is destructive and original array will be modified)	
+		
+arr=Array[1,2,nil,3,nil]
+arr.compact!
+puts arr		
+
+output->1,2,3
+
+
+
+
+----->uniq(show only unique values) and uniq!(modify original array)
+
+arr=Array[1,2,3,2,3,4,5,3,2,4,2,1,5]
+puts(arr.uniq)
+
+output->1,2,3,4,5
+
+
+
+
+---------------ITERATING OVER ARRAYS--------------
+
+---->each(Array's each, all elements in the Array instance are yielded to the supplied block in sequence.
+
+	-Note that this operation leaves the array unchanged.)
+
+arr=Array[1,2,3,4,5]
+arr.each  {|i| puts i*2}
+
+output->2,4,6,8,10
+
+
+------>reverse_each(reversing in case of block)
+
+arr=Array[1,2,3,4,5]
+arr.reverse_each {|i| puts i*2}
+
+output->10,8,6,4,2
+
+
+
+
+
+------->map(The map method can be used to create a new array based on the original array, but with the values modified by the supplied block:)
+(map =non destructive,map!=destructive)
+
+arr=Array[1,2,3,4,5]
+arr.map!{|a| a*2}
+puts arr
+
+output->2,4,6,8,10
+
+
+
+
+
+
+-----------------SELECTING ITEM FROM AN ARRAY------------------
+-Elements can be selected from an array according to criteria defined in a block. The selection can happen in a destructive or a non-destructive manner. While the destructive operations will modify the array they were called on, the non-destructive methods usually return a new array with the selected elements, but leave the original array unchanged.
+
+
+-----Non-destructive Selection
+
+	arr = [1, 2, 3, 4, 5, 6]
+ 	puts arr.select {|a| a > 3}       #=> [4, 5, 6]
+ 	puts arr.reject {|a| a < 3}       #=> [3, 4, 5, 6]
+ 	puts arr.drop_while {|a| a < 4}   #=> [4, 5, 6]
+	puts arr                          #=>[1,2,3,4,5,6]
+
+
+
+--destructive selection(it will modify the original array) 
+
+	arr = [1, 2, 3, 4, 5, 6]
+	arr.select! {|a| a < 4}   
+	puts arr
+	
+	output->[1,2,3]
+
+
+	arr = [1, 2, 3, 4, 5, 6]
+	arr.reject! {|a| a < 4}   
+	puts arr
+
+	output->[4,5,6]
+
+
+--->delete_if(it will deleted the items from original array)
+
+arr = [1, 2, 3, 4, 5, 6]
+puts arr.delete_if {|a| a < 4}   #=> [4, 5, 6]
+puts arr
+
+output->[4,5,6]
+
+
+---->keep_if(it wil also delete the items from array)
+
+arr = [1, 2, 3, 4, 5, 6]
+puts arr.keep_if {|a| a < 4}   #=> [1,2,3]
+puts arr
+
+output->[1,2,3]
+
+
+
+
+--------->[](*args)
+
+--->(With no block and a single Array argument array, returns a new Array formed from array:)
+
+	a=Array.new([1,2,3]) # new array a is created
+	puts (a.class)
+	puts a
+
+-->(With no block and a single Integer argument size, returns a new Array of the given size whose elements are all nil)
+	a = Array.new(3)
+	puts(a) # => [nil, nil, nil]
+
+--->With no block and arguments size and default_value, returns an Array of the given size; each element is that same default_value:
+
+	a = Array.new(3, 'x')
+	a # => ['x', 'x', 'x']
+
+---->With a block and argument size, returns an Array of the given size; the block is called with each successive integer index; the element for that index is the return value from the block:
+
+	a = Array.new(3) {|index| "Element #{index}" }
+	a # => ["Element 0", "Element 1", "Element 2"]
+
+
+
+
+
+
+
+---------->ARRAY INTERSECTION-------
+
+array & other_array → new_array
+-Returns a new Array containing each element found in both array and Array other_array; duplicates are omitted; items are compared using eql?
+e.g->
+	a=[0,2,1,0,1]
+	b=[0,1,4]
+	puts c=a&b
+	
+	output->[0,1]
+
+
+e.g->
+	puts ([0,2,1,0,3,1].intersection([0,3,1,4]))
+	output->[0,1,3]
+	
+	
+------->When non-negative argument Integer n is given, returns a new Array built by concatenating the n copies of self:
+
+e.g-> 	
+	a=['a','b']
+	puts a*2
+	output->['a','b','a','b']
+
+
+
+--------------CONCAT---------------
+ e.g-
+ 	a=[0,1]
+	puts(a.concat([2,3],[4,5]))
+	output->[0,1,2,3,4,5]
+	
+	or
+	
+	puts([0,1]+[2,3]+[4,5])
+
+
+
+----------DIFFERENCE----------
+
+e.g->
+	puts([0, 1, 1, 2, 1, 1, 3, 1, 1].difference([1]) )
+
+	output->[0,2,3]
+	
+	
+e.g->
+	[0, 1, 2].difference([4])
+	output->[0,1,2]
+
+	or
+	
+	[0,1,2]-[4]
+	output->[0,1,2]
+
+
+
+
+------------>array << object → self
+-->Appends object to self; returns self:
+
+e.g->
+	a=[1,2,:are]
+	a<<:ss
+	puts a
+
+	output->[1,2,are,ss]
+
+
+-->Appends object as one element, even if it is another Array:
+e.g->
+	a = [:a,1,2]
+	a1 = a << [3, 4]
+	puts a1
+	
+	output->[:a,1,2,[3,4]]
+
+
+----->array <=> other_array → -1, 0, or 1
+if arr1 is less than other return -1
+if arr1 is greater than other return 1
+if arr1 is equal in size to other return 0
+
+-e.g->
+	a=[0,1]
+	b=[0,1,2]
+	puts(a<=>b)
+	output->-1
+	
+e.g->
+	a=[0,1,2]
+	b=[0,1,2]
+	puts(a<=>b)
+	output->0
+	
+e.g->
+	a=[0,1,2]
+	b=[0,1]
+	puts(a<=>b)
+	output->1
+	
+	
+	
+------->array1==array2 if yes true else false
+e.g->
+	a=[0,1,2]
+	b=[0,1]
+	puts(a==b)
+	output=false
+e.g->	
+	a=[0,1]
+	b=[0,1]
+	puts(a==b)
+	output->true	
+	
+	
+------iteration through indexes
+	a=[0,1,2,3]
+	puts(a[0,2]) #[0,1]
+	puts(a[1,3]) #[1,2,3]	
+[if starting from index zero then return end-1 else end is also included]
+	
+	
+--------step(to skip)
+	a=[0,1,2,3,4]
+	puts(a[(1..).step(2)])	
+	output->[1,3]
+	
+	
+--------If index is greater than self.length, extends the array:
+
+e.g-
+	a=[0,1,2,3,4]
+	a[6]=6
+	puts a	
+	output->[0,1,2,3,4,nil,6]	
+	
+----------inserting using negative indexes then value will be deleted.
+ e.g->
+ 	a=[0,1,2,3,4]
+	a[-1]=5
+	puts a
+	output->[0,1,2,3,5]
+	
+	
+-----------inserting in indexes then length-1 .
+
+e.g->
+	a=[0,1,2,3,4]
+	a[0,2]=5
+	puts a
+	output->[5,2,3,4]	
+	
+	
+	
+----------If start is negative, counts backwards from the end of the array:
+
+e.g->
+	a=[0,1,2,3,4]
+	a[-2,2]=5
+	puts a	
+	output->[0,1,2,5]
+	
+	
+----------- If start is non-negative and outside the array ( >= self.size), extends the array with nil, assigns object at offset start, and ignores length:
+e.g->
+	a=[0,1,2,3,4]
+	a[5,20]=5
+	puts a	
+	output->[0,1,2,3,4,5]	
+	
+
+-------If length is zero, shifts elements at and following offset start and assigns object at offset start:
+
+e.g->
+	a=[0,1,2,3,4]
+	a[2,0]=5
+	puts a	
+	output->[0,1,5,2,3,4]	
+	
+	
+----------If length is too large for the existing array, does not extend the array:
+
+e.g->
+	a=[0,1,2,3,4]
+	a[2,9]=5
+	puts a	
+	output->[0,1,5]
+	
+----------When Range argument range is given and object is an Array, removes length - 1 elements beginning at offset start, and assigns object at offset start:
+
+e.g->
+	a=[0,1,2,3,4]
+	a[0..3]=5
+	puts a
+	output->[4,5]	
+	
+	
+---------if range.begin is negative, counts backwards from the end of the array:
+
+e.g->
+	a=[0,1,2,3,4]	
+	a[-3..3]=5
+	puts a	
+	output->[0,1,5,4]	
+	
+	
+--------If the array length is less than range.begin, assigns object at offset range.begin, and ignores length:
+
+e.g->
+	a=[0,1,2,3,4]
+	a[5..10]=5
+	puts a	
+	output->[0,1,2,3,4,5]	
+	
+---------If range.end is zero, shifts elements at and following offset start and assigns object at offset start:
+
+e.g->
+	a=[0,1,2,3,4]
+	a[1..0]=5
+	puts a
+	output->[0,5,1,2,3,4]
+	
+---------If range.end is negative, assigns object at offset start, retains range.end.abs -1 elements past that, and removes those beyond:
+
+e.g->
+	a=[0,1,2]
+	a[1..-1]=5
+	puts a	
+	output->[1,5]
+
+e.g->
+	a=[0,1,2]
+	a[1..-3]=5
+	puts a	
+	output->[0,5,1,2]	
+	
+--------If range.end is too large for the existing array, replaces array elements, but does not extend the array with nil values:
+
+e.g->
+	a=[0,1,2]
+	a[1..5]=5
+	puts a	
+	output->[0,5]	
+	
+	
+	
+------abbrev(pattern=nil)---------
+
+--->Calculates the set of unambiguous abbreviations for the strings in self.
+
+e.g->
+
+require 'abbrev'
+puts(%w{car cone}.abbrev)
+output->
+{"car"=>"car", "ca"=>"car", "cone"=>"cone", "con"=>"cone", "co"=>"cone"}
+	
+	
+-->The optional pattern parameter is a pattern or a string. Only input strings that match the pattern or start with the string are included in the output hash.
+
+e.g->
+require 'abbrev'
+puts(
+Abbrev.abbrev(%w{car box cone}, "ca")
+)
+output->
+{"car"=>"car", "ca"=>"car"}
+	
+	
+
+-------all?-----------
+
+-Returns true if all elements of self meet a given criterion.
+
+-With no block given and no argument, returns true if self contains only truthy elements, false otherwise:
+
+e.g->
+
+	puts([0, 1, :foo].all? ) #=>true
+	puts([0, nil, 2].all? ) #=>false
+	puts([].all?)		#=>true
+
+-With a block given and no argument, calls the block with each element in self; returns true if the block returns only truthy values, false otherwise:
+
+e.g->
+
+	[0, 1, 2].all? { |element| element < 3 } # => true
+	[0, 1, 2].all? { |element| element < 2 } # => false
+
+-If argument obj is given, returns true if obj.=== every element, false otherwise:
+e.g->
+
+	['food', 'fool', 'foot'].all?(/foo/) # => true
+	['food', 'drink'].all?(/bar/) # => false
+	[].all?(/foo/) # => true
+	[0, 0, 0].all?(0) # => true
+	[0, 1, 2].all?(1) # => false
+	
+	
+------------any?-------------------
+
+-Returns true if any element of self meets a given criterion.
+
+-With no block given and no argument, returns true if self has any truthy element, false otherwise:
+
+e.g->
+
+	[nil, 0, false].any? # => true
+	[nil, false].any? # => false
+	[].any? # => false
+
+-With a block given and no argument, calls the block with each element in self; returns true if the block returns any truthy value, false otherwise:
+
+e.g->
+
+	[0, 1, 2].any? {|element| element > 1 } # => true
+	[0, 1, 2].any? {|element| element > 2 } # => false
+
+-If argument obj is given, returns true if obj.=== any element, false otherwise:
+
+e.g->
+
+	['food', 'drink'].any?(/foo/) # => true
+	['food', 'drink'].any?(/bar/) # => false
+	[].any?(/foo/) # => false
+	[0, 1, 2].any?(1) # => true
+	[0, 1, 2].any?(3) # => false	
+	
+	
+-----apppend(alias for array push)
+
+e.g->
+a=[1,2,3]
+a.push(5)
+puts a
+output->[1,2,3,5]
+
+e.g->
+a=[1,2,3]
+b=a.push(5)
+puts b	
+output->[1,2,3,5]	
+	
+	
+----------------assoc(obj)------------
+
+-Returns the first element in self that is an Array whose first element == obj:
+
+e.g->
+	a=[1,2,3,[4,5],[6,7]]
+	puts(a.assoc(6))
+
+output->[6,7]
+
+
+------------bsearch------------------
+
+-Returns an element from self selected by a binary search. self should be sorted, but this is not checked.
+-There are two search modes:
+---Find-minimum mode: the block should return true or false.
+---Find-any mode: the block should return a numeric value.
+
+
+--->In find-minimum mode, method bsearch returns the first element for which the block returns true.
+
+e.g->
+
+a = [0, 4, 7, 10, 12]
+puts a.bsearch {|x| x >= 4 } # => 4
+puts a.bsearch {|x| x >= 6 } # => 7
+puts a.bsearch {|x| x >= -1 } # => 0
+puts a.bsearch {|x| x >= 100 } # => nil
+
+
+
+--->In find-any mode, method bsearch returns some element for which the block returns zero, or nil if no such element is found.
+
+e.g->
+a = [0, 4, 7, 10, 12]
+a.bsearch {|element| 7 <=> element } # => 7
+a.bsearch {|element| -1 <=> element } # => nil
+a.bsearch {|element| 10 <=> element } # => 10
+a.bsearch {|element| 15 <=> element } # => nil
+
+	
+--------------clear(removes all element)
+
+e.g->
+a=[1,2,3,[4,5],[6,7]]
+a.clear
+puts a
+
+
+
+----------collect-------
+
+-->Calls the block, if given, with each element of self; returns a new Array whose elements are the return values from the block:
+
+e.g->
+
+	a = [:a, 'abc', 2]
+	a1 = a.map {|element| element.class }
+	puts a1 
+	output->
+	[symbol,string,ineger]	
+
+-->Returns a new Enumerator if no block given:
+
+e.g->
+	a = [:a, 'abc', 2]
+	a1 = a.map
+	puts a1 
+	output->#<Enumerator:0x0000557a1439fcb8>
+
+
+---------collect!-------------------
+
+Calls the block, if given, with each element; replaces the element with the block's return value:
+
+e.g->
+	a = [:a, 'abc', 2]
+	a1 = a.map!{|element| element.class }
+	puts a
+	output->
+	[symbol,string,ineger]	
+
+e.g->
+	a = [:a, 'abc', 2]
+	a1 = a.map!
+	puts a1
+	output->#<Enumerator:0x0000557a1439fcb8>
+
+
+
+-----------combination--------------------
+
+e.g->
+a = [0, 1, 2]
+a.combination(2) {|combination| p combination }
+
+Output:
+[0, 1]
+[0, 2]
+[1, 2]
+
+e.g->
+a = [0, 1, 2]
+a.combination(3) {|combination| p combination }
+
+Output:
+[0, 1, 2]
+
+
+->When n is zero, calls the block once with a new empty Array:
+
+e.g->
+a = [0, 1, 2]
+a1 = a.combination(0) {|combination| p combination }
+
+Output:
+[]
+	
+-When n is out of range (negative or larger than self.size), does not call the block:
+
+e.g->
+a = [0, 1, 2]
+a.combination(-1) {|combination| fail 'Cannot happen' }
+a.combination(4) {|combination| fail 'Cannot happen' }	
+
+
+-Returns a new Enumerator if no block given:
+e.g->
+
+-a=[0,1,2]
+puts(a.combination(-1))
+output->#<Enumerator:0x0000564f3c97fea0>
+
+
+---------count-------------------
+
+->puts([0,1,2].count)
+o/p=3	
+	
+->a=[1,2,3,2,1,3]
+puts(a.count(1))
+o/p=2
+
+->puts([1,2,3,4].count {|e| e>2})
+o/p=2
+
+
+
+
+
+-----------cycle----------------
+
+-When called with positive Integer argument count and a block, calls the block with each element, then does so again, until it has done so count times; returns nil:
+
+e.g->
+	output = []
+	[0, 1].cycle(2) {|element| output.push(element) } # => nil
+	output # => [0, 1, 0, 1]
+
+
+-If count is zero or negative, does not call the block:
+
+e.g->
+
+	[0, 1].cycle(0) {|element| fail 'Cannot happen' } # => nil
+	[0, 1].cycle(-1) {|element| fail 'Cannot happen' } # => nil
+
+-When a block is given, and argument is omitted or nil, cycles forever:
+# Prints 0 and 1 forever.
+e.g->
+
+	[0, 1].cycle {|element| puts element }
+	[0, 1].cycle(nil) {|element| puts element }
+	
+-When no block is given, returns a new Enumerator:
+e.g->
+	[0, 1].cycle(2) # => #<Enumerator: [0, 1]:cycle(2)>
+	[0, 1].cycle # => # => #<Enumerator: [0, 1]:cycle>
+	[0, 1].cycle.first(5) # => [0, 1, 0, 1, 0]
+
+
+----------delete
+
+e.g->
+a=[0,1,23]
+a.delete(1)
+puts a
+
+output->[0,23]
+
+
+--------delete_at
+e.g->
+a=[0,1,23]
+a.delete_at(2)
+puts a
+
+output->[0,1]
+
+
+
+-----delete_if
+e.g->
+a=[0,1,23]
+a.delete_if{|element| element>2}
+puts a
+
+output->[0,1]
+
+
+----------dig-----------------
+
+-Finds and returns the object in nested objects that is specified by index and identifiers. The nested objects may be instances of various classes. See Dig Methods.
+
+
+e.g->
+a = [:foo, [:bar, :baz, [:bat, :bam]]]
+ puts a.dig(1) # => [:bar, :baz, [:bat, :bam]]
+puts a.dig(1, 2) # => [:bat, :bam]
+puts a.dig(1, 2, 0) # => :bat
+puts a.dig(1, 2, 3) # => nil
+
+
+
+------------drop-------------
+
+-Returns a new Array containing all but the first n element of self, where n is a non-negative Integer; does not modify self.
+
+e.g->
+a=[11,22,33,44,5,6,77]
+puts a.drop(2) # start from index 2
+
+output->[33,44,5,6,77]
+
+
+------drop_while---------------
+
+->e.g->
+a=[11,22,33,44,77]
+puts(a.drop_while {|element| element < 40})
+
+output->[44,77]
+
+->With no block given, returns a new Enumerator:
+e.g->
+a=[11,22,33,44,77]
+puts(a.drop_while)
+
+output->
+#<Enumerator:0x000055dfdcaafd68>
+
+
+
+----------each-----------------
+
+-with block
+e.g->
+a=[1,'r',2.0]
+a.each {|element| puts "#{element.class}"}
+
+output->[integer string float]
+
+-without block
+e.g->
+a=[1,'r',2.0]
+puts a.each
+
+output->
+#<Enumerator:0x00005620b170bd68>
+
+
+
+
+---------each_index--------------------
+-without block
+e.g->
+a=[1,'r',2.0]
+puts a.each_index
+
+output->
+#<Enumerator:0x0000562a12717bf8>
+
+
+-withblock
+e.g->
+a=[1,'r',2.0]
+a.each_index {|index| puts "#{index}"}
+
+output->[0,1,2]
+
+
+
+---------eql------------
+
+e.g->
+a=[1,'r',2.0]
+b=[1,'r',2.0]
+puts(a.eql?b)
+
+output->true
+
+
+
+
+
+
+
+
+
+---------fetch----------------
+
+e.g->
+a=[1,'r',2.0]
+puts(a.fetch(1))
+
+output->
+r
+
+-With arguments index and default_value, returns the element at offset index if index is in range, otherwise returns default_value:
+
+e.g->
+a=[1,'r',2.0]
+puts(a.fetch(-4,'not present'))
+
+output->not present
+
+-With argument index and a block, returns the element at offset index if index is in range (and the block is not called); otherwise calls the block with index and returns its return value:
+
+e.g->
+a = [1,2,3]
+a.fetch(1) {|index| raise 'Cannot happen' } # => 2
+a.fetch(50) {|index| "Value for #{index}" } # => "Value for 50"
+
+
+------fill-------------
+
+->With argument obj and no block given, replaces all elements with that one object:
+
+e.g->
+a=[1,4,2.0] 
+puts a		#1,4,2.0
+a.fill(11)
+puts a	        # 11,11,11
+
+
+
+->If start is in range (0 <= start < array.size), replaces all elements from offset start through the end:
+
+e.g->
+a=[1,4,2.0]
+a.fill(11,2)
+puts a
+
+output->
+[1,4,11]
+
+
+->If start is too large (start >= array.size), does nothing:
+
+e.g->
+a=[1,4,2.0]
+a.fill(11,3)
+puts a
+
+output->[1,4,2.0]
+
+->If start is negative, counts from the end (starting index is start + array.size):
+
+e.g->
+a=[1,4,2.0]
+a.fill(11,-2)
+puts a
+
+output->[1,11,11]
+
+
+
+
+->If start is too small (less than and far from zero), replaces all elements:
+
+e.g->
+a=[1,4,2.0]
+a.fill(11,-5)
+puts a
+
+output->[11,11,11]
+
+
+->With arguments obj, Integer start, and Integer length, and no block given, replaces elements based on the given start and length.
+
+If start is in range, replaces length elements beginning at offset start:
+
+e.g->
+a=[1,4,2.0]
+a.fill(10,1,1)
+puts a
+
+output->[1,10,2.0]
+
+
+->If start is large (start >= array.size), extends self with nil:
+
+e.g->
+a = ['a', 'b', 'c', 'd']
+a.fill(:X, 5, 0) 
+output-> ["a", "b", "c", "d", nil]
+
+
+->If length is zero or negative, replaces no elements:
+
+e.g->
+a = ['a', 'b', 'c', 'd']
+a.fill(:X, 1, 0) 
+output->["a", "b", "c", "d"]
+
+e.g->
+a.fill(:X, 1, -1) 
+output->["a", "b", "c", "d"]
+
+
+->With arguments obj and Range range, and no block given, replaces elements based on the given range.
+
+If the range is positive and ascending (0 < range.begin <= range.end), replaces elements from range.begin to range.end:
+
+e.g->
+a=[1,4,2.0]
+a.fill(10,1..2)
+puts a
+
+output->[1,10,10]
+
+->If range.first is negative, replaces no elements:
+
+e.g->
+a = ['a', 'b', 'c', 'd']
+a.fill(:X, (-1..1)) 
+output->["a", "b", "c", "d"]
+
+
+->if range.last is negative, counts from the end:
+
+e.g->
+a=[1,4,3,6,7]
+a.fill(10,1..-2)
+puts a
+
+output [1,10,10,10,7]
+
+
+
+->If range.start and range.last are both negative, both count from the end of the array:
+
+e.g->
+a=[1,4,3,6,7]
+a.fill(10,-2..-1)
+puts a
+
+output->[1,4,3,10,10]
+
+
+->With no arguments and a block given, calls the block with each index; replaces the corresponding element with the block's return value:
+
+e.g->
+a = ['a', 'b', 'c', 'd']
+a.fill { |index| "new_#{index}" } 
+output-> ["new_0", "new_1", "new_2", "new_3"]
+
+
+->With argument start and a block given, calls the block with each index from offset start to the end; replaces the corresponding element with the block's return value:
+
+If start is in range (0 <= start < array.size), replaces from offset start to the end:
+
+a = ['a', 'b', 'c', 'd']
+a.fill(1) { |index| "new_#{index}" } 
+output->["a", "new_1", "new_2", "new_3"]
+
+
+->If start is too large(start >= array.size), does nothing:
+
+e.g->
+a = ['a', 'b', 'c', 'd']
+a.fill(4) { |index| fail 'Cannot happen' } 
+output->["a", "b", "c", "d"]
+
+
+->If start is negative, counts from the end:
+
+a = ['a', 'b', 'c', 'd']
+a.fill(-2) { |index| "new_#{index}" } 
+output-> ["a", "b", "new_2", "new_3"]
+
+
+
+->If start is too small (start <= -array.size, replaces all elements:
+e.g->
+a=[1,4,3,6,7]
+a.fill(-10) {|index| puts "new#{index}"}
+
+output->[10,10,10,10,10]
+
+->With arguments start and length, and a block given, calls the block for each index specified by start length; replaces the corresponding element with the block's return value.
+
+If start is in range, replaces length elements beginning at offset start:
+
+e.g->
+a = ['a', 'b', 'c', 'd']
+a.fill(1, 1) { |index| "new_#{index}" } 
+output->["a", "new_1", "c", "d"]
+
+
+->If start is negative, counts from the end:
+
+a = ['a', 'b', 'c', 'd']
+a.fill(-2, 1) { |index| "new_#{index}" } 
+output->["a", "b", "new_2", "d"]
+
+
+
+->If start is large (start >= array.size), extends self with nil:
+
+e.g->
+a = ['a', 'b', 'c', 'd']
+a.fill(5, 0) { |index| "new_#{index}" } 
+output->["a", "b", "c", "d", nil]
+
+
+
+->If length is zero or less, replaces no elements:
+
+e.g->
+a=[1,4,3,6,7]
+puts(a.fill(2,-1) {|index| puts "new#{index}"})
+
+output->[1,4,3,6,7]
+
+
+
+->With arguments obj and range, and a block given, calls the block with each index in the given range; replaces the corresponding element with the block's return value.
+
+If the range is positive and ascending (range 0 < range.begin <= range.end, replaces elements from range.begin to range.end:
+
+a = ['a', 'b', 'c', 'd']
+a.fill(1..1) { |index| "new_#{index}" } 
+output->["a", "new_1", "c", "d"]
+
+
+
+->If range.first is negative, does nothing:
+
+e.g->
+a=[1,4,3,6,7]
+puts(a.fill(-2..2) {|index| puts "new#{index}"})
+
+output->
+[1,4,3,6,7]
+
+
+
+->If range.last is negative, counts from the end:
+
+e.g->a = ['a', 'b', 'c', 'd']
+a.fill(0..-2) { |index| "new_#{index}" } 
+output-> ["new_0", "new_1", "new_2", "d"]
+
+
+
+->If range.first and range.last are both negative, both count from the end:
+
+a = ['a', 'b', 'c', 'd']
+a.fill(-1..-1) { |index| "new_#{index}" } 
+output->["a", "b", "c", "new_3"]
+
+
+
+---------filter-----------------
+
+->Calls the block, if given, with each element of self; returns a new Array containing those elements of self for which the block returns a truthy value:
+
+e.g->
+a=['ab','bd','be']
+a1=a.select {|element| element.to_s.start_with?('b')}
+puts a1
+
+output->[bd,be]
+
+
+->Returns a new Enumerator if no block given:
+
+e.g->
+a=['ab','bd','be']
+a1=a.select 
+puts a1
+
+output->
+#<Enumerator:0x000055779a763858>
+
+
+-----------------filter!-----------------------
+
+->remove elements for which it returns false
+
+e.g->
+a=['ab','bd','be']
+a1=a.select! {|element| element.to_s.start_with?('b')}
+puts a1
+puts a # now it is only having bd and be
+
+output->
+[bd,be]
+[bd,be]
+
+
+->Returns a new Enumerator if no block given:
+
+e.g->
+a=['ab','bd','be']
+a1=a.select! 
+puts a1
+
+output->
+#<Enumerator:0x000056095c773ba0>
+
+
+-------index--------------
+->Returns the index of a specified element.
+
+When argument object is given but no block, returns the index of the first element element for which object == element:
+
+e.g->
+a=['ab','bd','be']
+puts a.index('be')
+
+output->2
+
+->When both argument object and a block are given, calls the block with each successive element; returns the index of the first element for which the block returns a truthy value:
+
+a = [1,2,3]
+a.index {|element| element == 2 } 
+
+output->1
+
+->When neither an argument nor a block is given, returns a new Enumerator:
+
+e.g->
+a=['ab','bd','be']
+puts a.index
+
+output->
+#<Enumerator:0x000055c896cb3c20>
+
+
+
+-------------first------------------
+
+->Returns elements from self; does not modify self.
+
+When no argument is given, returns the first element:
+
+e.g->
+a=['ab','bd','be']
+puts a.first
+
+output->
+ab
+
+->When non-negative Integer argument n is given, returns the first n elements in a new Array:
+
+e.g->
+a=['ab','bd','be']
+puts a.first(2)
+
+output->
+ab 
+bd
+
+->If n >= array.size, returns all elements:
+
+e.g->
+a=['ab','bd','be']
+puts a.first(5)
+
+output->[ab,bd,be]
+
+
+->If n == 0 returns an new empty Array:
+
+e.g->
+a=['ab','bd','be']
+puts a.first(0)
+output-nil
+
+
+
+
+--------flatten----------------------
+Returns a new Array that is a recursive flattening of self:
+
+Each non-Array element is unchanged.
+
+Each Array is replaced by its individual elements.
+
+With non-negative Integer argument level, flattens recursively through level levels:
+
+e.g->
+a=[1,2,[3,4,[5,6]]]
+print a.flatten(1)
+
+output->
+[1, 2, 3, 4, [5, 6]]
+
+
+e.g->
+a=[1,2,[3,4,[5,6]]]
+print a.flatten(2)
+output->
+[1, 2, 3, 4, 5, 6]
+
+->With no argument, a nil argument, or with negative argument level, flattens all levels:
+e.g->
+a=[1,2,[3,4,[5,6,[7,8]]]]
+print a.flatten(-1)
+
+output->[1,2,3,4,5,6,7,8]
+
+
+
+--------------flatten!----------------------
+
+Replaces each nested Array in self with the elements from that Array; returns self if any changes, nil otherwise.
+
+With non-negative Integer argument level, flattens recursively through level levels:
+
+
+
+e.g->
+a = [ 0, [ 1, [2, 3], 4 ], 5 ]
+a.flatten!(1) 
+output->
+[0, 1, [2, 3], 4, 5]
+
+
+->->With no argument, a nil argument, or with negative argument level, flattens all levels:
+e.g->
+a=[1,2,[3,4,[5,6,[7,8]]]]
+print a.flatten(-1)
+
+output->[1,2,3,4,5,6,7,8]
+
+
+
+-----------------hash---------------------------
+
+Returns the integer hash value for self.
+
+Two arrays with the same content will have the same hash code (and will compare using eql?):
+
+e.g->
+puts([0,1,2].hash==[0,1,2].hash)
+
+output->true
+
+e.g->
+puts([0,1,2].hash==[0,2,1].hash)
+output->false
+
+
+
+
+
+
+--------------include----------------
+
+->puts([0,1,23].include?(4))
+output->false
+
+->puts([0,1,23].include?(1))
+output->true
+
+
+--------index-----------------
+
+->a=[0,1,23]
+puts a.index(23)
+
+output->2
+
+->a=[0,1,23]
+puts(a.index{|element| element==1})
+
+output->1
+
+->a=[0,1,23]
+puts(a.index)
+
+output->
+#<Enumerator:0x000055fb77517e58>
+
+
+-------replace------------------
+
+->a=[0,1,23,24,5]
+a.replace([1,2,3])
+puts a
+
+output->[1,2,3]
+
+
+
+---------insert------------------
+
+-->When index is non-negative, inserts all given objects before the element at offset index:
+
+e.g->a=[0,1,23,24,5]
+a.insert(1,44,55)
+puts a
+
+output->[0,44,55,1,23,24,5]
+
+-->Extends the array if index is beyond the array (index >= self.size):
+
+e.g->a=[0,1,23,24,5]
+a.insert(7,44)
+print a
+
+output->
+[0, 1, 23, 24, 5, nil, nil, 44]
+
+
+--->Does nothing if no objects given:
+
+e.g-> 
+
+a=[0,1,23,24,5]
+a.insert(7)
+print a
+
+output->
+[0, 1, 23, 24, 5]
+
+--->When index is negative, inserts all given objects after the element at offset index+self.size:
+
+e.g->
+a=[0,1,23,24,5]
+a.insert(-2,55,33)
+print a
+
+output->
+[0, 1, 23, 24, 55, 33, 5]
+
+
+--------inspect----------------
+
+-Returns the new String formed by calling method #inspect on each array element:
+
+e.g->
+a=[0,'hh',5]
+print(a.inspect)
+
+output->
+[0, "hh", 5]
+
+
+------------joins------------------
+
+->Returns the new String formed by joining the array elements after conversion. For each element element
+
+e.g->
+ a=['a','b','c']
+ puts a.join
+ 
+ output->abc
+ 
+ 
+ e.g->
+ a=['a','b','c']
+ print a.join("\n")
+ 
+ output->
+ a
+ b
+ c
+ 
+ e.g->
+ a=['a',1,2]
+ print a.join
+ 
+ output->a12
+ 
+ --------last-----------
+ 
+ -Returns elements from self; self is not modified.
+ 
+ -->When no argument is given, returns the last element.
+ 
+ e.g->
+ a=['a',1,2]
+puts a.last
+
+output->2
+
+-->When non-negative Innteger argument n is given, returns the last n elements in a new Array:
+
+e.g->
+a=['a',1,2]
+puts a.last(1)  # 2
+puts a.last(2)  # 1 2
+
+
+
+--->If n >= array.size, returns all elements:
+
+e.g->
+a=['a',1,2]
+print a.last(20)
+
+output->["a",1,2]
+
+
+--->If n == 0, returns an new empty Array:
+
+e.g->
+a=['a',1,2]
+print a.last(0)
+
+output->[]
+
+
+----------max------------------
+
+-The maximum-valued element from self.
+-A new Array of maximum-valued elements selected from self.
+
+--->With no argument and no block, returns the element in self having the maximum value per method <=>:
+
+e.g->
+a=[20,1,2,44]
+print a.max
+
+output->44
+
+-->With an argument Integer n and no block, returns a new Array with at most n elements, in descending order per method <=>:
+
+e.g->a=[20,1,2,44]
+print a.max(2)
+
+output->[44,20]
+
+
+
+---->When a block is given, the block must return an Integer.
+
+With a block and no argument, calls the block self.size-1 times to compare elements; returns the element having the maximum value per the block:
+
+e.g->
+a=["0","1","44"]
+puts(a.max{|a,b| a.size<=>b.size})
+
+output->[44]
+
+-->With an argument n and a block, returns a new Array with at most n elements, in descending order per the block:
+
+e.g->
+a=["0","1","44"]
+puts(a.max(2){|a,b| a.size<=>b.size})
+
+output->[44,1]
+
+
+
+
+--------------min----------------------
+
+-The minimum-valued element from self.
+
+-A new Array of minimum-valued elements selected from self.
+
+-->When no block is given, each element in self must respond to method <=> with an Integer.
+
+e.g->
+a=["0","1","44"]
+puts(a.min)
+
+output->0
+
+
+-->With Integer argument n and no block, returns a new Array with at most n elements, in ascending order per method <=>:
+
+e.g->
+a=[0,1,44]
+print(a.min(2))
+output->[0,1]
+
+
+
+--->With a block and no argument, calls the block self.size-1 times to compare elements; returns the element having the minimum value per the block:
+e.g->
+a=[0,1,44]
+print(a.min{|a,b|a.size<=>b.size})
+
+output->0
+
+
+-------minmax-----------
+
+-Returns a new 2-element Array containing the minimum and maximum values from self, either per method <=> or per a given block:.
+
+-->When no block is given, each element in self must respond to method <=> with an Integer.
+ it returns a new 2-element Array containing the minimum and maximum values from self, per method <=>:
+
+e.g->
+a=[0,1,44]
+print(a.minmax)
+
+output->[0,44]
+
+-->When a block is given, the block must return an Integer; the block is called self.size-1 times to compare elements 
+it returns a new 2-element Array containing the minimum and maximum values from self, per the block:
+
+e.g->
+a=["0","1","44"]
+print(a.minmax{|a,b|a.size<=>b.size})
+
+output->
+["0", "44"]
+
+
+-------------none--------------------
+
+-Returns true if no element of self meet a given criterion.
+
+-->With no block given and no argument, returns true if self has no truthy elements, false otherwise:
+
+e.g->
+a=[nil,false]
+puts(a.none?)
+
+output->true
+
+
+-->With a block given and no argument, calls the block with each element in self; returns true if the block returns no truthy value, false otherwise:
+
+e.g->
+a=[0,1,2]
+puts(a.none?{|element| element >3})
+
+output->true
+
+e.g->
+a=[0,1,2]
+puts(a.none?{|element| element >1})
+
+output->false
+
+-->If argument obj is given, returns true if obj.=== no element, false otherwise:
+
+e.g->
+a=[0,1,2]
+puts(a.none?(1))
+
+output->false
+
+e.g->
+a=[0,1,2]
+puts(a.none?(3))
+
+output->true
+
+
+--------one------------------
+
+-Returns true if exactly one element of self meets a given criterion.
+
+e.g->
+[nil, 0].one?
+output->
+true
+
+
+-->With a block given and no argument, calls the block with each element in self; returns true if the block a truthy value for exactly one element, false otherwise:
+
+e.g->
+a=[0,1,2]
+puts(a.one?{|element|element>1})
+
+output->
+true
+
+e.g->
+a=[3,1,2]
+puts(a.one?{|element|element>1})
+
+output->
+false
+
+-->If argument obj is given, returns true if obj.=== exactly one element, false otherwise:
+
+e.g->
+a=[3,1,2]
+puts(a.one?(1))
+
+output->true
+
+e.g->a=[3,3,1,2]
+puts(a.one?(3))
+
+output->false
+
+----------pack-----------------
+
+e.g->
+a=["a","b"]
+print a.pack("AA")
+
+output->ab
+
+e.g->
+a=[65,66]
+print a.pack("cc")
+
+output->AB
+
+------------permutation---------------
+
+-When invoked with a block, yield all permutations of elements of self; returns self. The order of permutations is indeterminate.
+
+-->When a block and an in-range positive Integer argument n (0 < n <= self.size) are given, calls the block with all n-tuple permutations of self.
+
+e.g->
+a=[0,1,2]
+ a.permutation(2) {|permutation| p permutation}
+
+output->
+[0, 1]
+[0, 2]
+[1, 0]
+[1, 2]
+[2, 0]
+[2, 1]
+
+
+
+
+
+--->When n is zero, calls the block once with a new empty Array:
+
+
+e.g->
+a=[0,1,2]
+a.permutation(0) {|permutation| p permutation}
+
+output->
+[]
+
+
+-->When n is out of range (negative or larger than self.size), does not call the block:
+
+-->When a block given but no argument, behaves the same as a.permutation(a.size):
+
+e.g->
+a=[0,1,2]
+a.permutation {|permutation| p permutation}
+
+output->
+[0, 1, 2]
+[0, 2, 1]
+[1, 0, 2]
+[1, 2, 0]
+[2, 0, 1]
+[2, 1, 0]
+
+
+--->Returns a new Enumerator if no block given:
+
+e.g->
+a=[0,1,2]
+puts a.permutation
+
+output->
+#<Enumerator:0x000055c1f385fd08>
+
+
+
+
+
+
+--------pop------------------
+
+--->if no argument remove last element.
+
+e.g->
+
+a=[0,1,2]
+a.pop
+print a
+
+output->[0,1]
+
+--->removes last n elements
+
+e.g->
+a=[0,1,2,3,4,5]
+a.pop(3)
+print a
+
+output->[0,1,2]
+
+
+--->if n is greater than size then removes all
+
+e.g->
+a=[0,1,2,3,4,5]
+a.pop(10)
+print a
+
+output->[]
+
+
+
+
+
+-----------product---------------
+
+-Computes and returns or yields all combinations of elements from all the Arrays, including both self and other_arrays.
+-The number of combinations is the product of the sizes of all the arrays, including both self and other_arrays.
+-The order of the returned combinations is indeterminate.
+
+-->When no block is given, returns the combinations as an Array of Arrays:
+
+e.g->
+a=[1,5]
+b=[2,3]
+p=a.product(b)
+print p
+
+output->
+
+[[1, 2], [1, 3], [5, 2], [5, 3]]
+
+(product of mtltiple tables)
+syntax-n1.product(n2,n3,....nN)
+
+e.g->
+a=[1,5]
+b=[2,3]
+c=[4,6]
+p=a.product(a,b)
+print p
+
+output->
+[[1, 1, 2], [1, 1, 3], [1, 5, 2], [1, 5, 3], [5, 1, 2], [5, 1, 3], [5, 5, 2], [5, 5, 3]]
+
+
+--->if no argument is given
+
+e.g->
+
+a=[1,5]
+p=a.product
+print p
+
+output->
+[[1], [5]]
+
+
+
+--->When a block is given, yields each combination as an Array; returns self:
+
+e.g->
+a=[1,5]
+b=[2,3]
+p=a.product(b) {|combination|p combination}
+
+output->
+[1, 2]
+[1, 3]
+[5, 2]
+[5, 3]
+
+--->If no argument is given, yields each element of self as a 1-element Array:
+
+e.g->
+a=[1,5]
+p=a.product {|combination|p combination}
+
+output->
+[1]
+[5]
+
+--->If any argument is an empty Array, does not call the block:
+
+
+
+
+-----------push------------------
+
+->Appends each argument in objects to self; returns self:
+
+e.g->
+a=[1,5]
+a.push(2,3,4)
+print a
+
+output->
+[1,5,2,3,4]
+
+
+-->Appends each argument as one element, even if it is another Array:
+
+e.g->
+a=[1,5]
+a1=a.push(2,3,4)
+print a1
+
+output->[1,5,2,3,4]
+
+
+------------rassoc----------------------
+
+-->Returns the first element in self that is an Array whose second element == obj:
+
+
+e.g->
+a=[1,2,[3,4],[5,6]]
+print a.rassoc(4)
+
+output->[3,4]
+
+
+------------reject---------------
+-Returns a new Array whose elements are all those from self for which the block returns false or nil:
+
+e.g->
+a=[1,2,3,4,5]
+a1=a.reject {|element| element >3}
+print a1
+
+output->[1,2,3]
+
+
+-->Returns a new Enumerator if no block given:
+
+e.g->
+a=[1,2,3,4,5]
+a1=a.reject
+print a1
+
+output->
+#<Enumerator:0x0000564000a87b90>
+
+
+
+
+
+-----------------reject!------------------
+
+-Removes each element for which the block returns a truthy value.
+
+-Returns self if any elements removed:
+
+e.g->
+a=[1,2,3,4,5]
+a.reject! {|element| element >3}
+print a
+
+output->
+[1,2,3]
+
+
+
+---->Returns a new Enumerator if no block given:
+
+e.g->
+a=[1,2,3,4,5]
+print a.reject!
+
+output->
+#<Enumerator:0x0000562db0207f90>
+
+
+------------repeated_combination-------------------
+
+-Calls the block with each repeated combination of length n of the elements of self; each combination is an Array; returns self. The order of the combinations is indeterminate.
+
+-When a block and a positive Integer argument n are given, calls the block with each n-tuple repeated combination of the elements of self. The number of combinations is (n+1)(n+2)/2.
+
+e.g->
+
+a = [0, 1, 2]
+a.repeated_combination(1) {|combination| p combination }
+Output:
+
+[0]
+[1]
+[2]
+
+e.g->
+a=[0,1,2]
+a.repeated_combination(2) {|combination| p combination }
+
+Output:
+
+[0, 0]
+[0, 1]
+[0, 2]
+[1, 1]
+[1, 2]
+[2, 2]
+
+
+-->If n is zero, calls the block once with an empty Array.
+
+e.g->
+a=[0,1,2]
+a.repeated_combination(0) {|combination| p combination}
+
+output->[]
+
+--If n is negative, does not call the block:
+
+
+-->Returns a new Enumerator if no block given:
+
+
+e.g->
+a=[0,1,2]
+print a.repeated_combination(1)
+
+output->
+#<Enumerator:0x000055c9cb7b7e98>
+
+
+---------------repeated_permutation-------------------
+
+--Calls the block with each repeated permutation of length n of the elements of self; each permutation is an Array; returns self. The order of the permutations is indeterminate.
+--When a block and a positive Integer argument n are given, calls the block with each n-tuple repeated permutation of the elements of self. The number of permutations is self.size**n.
+
+e.g->
+a=[0,1,2]
+a.repeated_permutation(1) {|permutation| p permutation}
+
+output->
+[0]
+[1]
+[2]
+
+
+
+
+--If n is zero, calls the block once with an empty Array.
+--If n is negative, does not call the block:
+
+
+-->Returns a new Enumerator if no block given:
+
+e.g->
+a=[0,1,2]
+print a.repeated_permutation(1)
+
+output->
+#<Enumerator:0x0000559f7d807e48>
+
+
+
+----------reverse-------------------------
+
+--Returns a new Array with the elements of self in reverse order.
+
+e.g->
+a=[0,1,2]
+a1=a.reverse
+print a1
+
+output->[2,1,0]
+
+
+
+----------------reverse!----------------
+
+-Reverses self in place:
+
+e.g->
+a=[0,1,2]
+print a.reverse!
+
+output->[2,1,0]
+
+
+
+
+
+--------------reverse_each-------------
+
+-Iterates backwards over array elements.
+
+-->When a block given, passes, in reverse order, each element to the block; returns self:
+
+e.g->
+a=[0,1,2]
+a.reverse_each {|element| puts "#{element.class}"}
+
+output->
+integer
+integer
+integer
+
+
+-->When no block given, returns a new Enumerator:
+
+
+e.g->
+a=[0,1,2]
+print a.reverse_each 
+
+output->
+#<Enumerator:0x00005641ccee3f18>
+
+
+--------------rindex--------------
+
+-returns last index of elements in case of duplicate elements
+
+e.g->
+a=[0,1,2,1,4]
+puts a.rindex(1) 
+
+output->3
+
+
+-->When a block is given but no argument, calls the block with each successive element; returns the index of the last element for which the block returns a truthy value:
+
+e.g->
+a=[0,1,4,2,1,4]
+puts (a.rindex {|element|element==4}
+
+output->5
+
+
+
+--->When a block is given but no argument, calls the block with each successive element; returns the index of the last element for which the block returns a truthy value:
+
+e.g->
+a=[0,1,4,2,1,4]
+puts a.rindex 
+
+output->
+#<Enumerator:0x000055677c417d08>
+
+
+
+-----------------------rotate-----------------------
+
+-Returns a new Array formed from self with elements rotated from one end to the other.
+
+->When no argument given, returns a new Array that is like self, except that the first element has been rotated to the last position:
+
+e.g->
+a=[0,1,2,3,4]
+a1=a.rotate
+print a1
+
+output->
+[1, 2, 3, 4, 0]
+
+
+-->When given a non-negative Integer count, returns a new Array with count elements rotated from the beginning to the end:
+
+e.g->
+a=[0,1,2,3,4]
+a1=a.rotate(2)
+print a1
+
+output->
+[2, 3, 4, 0, 1]
+
+
+-->If count is large, uses count % array.size as the count:
+
+e.g->
+a=[0,1,2,3,4]
+a1=a.rotate(13)
+print a1
+
+output->
+[3, 4, 0, 1, 2]
+
+
+-->If count is zero, returns a copy of self, unmodified:
+
+e.g->
+a=[0,1,2,3,4]
+a1=a.rotate(0)
+print a1
+
+output->
+[0,1,2,3,4]
+
+
+-->When given a negative Integer count, rotates in the opposite direction, from end to beginning:
+
+e.g->
+a=[0,1,2,3,4]
+a1=a.rotate(-2)
+print a1
+
+output->
+[3, 4, 0, 1, 2]
+
+
+-->If count is small (far from zero), uses count % array.size as the count:
+
+e.g->
+a=[0,1,2,3,4]
+a1=a.rotate(-8)
+print a
+
+output->
+[2, 3, 4, 0, 1]
+
+
+-------rotate!-------------------
+
+-Rotates self in place by moving elements from one end to the other; returns self.
+
+-->When no argument given, rotates the first element to the last position:
+
+e.g->
+a=[0,1,2,3,4]
+a.rotate!
+print a
+
+output->
+[1,2,3,4,0]
+
+
+-->When given a non-negative Integer count, rotates count elements from the beginning to the end:
+
+e.g->
+a=[0,1,2,3,4]
+a.rotate!(2)
+print a
+
+output->
+[2,3,4,0,1]
+
+-->If count is large, uses count % array.size as the count:
+
+e.g->
+a=[0,1,2,3,4]
+a.rotate!(20)
+print a
+
+output->
+[0, 1, 2, 3, 4]
+
+
+--->If count is zero, returns self unmodified:
+
+e.g->
+a=[0,1,2,3,4]
+a.rotate!(0)
+print a
+
+output->[0,1,2,3,4]
+
+
+--->When given a negative Integer count, rotates in the opposite direction, from end to beginning:
+
+e.g->
+a=[0,1,2,3,4]
+a.rotate!(-2)
+print a
+
+output->
+[3,4,0,1,2]
+
+
+--->If count is small (far from zero), uses count % array.size as the count:
+
+e.g->
+a=[0,1,2,3,4]
+a.rotate!(-8)
+print a
+
+output->
+[2,3,4,0,1]
+
+
+
+
+
+------------sample---------------
+
+-Returns random elements from self.
+
+-->When no arguments are given, returns a random element from self:
+
+e.g->
+a=[0,1,2,3,4]
+puts a.sample
+puts a.sample
+
+output->
+3
+2
+
+--If self is empty, returns nil.
+
+-->When argument n is given, returns a new Array containing n random elements from self:
+
+e.g->
+a=[0,1,2,3,4]
+print a.sample(2)
+
+output->[4,3]
+
+
+-->The optional random argument will be used as the random number generator:
+
+e.g->
+
+a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+puts a.sample(random: Random.new(1))     
+print a.sample(4, random: Random.new(1))
+
+output->
+6
+[6,10,9,2]
+
+
+
+-------select ---------------
+
+-->Calls the block, if given, with each element of self; returns a new Array containing those elements of self for which the block returns a truthy value:
+
+e.g->
+a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+a1=a.select{|element| element >4}
+print a1
+
+output->
+[5, 6, 7, 8, 9, 10]
+
+
+-->Returns a new Enumerator if no block given:
+
+e.g->
+a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+a1=a.select
+print a1
+
+output->
+#<Enumerator:0x000055ef5d2f7ef0>
+
+
+
+--------------select !-------------------------
+
+-->Calls the block, if given with each element of self; removes from self those elements for which the block returns false or nil.
+-Returns self if any elements were removed:
+
+e.g->
+a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+a.select!{|element| element >4}
+print a
+
+output->
+[5, 6, 7, 8, 9, 10]
+
+
+-->Returns a new Enumerator if no block given:
+
+e.g->
+a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+print a.select!
+
+output->
+#<Enumerator:0x00005633265fbf40>[
+
+
+
+
+-------------shift----------------
+
+-Removes and returns leading elements.
+
+-->When no argument is given, removes and returns the first element:
+
+e.g->
+a = ["here","it","is"]
+a.shift
+print a
+
+output->
+["it", "is"]
+
+
+-->When positive Integer argument n is given, removes the first n elements; returns those elements in a new Array:
+
+
+
+e.g->
+a = ["here","it","is"]
+a.shift(2)
+print a
+
+output->
+["is"]
+
+-->If n is as large as or larger than self.length, removes all elements; returns those elements in a new Array:
+
+e.g->
+a = ["here","it","is"]
+a.shift(5)
+print a
+
+output->
+[]
+
+
+
+------------shuffle---------------------
+
+-Returns a new array with elements of self shuffled.
+
+e.g->
+a = ["here","it","is"]
+print a.shuffle
+print a
+
+output->
+["is", "here", "it"]
+["here", "it", "is"]
+
+
+-->The optional random argument will be used as the random number generator:
+
+e.g->
+a = ["here","it","is"]
+print a.shuffle(random: Random.new(1))
+print a
+
+output->
+["here", "is", "it"]
+["here", "it", "is"]
+
+
+
+-------shuffle!------------------
+
+-Shuffles the elements of self in place.
+
+e.g->
+a = ["here","it","is"]
+print a.shuffle!
+print a
+
+output->
+["is", "here", "it"]
+["is", "here", "it"]
+
+
+-->The optional random argument will be used as the random number generator:
+
+e.g->
+a = ["here","it","is"]
+print a.shuffle!(random: Random.new(1))
+print a
+
+output->
+["here", "is", "it"]
+["here", "is", "it"]
+
+
+
+
+------------slice----------------
+
+-Returns elements from self; does not modify self.
+
+-->When a single Integer argument index is given, returns the element at offset index:
+
+
+e.g->
+a=[1,2,3,4,5]
+puts a[0] #1
+
+-->If index is negative, counts relative to the end of self:
+
+e.g->
+a=[1,2,3,4,5]
+puts a[-3] #3
+
+
+--->When two Integer arguments start and length are given, returns a new Array of size length containing successive elements beginning at offset start:
+
+e.g->
+a=[1,2,3,4,5]
+puts a[0,2]  # [1,2]
+print a[1,2] #[2,3]
+
+
+-->If start + length is greater than self.length, returns all elements from offset start to the end:
+
+e.g->
+a=[1,2,3,4,5]
+print a[0,5]  #[1, 2, 3, 4, 5]
+
+
+--If start == self.size and length >= 0, returns a new empty Array.
+--If length is negative, returns nil.
+
+-->When a single Range argument range is given, treats range.min as start above and range.size as length above:
+
+e.g->
+a=[1,2,3,4,5]
+print a[0..1]  #[1,2]
+
+
+--Special case: If range.start == a.size, returns a new empty Array.
+
+-->If range.end is negative, calculates the end index from the end:
+
+e.g->
+a=[1,2,3,4,5]
+print a[0..-1]  #[1,2,3,4,5]
+
+
+-->If range.start is negative, calculates the start index from the end:
+
+e.g->
+a=[1,2,3,4,5]
+print a[-3..4]
+
+output->
+[3,4,5]
+
+
+--->If range.start is larger than the array size, returns nil.
+
+e.g->
+a=[1,2,3,4,5]
+print a[6..1] # nil
+
+
+
+--------------slice!--------------------------
+
+-Removes and returns elements from self.
+
+-->When the only argument is an Integer n, removes and returns the nth element in self:
+
+e.g->
+a=[1,2,3,4,5]
+a.slice!(1)
+print a
+
+output->[1,3,4,5]
+
+
+-->If n is negative, counts backwards from the end of self:
+
+e.g->
+a=[1,2,3,4,5]
+a.slice!(-2)
+print a
+
+output->
+[1,2,3,5]
+
+
+-->When the only arguments are Integers start and length, removes length elements from self beginning at offset start; returns the deleted objects in a new Array:
+
+e.g->
+a=[1,2,3,4,5]
+a.slice!(0,3)
+print a
+
+output->
+[4,5]
+
+
+
+
+-->If start + length exceeds the array size, removes and returns all elements from offset start to the end:
+
+e.g->
+a=[1,2,3,4,5]
+a.slice!(2,10)
+print a
+
+output->
+[1,2]
+
+
+-->When the only argument is a Range object range, treats range.min as start above and range.size as length above:
+
+e.g->
+a=[1,2,3,4,5]
+a.slice!(2..3)
+print a
+
+output->
+[1,2,5]
+
+
+-->If range.end is negative, counts backwards from the end of the array:
+
+e.g->
+a=[1,2,3,4,5]
+a.slice!(2..-1)
+print a
+
+output->
+[1,2]
+
+
+--->If range.start is negative, calculates the start index backwards from the end of the array:
+
+
+e.g->
+a=[1,2,3,4,5]
+a.slice!(-4..2)
+print a
+
+output->
+[1,4,5]
+
+
+
+------------------sort-------------------------
+
+-->Returns a new Array whose elements are those from self, sorted.
+
+e.g->
+a=[2,3,0,6,9,4,5]
+a1=a.sort
+print a1
+
+output->
+[0, 2, 3, 4, 5, 6, 9]
+
+
+-->With a block, calls the block with each element pair; for each element pair a and b, the block should return an integer:
+
+-Negative when b is to follow a.
+-Zero when a and b are equivalent.
+-Positive when a is to follow b.
+
+e.g->
+a=[2,3,0,6,9,4,5]
+a1=a.sort {|a,b| a<=>b}
+print a1
+
+output->
+[0, 2, 3, 4, 5, 6, 9]
+
+
+
+------------sort!--------------
+
+-->Returns self with its elements sorted in place.
+
+e.g->
+a=[2,3,0,6,9,4,5]
+a.sort! 
+print a
+
+output->
+[0, 2, 3, 4, 5, 6, 9]
+
+
+
+-->With a block, calls the block with each element pair; for each element pair a and b, the block should return an integer:
+
+-Negative when b is to follow a.
+-Zero when a and b are equivalent.
+-Positive when a is to follow b.
+
+e.g->
+a=[2,3,0,6,9,4,5]
+a.sort! {|a,b| a<=>b}
+print a
+
+output->
+[0, 2, 3, 4, 5, 6, 9]
+
+
+-------------sort_by!---------------
+
+-Sorts the elements of self in place, using an ordering determined by the block; returns self.
+-Calls the block with each successive element; sorts elements based on the values returned from the block.
+-For duplicates returned by the block, the ordering is indeterminate, and may be unstable.
+-This example sorts strings based on their sizes:
+
+e.g->
+a=['aa','c','ddd']
+a.sort_by! {|element| element.size}
+print a
+
+output->
+["c", "aa", "ddd"]
+
+
+-->Returns a new Enumerator if no block given:
+
+e.g->
+
+a=['aa','c','ddd']
+print a.sort_by! 
+
+output->
+#<Enumerator:0x000055a4b163fa78>
+
+
+
+--------sum-------------
+
+e.g->
+a=[1,5,3]
+puts a.sum
+
+output->9
+
+
+e.g->
+a=[1,5,3]
+print a.sum(10) # 10 will add to the sum of array
+
+output->19
+
+
+e.g->
+a=['a','b']
+print a.sum('c')
+
+output->
+cab
+
+e.g->
+a=[1,2]
+a1=a.sum('c') {|element| element.to_s}
+print a1
+
+output->c12
+
+
+----------take------------------
+
+-->Returns a new Array containing the first n element of self, where n is a non-negative Integer; does not modify self.
+
+e.g->
+a=[1,2,5,6,7,8]
+print a.take(2) #[1,2]
+print a.take(4) #[1,2,5,6]
+print a.take(8) #[1,2,5,6,7,8]
+
+
+--------------take_while---------------
+
+-Returns a new Array containing zero or more leading elements of self; does not modify self.
+
+-->With a block given, calls the block with each successive element of self
+-->stops if the block returns false or nil; returns a new Array containing those elements for which the block returned a truthy value:
+
+e.g->
+a=[1,2,5,6,7,8]
+print a.take_while {|element| element <4}
+
+output->[1,2]
+
+
+-->With no block given, returns a new Enumerator:
+
+e.g->
+a=[1,2,5,6,7,8]
+print a.take_while
+
+output->
+#<Enumerator:0x0000561ffdcf3910>
+
+
+
+
+------------to_a ---------------
+
+- returns a new Array containing the elements of self:
+
+
+e.g->
+a=[]
+puts a.class # Array
+a1=a.to_a
+puts a1.class # Array
+
+
+-----------to_h------------------
+
+-Returns a new Hash formed from self.
+
+-->When a block is given, calls the block with each array element; the block must return a 2-element Array whose two elements form a key-value pair in the returned Hash:
+
+e.g->
+a=[[1,2],[3,4]]
+h=a.to_h {|item|[item,item]}
+print h
+
+output->
+{[1, 2]=>[1, 2], [3, 4]=>[3, 4]}
+
+
+--->When no block is given, self must be an Array of 2-element sub-arrays, each sub-array is formed into a key-value pair in the new Hash:
+
+e.g->
+
+a=[[1,2],[3,4]]
+h=a.to_h 
+print h
+
+
+output->
+{1=>2, 3=>4}
+
+
+----------transpose------------------
+
+-Transposes the rows and columns in an Array of Arrays; the nested Arrays must all be the same size:
+
+e.g->
+a=[[1,2],[3,4]]
+print a.transpose
+
+output->
+[[1, 3], [2, 4]]
+
+
+
+-------------union------------------
+
+-Returns a new Array that is the union of self and all given Arrays other_arrays; duplicates are removed; order is preserved; items are compared using eql?:
+
+e.g->
+a=[1,2,3,4]
+b=[2,2,5]
+print a.union(b)
+
+output->
+[1,2,3,4,5]
+
+
+
+------------uniq------------------
+
+-Returns a new Array containing those elements from self that are not duplicates, the first occurrence always being retained.
+
+-->With no block given, identifies and omits duplicates using method eql? to compare.
+
+e.g->
+a=[2,2,5]
+print a.uniq #[2,5]
+print a      #[2,2,5]
+
+
+-->With a block given, calls the block for each element; identifies (using method eql?) and omits duplicate values, that is, those elements for which the block returns the same value:
+
+e.g->
+a = ['a', 'aa', 'aaa', 'b', 'bb', 'bbb']
+print a.uniq {|element| element.size } # ["a", "aa", "aaa"]
+print a                                # ["a", "aa", "aaa", "b", "bb", "bbb"]
+
+
+
+-------------uniq!-------------------------
+
+-Removes duplicate elements from self, the first occurrence always being retained; returns self if any elements removed, nil otherwise.
+-With no block given, identifies and removes elements using method eql? to compare.
+-Returns self if any elements removed:
+
+e.g->
+a = [1,2,3,2,4,1,2]
+print a.uniq!  #[1,2,3,4]
+print a        #[1,2,3,4]
+
+
+-->With a block given, calls the block for each element; identifies (using method eql?) and removes elements for which the block returns duplicate values.
+
+e.g->
+a = ['a', 'aa', 'aaa', 'b', 'bb', 'bbb']
+print a.uniq! {|element| element.size } # ["a", "aa", "aaa"]
+print a				  # ["a", "aa", "aaa"]
+
+
+
+
+
+
+------------unshift------------------
+
+-->adds at the beginning
+
+e.g->
+a = ['a', 'aa', 'aaa', 'b', 'bb', 'bbb']
+a.unshift("d")
+print a
+
+output->
+["d", "a", "aa", "aaa", "b", "bb", "bbb"]
+
+
+---------------values_at-------------------
+
+-Returns a new Array whose elements are the elements of self at the given Integer indexes.
+
+
+e.g->
+a = [1,22,3,44,5]
+print a.values_at(0,2) #[1,3]
+print a.values_at(-1,4) #[5,5]
+print a.values_at(0,-8,2,-3,2) #[1,nil,3,3,3]
+
+
+
+---------------------zip--------------------------
+
+-When no block given, returns a new Array new_array of size self.size whose elements are Arrays.
+
+-Each nested array new_array[n] is of size other_arrays.size+1, and contains:
+-The nth element of self.
+-The nth element of each of the other_arrays.
+
+
+--->If all other_arrays and self are the same size:
+
+e.g->
+a = [11,12,13,14]
+b = [20,21,22,23]
+c = [31,32,33,34]
+d = a.zip(b, c)
+print d
+
+output->
+[[11, 20, 31], [12, 21, 32], [13, 22, 33], [14, 23, 34]]
+
+
+
+----->If any array in other_arrays is smaller than self, fills to self.size with nil:
+
+e.g->
+a = [11,12,13,14]
+b = [20,21,22]
+c = [31,32]
+d = a.zip(b, c)
+print d
+
+output->
+[[11, 20, 31], [12, 21, 32], [13, 22, nil], [14, nil, nil]]
+
+
+-->If any array in other_arrays is larger than self, its trailing elements are ignored:
+
+e.g->
+a = [11,12]
+b = [20,21,22]
+c = [31,32,33,34]
+d = a.zip(b, c)
+print d
+
+output->
+[[11, 20, 31], [12, 21, 32]]
+
+
+
+----------------|--------------------
+
+-Returns the union of array and Array other_array; duplicates are removed; order is preserved; items are compared using eql?:
+
+e.g->
+print ([0,1,2]|[1,1])     #[0,1,2]
+print([0,1,2]|[0,0,0,3])  #[0,1,2,3]
+print([0,1,2]|[1,2,0,3])  #[0,1,2,3]
+
+
+
+
+
+
+

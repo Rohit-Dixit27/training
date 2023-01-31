@@ -1,0 +1,202 @@
+
+
+
+
+------------MODULES----------------------
+
+->Modules are a way of grouping together methods, classes, and constants.
+->Module constants are named just like class constants, with an initial uppercase letter. Modules give you two major benefits.
+
+-Modules provide a namespace and prevent name clashes.
+-Modules implement the mixin facility.
+
+syntax->
+	module Identifier
+   	statement1
+   	statement2
+   	...........
+	end
+	
+	
+	
+	
+----->>>>Mixin in ruby,beacuse it cannot support multiple inheritance so using module we can achieve this.
+
+e.g->	
+	module Module1   
+	def show 
+	 puts "module1"
+	end
+	end
+
+	module Module2    
+	def show1  
+	 puts "module2"
+	end
+	end
+
+		class Abc
+		include Module1    #include both modules using include keyword.
+		include Module2
+		end
+
+
+a=Abc.new   # a is object
+a.show # calling methods of modules
+a.show1
+
+output->
+module1
+module2
+
+
+
+------->(creating modules in differenet files and then adding into single file,using require )
+
+e.g->
+		first.rb
+			module Module1
+			def Module1.Show
+			puts "first"
+			end
+	
+			end
+	second.rb
+		module Module2
+		def Module2.Show
+		puts "second"
+		end
+		end
+		
+	third.rb
+		require './first.rb'
+		require './second'
+		
+		Module1.Show
+		Module2.Show
+			output->
+			first
+			second
+
+
+
+
+
+
+
+
+----------------RANGE---------------------------
+
+Ranges occur everywhere: January to December, 0 to 9, lines 50 through 67, and so on. Ruby supports ranges and allows us to use ranges in a variety of ways −
+
+-Ranges as Sequences
+-Ranges as Conditions
+-Ranges as Intervals
+
+
+--->>>>Range as Sequence(converting range to a list using 'to_a' method)
+
+e.g-
+r=(1..5).to_a
+print r
+
+output-[1, 2, 3, 4, 5]
+
+
+-----[iteration in range]
+
+	e.g->
+	r=(1..5)
+	x=r.min
+	puts x
+	y=r.max
+	puts y
+	z=r.include?(3)
+	puts z
+	rej=r.reject{|i|i<2}
+	puts "rejected values #{rej}" 
+	r.each do |r|
+	puts "in loop#{r}"
+	end
+
+output->
+	1
+	5
+	true
+	rejected values [2, 3, 4, 5]
+	in loop1
+	in loop2
+	in loop3
+	in loop4
+	in loop5
+
+
+--->>>Range as condiiton
+
+	e.g-
+	range1=0..11
+	var=10
+	case var
+	when 0..4
+	puts "lie between o and 4"
+	when 5..8
+	puts "lie between 5 to 8"
+	when 9..11
+	puts "lie between 9 to 11"
+	end
+
+output->
+	lie between 9 to 11
+
+
+
+--->>>Range as intervals
+
+	e.g-
+	if((1..5)===3)
+	puts "lie in 1 to 5"
+	end
+	if((6..10)===7)
+	puts "lie in 6 to 10"
+	end
+	if(('a'..'j')==='z')
+	puts "exists"
+	end
+
+output->
+	lie in 1 to 5
+	lie in 6 to 10
+
+
+
+--->(Reverse in range)
+
+	e.g-
+	a=(1..5).to_a.reverse
+	print a
+	output->
+	[5, 4, 3, 2, 1]
+
+[note: if range=(5..1) then no output]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,166 @@
+
+
+
+-----------------OPERATORS--------------------
+
+-Unary
+-Arithmetic
+-Bitwise
+-Logical
+-Ternary
+-Assignment
+-Comparison
+-Range
+
+
+----->Unary
+
+-> ! (Boolean Not)
+-> ~ (Bitwise Complement)
+-> + (unary plus)
+
+
+e.g->
+puts (~5)
+puts(!true)
+puts(1+23)
+
+output->
+-6
+false
+24
+
+
+------>Arithmetic
+
++	-	Adds values from both sides of the operator.
+-	-	Subtract values from both sides of the operator.
+/	-	Divide left side operand with right side operand.
+*	-	Multiply values from both sides of the operator.
+**	-	Right side operand becomes the exponent of left side operand.
+%	-	Divide left side operand with right side operand returning remainder.
+
+
+for e.g->
+ puts("add operator")   
+ puts(10 + 20)      
+ puts("subtract operator")   
+ puts(35 - 15)    
+ puts("multiply operator")   
+ puts(4 * 8)   
+ puts("division operator")   
+ puts(25 / 5)   
+ puts("exponential operator")   
+ puts(5 ** 2)   
+ puts("modulo operator")   
+ puts(25 % 4)  
+
+ouput->
+add operator
+30
+subtract operator
+20
+multiply operator
+32
+division operator
+5
+exponential operator
+25
+modulo operator
+1
+
+
+
+
+
+------>Bitwise
+
+&	-	AND operator
+|	-	OR operator
+<<	-	Left shift operator
+>>	-	Right shift operator
+^	-	XOR operator
+~	-	Complement operator
+
+
+
+
+-------->Logical
+
+&&	-	AND operator
+||	-	OR operator
+
+
+
+
+
+
+--------->Ternary
+
+?:	Conditional expression
+
+e.g->puts(1>2?1:2)  
+
+
+
+-------->Assignment
+
+=	-	Simple assignment operator
++=	-	Add assignment operator
+-=	-	subtract assignment operator
+*=	-	Multiply assignment operator
+/=	-	Divide assignment operator
+%=	-	Modulus assignment operator
+**=	-	Exponential assignment operator
+
+
+
+
+
+----------->Comparison
+
+==	-	Equal operator
+!=	-	Not equal operator
+>	-	left operand is greater than right operand
+<	-	Right operand is greater than left operand
+>=	-	Left operand is greater than or equal to right operand
+<=	-	Right operand is greater than or equal to left operand
+<=>	-	Combined comparison operator
+.eql?	-	Checks for equality and type of the operands
+equal?	-	Checks for the object ID
+
+
+
+e.g->
+puts("Comparison operator")   
+ puts(2 == 5)   
+ puts(2 != 5)   
+ puts(2 > 5)   
+ puts(2 < 5)   
+ puts(2 >= 5)   
+ puts(2 <= 5)   
+
+
+output-
+Comparison operator
+false
+true
+false
+true
+false
+true
+
+
+
+
+--------->Range
+
+..	-	Range is inclusive of the last term
+...	-	Range is exclusive of the last term
+
+
+
+
+
+
+

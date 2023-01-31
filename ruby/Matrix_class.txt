@@ -1,0 +1,295 @@
+
+		---------------Matrix Class---------------
+		
+The Matrix class represents a mathematical matrix. It provides methods for creating matrices, operating on them arithmetically and algebraically, and determining their mathematical properties such as trace, rank, inverse, determinant.
+
+
+----------->[](*rows)
+
+Creates a matrix where each argument is a row.
+
+e.g->
+Matrix[[1,2],[3,4]] #=> Matrix[[1, 2], [3, 4]] 
+
+
+----------->build(row_count, column_count = row_count) { |i, j| ... }
+
+Creates a matrix of size row_count x column_count. It fills the values by calling the given block, passing the current row and column. Returns an enumerator if no block is given.
+
+e.g->
+Matrix.build(2) {|row,col| row-col } #=> Matrix[[0, -1], [1, 0]] 
+
+
+---------->column_vector(column)
+
+Creates a single-column matrix where the values of that column are as given in column.
+
+e.g->
+Matrix.column_vector([1,2,3])  #=> Matrix[[1], [2], [3]]
+
+
+
+--------->combine(*matrices) { |*elements| ... }
+
+Create a matrix by combining matrices entrywise, using the given block
+
+require 'matrix'
+
+x=Matrix[[1,2],[3,4]]
+y=Matrix[[11,22],[33,44]]
+print Matrix.combine(x,y) {|a,b|a+b}  #Matrix[[12, 24], [36, 48]]
+
+
+--------->diagonal(*values)
+
+Creates a matrix where the diagonal elements are composed of values.
+
+require 'matrix'
+
+e.g->
+x=Matrix.diagonal(2,3,4)
+print x
+Matrix[[2, 0, 0], [0, 3, 0], [0, 0, 4]]
+
+
+--------->hstack(x, *matrices)
+
+Create a matrix by stacking matrices horizontally
+e.g->
+x = Matrix[[1, 2], [3, 4]]
+y = Matrix[[5, 6], [7, 8]]
+Matrix.hstack(x, y) # => Matrix[[1, 2, 5, 6], [3, 4, 7, 8]]
+
+
+--------->identity(n)
+
+Creates an n by n identity matrix.
+
+e.g->
+Matrix.identity(2)
+#  => 1 0
+#     0 1
+
+
+--------->row_vector(row)
+
+Creates a single-row matrix where the values of that row are as given in row.
+
+e.g->
+Matrix.row_vector([4,5,6])
+#  => 4 5 6
+
+
+--------->scalar(n, value)
+
+Creates an n by n diagonal matrix where each diagonal element is value.
+
+e.g->
+require 'matrix'
+
+print Matrix.diagonal(3,4) #Matrix[[3, 0], [0, 4]]
+
+
+--------->vstack(x, *matrices)
+
+Create a matrix by stacking matrices vertically
+
+e.g->
+x = Matrix[[1, 2], [3, 4]]
+y = Matrix[[5, 6], [7, 8]]
+Matrix.vstack(x, y) # => Matrix[[1, 2], [3, 4], [5, 6], [7, 8]]
+
+
+---------->zero(row_count, column_count = row_count)
+
+Creates a zero matrix
+
+e.g->
+require 'matrix'
+
+print Matrix.zero(2) # => Matrix[[0,0],[0,0]]
+
+
+---------->*(m)
+Matrix multiplication
+
+e.g->
+x = Matrix[[1, 2], [3, 4]]
+print x*Matrix.identity(2) #=>Matrix[[1, 2], [3, 4]]
+
+
+---------->**(exp)
+
+Matrix exponentiation. Equivalent to multiplying the matrix by itself N times. Non integer exponents will be handled by diagonalizing the matrix
+
+e.g->
+-x = Matrix[[1, 2], [3, 4]]
+print x**2 #=>Matrix[[7, 10], [15, 22]]
+
+
+---------->+(m)
+
+Matrix addition.
+
+e.g->
+x = Matrix[[1, 2], [3, 4]]
+y = Matrix[[11, 12], [13, 14]]
+print x+y #=>Matrix[[12, 14], [16, 18]]
+
+
+---------->-(m)
+
+Matrix subtraction.
+
+e.g->
+y = Matrix[[1, 9], [3, 4]]
+x = Matrix[[11, 12], [13, 14]]
+print x-y  #=>Matrix[[10, 3], [10, 10]]
+
+
+---------->-@()
+
+Unary matrix negation.
+
+e.g->
+x = Matrix[[11, 12], [13, 14]]
+print -x #=>Matrix[[-11, -12], [-13, -14]]
+
+
+---------->/(other)
+
+Matrix division (multiplication by the inverse).
+
+e.g->
+y = Matrix[[1, 9], [3, 4]]
+x = Matrix[[11, 12], [13, 14]]
+print y/x #=>Matrix[[103/2, -87/2], [5/1, -4/1]]
+
+
+---------->==(other)
+
+Returns whether the two matrices contain equal elements
+
+e.g->
+y = Matrix[[1, 9], [3, 4]]
+x = Matrix[[1,9], [3, 4]]
+print x==y #=>true
+
+
+---------->adjoint()
+
+Returns the adjoint of the matrix.
+
+e.g->
+x = Matrix[[1,9], [3, 4]]
+print x.adjoint  #=>Matrix[[1, 3], [9, 4]]
+
+
+
+
+------------>adjugate()
+
+Returns the adjugate of the matrix.
+
+e.g->
+x = Matrix[[1,9], [3, 4]]
+print x.adjugate #=>Matrix[[4, -9], [-3, 1]]
+
+
+---------->determinant()
+
+Returns the determinant of the matrix.
+
+e.g->
+x = Matrix[[1,9], [3, 4]]
+print x.determinant  #=>-23
+
+
+----------->each_with_index(which = :all) { |e, row, column| ... }
+
+Same as each, but the row index and column index in addition to the element
+
+e.g->
+Matrix[[1,9], [3, 4]].each_with_index do |e,row,col|
+  puts "#{e} at #{row}, #{col}"
+ end
+ 
+ output->
+1 at 0, 0
+9 at 0, 1
+3 at 1, 0
+4 at 1, 1
+
+
+---------->map(&:to_i)
+
+e.g->
+print Matrix[[1,9], [3, 4]].map(&:to_i) #=>Matrix[[1, 9], [3, 4]]
+
+
+
+--------->map(&:to_f)
+e.g->
+print Matrix[[1,9], [3, 4]].map(&:to_f) #=>Matrix[[1.0, 9.0], [3.0, 4.0]]
+
+
+---------->map(&:to_r)
+
+e.g->
+print Matrix[[1,9], [3, 4]].map(&:to_r) #=>Matrix[[1/1, 9/1], [3/1, 4/1]]
+
+
+--------->hadamard_product(m)
+
+Hadamard product
+
+e.g->
+x= Matrix[[1,9], [3, 4]]
+y= Matrix[[1,9], [3, 4]]
+ print x.hadamard_product(y)  #=>Matrix[[1, 81], [9, 16]]
+
+
+---------->inverse()
+
+Returns the inverse of the matrix
+
+e.g->
+x= Matrix[[1,9], [3, 4]].inverse
+print x #=>Matrix[[-4/23, 9/23], [3/23, -1/23]]
+
+
+
+---------->rank()
+
+Returns the rank of the matrix. Beware that using Float values can yield erroneous results because of their lack of precision. Consider using exact types like Rational or BigDecimal instead.
+
+e.g->
+x= Matrix[[1,9], [3, 4]]
+print x.rank #=>2
+
+
+
+---------->trace()
+
+Returns the trace (sum of diagonal elements) of the matrix.
+
+e.g->
+x= Matrix[[1,9], [3, 4]]
+print x.trace #=>5
+
+
+
+
+---------->transpose()
+
+Returns the transpose of the matrix.
+
+e.g->
+x= Matrix[[1,9], [3, 4]]
+print x.transpose #=>Matrix[[1, 3], [9, 4]]
+
+
+
+
+
+
