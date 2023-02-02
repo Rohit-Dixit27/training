@@ -1,0 +1,2 @@
+class EnglishBook < Book
+end

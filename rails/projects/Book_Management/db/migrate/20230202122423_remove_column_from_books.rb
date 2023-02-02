@@ -1,0 +1,5 @@
+class RemoveColumnFromBooks < ActiveRecord::Migration[7.0]
+  def change
+    remove_column :books, :title, :string
+  end
+end
