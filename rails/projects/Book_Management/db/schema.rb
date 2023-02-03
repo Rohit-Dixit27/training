@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_03_054453) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_03_105533) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,6 +27,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_054453) do
     t.integer "books_count"
     t.string "address"
     t.decimal "salary", precision: 10, scale: 2
+    t.date "date_of_birth"
+    t.string "gender"
+    t.string "contact"
   end
 
   create_table "books", force: :cascade do |t|
@@ -40,17 +43,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_054453) do
     t.bigint "author_id"
     t.decimal "price", precision: 5, scale: 2
     t.index ["authors_id"], name: "index_books_on_authors_id"
-  end
-
-  create_table "dislikes_tables", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "yes"
-  end
-
-  create_table "english_books", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "finances", force: :cascade do |t|

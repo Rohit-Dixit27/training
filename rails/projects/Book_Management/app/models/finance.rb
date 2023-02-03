@@ -1,3 +1,3 @@
 class Finance < ApplicationRecord
-    self.table_name = "account_tables"
+  self.table_name = "account_tables"
 end
