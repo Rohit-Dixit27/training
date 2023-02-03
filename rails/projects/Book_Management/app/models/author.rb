@@ -5,6 +5,7 @@ class Author < ApplicationRecord
   validates :gender, inclusion: { in: %w(male female), message: "choose either male or female" }
   validates :salary, numericality: { only_integer: true }
   validates :contact, uniqueness: true, allow_blank: true
+  validates :join_date, comparison: { less_than: :resign_date }
   has_many :books
     #validates_each :name do |record, attr, value|
        # record.errors.add(attr, 'should start with lowercase')

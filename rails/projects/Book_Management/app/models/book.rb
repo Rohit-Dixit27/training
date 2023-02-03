@@ -7,6 +7,7 @@ class Book < ApplicationRecord
   validates :title, length: { maximum: 20, message: "limit is crossed" }
   validates :title, uniqueness: { case_sensitive: true }
   validates :description, length: { in: 10..200, too_short: "%{count} max allowed" }
+  validates :price, absence: true
 end
 
 
