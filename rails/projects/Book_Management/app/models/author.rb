@@ -7,9 +7,7 @@ class Author < ApplicationRecord
   validates :contact, uniqueness: true, allow_blank: true
   validates :join_date, comparison: { less_than: :resign_date }
   has_many :books
-
   validate :check_first_name_letter, on: :create
-
   def check_first_name_letter
     errors.add(:name, "should have letters only") unless name.match?(/\A[A-Za-z]+\Z/)
   end
