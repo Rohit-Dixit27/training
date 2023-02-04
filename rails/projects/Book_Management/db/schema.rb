@@ -10,14 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_03_123052) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_04_075758) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "account_tables", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "authors", force: :cascade do |t|
     t.string "name"
@@ -47,14 +42,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_123052) do
     t.index ["authors_id"], name: "index_books_on_authors_id"
   end
 
-  create_table "finances", force: :cascade do |t|
+  create_table "orders", force: :cascade do |t|
+    t.string "card_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "management_table", id: false, force: :cascade do |t|
-    t.bigint "author_id", null: false
-    t.bigint "book_id", null: false
+    t.string "payment_type"
+    t.string "amount"
   end
 
   add_foreign_key "books", "authors", on_delete: :cascade
