@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_06_074858) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_06_101657) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +25,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_06_074858) do
     t.bigint "part_id", null: false
   end
 
+  create_table "employees", force: :cascade do |t|
+    t.bigint "manager_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["manager_id"], name: "index_employees_on_manager_id"
+  end
+
   create_table "parts", force: :cascade do |t|
     t.string "part_number"
     t.datetime "created_at", null: false
@@ -33,4 +40,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_06_074858) do
 
   add_foreign_key "assemblies_parts", "assemblies", on_delete: :cascade
   add_foreign_key "assemblies_parts", "parts", on_delete: :cascade
+  add_foreign_key "employees", "employees", column: "manager_id"
 end
