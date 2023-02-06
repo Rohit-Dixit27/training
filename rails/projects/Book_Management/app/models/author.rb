@@ -6,7 +6,7 @@ class Author < ApplicationRecord
   validates :salary, numericality: { only_integer: true }
   validates :contact, uniqueness: true, allow_blank: true
   validates :join_date, comparison: { less_than: :resign_date }
-  has_many :books dependent: :destroy
+  has_many :books, dependent: :destroy
   validate :check_first_name_letter, on: :create
   def check_first_name_letter
     errors.add(:name, "should have letters only") unless name.match?(/\A[A-Za-z]+\Z/)
