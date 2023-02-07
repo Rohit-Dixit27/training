@@ -1,0 +1,260 @@
+
+                   ----------------ASSOCIATIONS--------------------------
+                   
+->In Rails, an association is a connection between two Active Record models. 
+->they make common operations simpler and easier in your code.
+
+
+----->Types Of Associations
+
+-belongs_to
+-has_one
+-has_many
+-has_many :through
+-has_one :through
+-has_and_belongs_to_many
+
+
+--->belongs_to
+
+A belongs_to association sets up a connection with another model, such that each instance of the declaring model "belongs to" one instance of the other model. 
+
+	class Book < ApplicationRecord
+	  belongs_to :author
+	end
+	
+	
+ --The corresponding migration might look like this:
+	
+class CreateBooks < ActiveRecord::Migration[7.0]
+  def change
+    create_table :authors do |t|
+      t.string :name
+      t.timestamps
+    end
+
+    create_table :books do |t|
+      t.belongs_to :author
+      t.datetime :published_at
+      t.timestamps
+    end
+  end
+end
+	
+	
+	
+--->has_one
+
+A has_one association indicates that one other model has a reference to this model. That model can be fetched through this association.
+
+	class Supplier < ApplicationRecord
+	  has_one :account
+	end
+
+--class CreateSuppliers < ActiveRecord::Migration[7.0]
+  def change
+    create_table :suppliers do |t|
+      t.string :name
+      t.timestamps
+    end
+
+    create_table :accounts do |t|
+      t.belongs_to :supplier
+      t.string :account_number
+      t.timestamps
+    end
+  end
+end
+	
+	
+	
+---->has_many
+
+A has_many association is similar to has_one, but indicates a one-to-many connection with another model. You'll often find this association on the "other side" of a belongs_to association. This association indicates that each instance of the model has zero or more instances of another model.
+
+	class Author < ApplicationRecord
+	  has_many :books
+	end
+	
+	
+--class CreateAuthors < ActiveRecord::Migration[7.0]
+  def change
+    create_table :authors do |t|
+      t.string :name
+      t.timestamps
+    end
+
+    create_table :books do |t|
+      t.belongs_to :author
+      t.datetime :published_at
+      t.timestamps
+    end
+  end
+end
+
+
+---->has_many :through
+
+A has_many :through association is often used to set up a many-to-many connection with another model. This association indicates that the declaring model can be matched with zero or more instances of another model by proceeding through a third model
+
+	class Physician < ApplicationRecord
+	  has_many :appointments
+	  has_many :patients, through: :appointments
+	end
+
+	class Appointment < ApplicationRecord
+	  belongs_to :physician
+	  belongs_to :patient
+	end
+
+	class Patient < ApplicationRecord
+	  has_many :appointments
+	  has_many :physicians, through: :appointments
+	end
+
+class CreateAppointments < ActiveRecord::Migration[7.0]
+  def change
+    create_table :physicians do |t|
+      t.string :name
+      t.timestamps
+    end
+
+    create_table :patients do |t|
+      t.string :name
+      t.timestamps
+    end
+
+    create_table :appointments do |t|
+      t.belongs_to :physician
+      t.belongs_to :patient
+      t.datetime :appointment_date
+      t.timestamps
+    end
+  end
+end
+
+
+----->has_one :through
+
+A has_one :through association sets up a one-to-one connection with another model. This association indicates that the declaring model can be matched with one instance of another model by proceeding through a third model. 
+
+	class Supplier < ApplicationRecord
+	  has_one :account
+	  has_one :account_history, through: :account
+	end
+
+	class Account < ApplicationRecord
+	  belongs_to :supplier
+	  has_one :account_history
+	end
+
+	class AccountHistory < ApplicationRecord
+	  belongs_to :account
+	end
+
+class CreateAccountHistories < ActiveRecord::Migration[7.0]
+  def change
+    create_table :suppliers do |t|
+      t.string :name
+      t.timestamps
+    end
+
+    create_table :accounts do |t|
+      t.belongs_to :supplier
+      t.string :account_number
+      t.timestamps
+    end
+
+    create_table :account_histories do |t|
+      t.belongs_to :account
+      t.integer :credit_rating
+      t.timestamps
+    end
+  end
+end
+
+
+------>has_and_belongs_to_many
+
+A has_and_belongs_to_many association creates a direct many-to-many connection with another model, with no intervening model. This association indicates that each instance of the declaring model refers to zero or more instances of another model.
+
+		class Assembly < ApplicationRecord
+		  has_and_belongs_to_many :parts
+		end
+
+	class Part < ApplicationRecord
+	  has_and_belongs_to_many :assemblies
+	end
+
+
+class CreateAssembliesAndParts < ActiveRecord::Migration[7.0]
+  def change
+    create_table :assemblies do |t|
+      t.string :name
+      t.timestamps
+    end
+
+    create_table :parts do |t|
+      t.string :part_number
+      t.timestamps
+    end
+
+    create_table :assemblies_parts, id: false do |t|
+      t.belongs_to :assembly
+      t.belongs_to :part
+    end
+  end
+end
+
+
+------>Polymorphic
+
+A slightly more advanced twist on associations is the polymorphic association. With polymorphic associations, a model can belong to more than one other model, on a single association. 
+
+		class Picture < ApplicationRecord
+		  belongs_to :imageable, polymorphic: true
+		end
+
+		class Employee < ApplicationRecord
+		  has_many :pictures, as: :imageable
+		end
+
+		class Product < ApplicationRecord
+		  has_many :pictures, as: :imageable
+		end
+		
+class CreatePictures < ActiveRecord::Migration[7.0]
+  def change
+    create_table :pictures do |t|
+      t.string :name
+      t.references :imageable, polymorphic: true
+      t.timestamps
+    end
+  end
+end
+
+
+----->self joins
+
+In designing a data model, you will sometimes find a model that should have a relation to itself
+
+		class Employee < ApplicationRecord
+		  has_many :subordinates, class_name: "Employee",
+                          foreign_key: "manager_id"
+
+		  belongs_to :manager, class_name: "Employee", optional: true
+		end
+
+
+
+class CreateEmployees < ActiveRecord::Migration[7.0]
+  def change
+    create_table :employees do |t|
+      t.references :manager, foreign_key: { to_table: :employees }
+      t.timestamps
+    end
+  end
+end
+
+
+
