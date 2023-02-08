@@ -1,0 +1,294 @@
+
+
+------------------Callbacks-------------------
+
+	-Callbacks allow you to trigger logic before or after an alteration of an object's state.
+	-Callbacks are methods that get called at certain moments of an object's life cycle.
+	-With callbacks it is possible to write code that will run whenever an Active Record object is created, saved, updated, deleted, validated, or loaded from the database.
+
+	
+---->Available Callbacks
+
+	3.1 Creating an Object
+		before_validation
+		after_validation
+		before_save
+		around_save
+		before_create
+		around_create
+		after_create
+		after_save
+		after_commit / after_rollback
+		
+	3.2 Updating an Object
+		before_validation
+		after_validation
+		before_save
+		around_save
+		before_update
+		around_update
+		after_update
+		after_save
+		after_commit / after_rollback
+		
+	3.3 Destroying an Object
+		before_destroy
+		around_destroy
+		after_destroy
+		after_commit / after_rollback
+		
+		
+----------------EXAMPLES------------------
+
+-----------before_validation
+
+	
+class User < ApplicationRecord
+  
+  validates :name, length: { maximum: 6 }
+  before_validation :remove_whitespce
+
+  def remove_whitespce
+    self.name.strip!
+  end 
+end
+
+	
+	>User.create!(id:1,name:"rohit dixit") #Validation failed: Name is too long (maximum is 6 characters) 
+	
+	>> user=User.create!(id:1,name:" rohit ")
+  TRANSACTION (0.3ms)  BEGIN
+  User Create (0.4ms)  INSERT INTO "users" ("id", "name", "created_at", "updated_at", "count") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["id", 1], ["name", "rohit"], ["created_at", "2023-02-08 12:03:39.385735"], ["updated_at", "2023-02-08 12:03:39.385735"], ["count", nil]]
+  TRANSACTION (8.8ms)  COMMIT   
+
+[it also failed validation because it have spaces but using callback before validation it removed whitespaces and then it pass the validation.]
+
+
+
+----------after_validation
+
+	
+class User < ApplicationRecord
+  
+  validates :name, length: { maximum: 6 }
+  after_validation :Display
+
+  def Display
+    puts "validations is done"
+  end 
+end
+	
+	> user=User.create!(id:2,name:"rohan")
+validations is done
+  TRANSACTION (0.3ms)  BEGIN                                        
+  User Create (0.4ms)  INSERT INTO "users" ("id", "name", "created_at", "updated_at", "count") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["id", 2], ["name", "rohan"], ["created_at", "2023-02-08 12:08:06.804358"], ["updated_at", "2023-02-08 12:08:06.804358"], ["count", nil]]
+  TRANSACTION (1.8ms)  COMMIT 
+
+
+
+-----------before_save
+	
+	class User < ApplicationRecord
+  
+  before_save :Change_to_downcase
+
+  def Change_to_downcase
+    self.name.downcase!
+  end 
+end
+	
+	> User.create(id:3,name:"ROHIT")
+  TRANSACTION (0.2ms)  BEGIN
+  User Create (0.3ms)  INSERT INTO "users" ("id", "name", "created_at", "updated_at", "count") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["id", 3], ["name", "rohit"], ["created_at", "2023-02-08 12:11:39.491748"], ["updated_at", "2023-02-08 12:11:39.491748"], ["count", nil]]
+  TRANSACTION (8.5ms)  COMMIT  
+
+[at insert we can save before save it is in downcase]
+
+
+
+--------after_save
+
+class User < ApplicationRecord
+ 
+  after_save :Change_to_downcase
+
+  def Change_to_downcase
+    self.name.downcase!
+  end 
+end
+
+> User.create(id:15,name:"MOHAN")
+  TRANSACTION (0.2ms)  BEGIN
+  User Create (0.3ms)  INSERT INTO "users" ("id", "name", "created_at", "updated_at", "count") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["id", 15], ["name", "MOHAN"], ["created_at", "2023-02-08 12:15:40.685359"], ["updated_at", "2023-02-08 12:15:40.685359"], ["count", nil]]
+  TRANSACTION (8.9ms)  COMMIT                               
+ => #<User:0x0000558d7a4ea748 id: 15, name: "mohan", created_at: Wed, 08 Feb 2023 12:15:40.685359000 UTC +00:00, updated_at: Wed, 08 Feb 2023 12:15:40.685359000 UTC +00:00, count: nil> 
+
+[here it looks like in downcase but in db it will be in uppercase.]
+
+
+
+-----------before_create
+
+ 	 - It work similar to "before_save"
+         - Only difference is that it only get registered / triggered on (INSERT INTO query) that is creating of new records
+
+class User < ApplicationRecord
+  before_create :Display
+
+  def Display
+    puts "before create"
+  end 
+end
+
+> User.create(id:16,name:"sohan")
+before create
+  TRANSACTION (0.2ms)  BEGIN                                
+  User Create (0.3ms)  INSERT INTO "users" ("id", "name", "created_at", "updated_at", "count") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["id", 16], ["name", "sohan"], ["created_at", "2023-02-08 12:20:11.971784"], ["updated_at", "2023-02-08 12:20:11.971784"], ["count", nil]]
+  TRANSACTION (8.8ms)  COMMIT 
+
+
+
+----------after_create
+
+	- It work similar to "after_save"
+        - Only difference is that it only get registered / triggered on (INSERT INTO query) that is creating of new records.
+
+class User < ApplicationRecord
+
+  after_create :Display
+
+  def Display
+    puts "after create"
+  end 
+end
+
+> User.create(id:17,name:"sonu")
+  TRANSACTION (0.3ms)  BEGIN
+  User Create (0.4ms)  INSERT INTO "users" ("id", "name", "created_at", "updated_at", "count") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["id", 17], ["name", "sonu"], ["created_at", "2023-02-08 12:21:37.522499"], ["updated_at", "2023-02-08 12:21:37.522499"], ["count", nil]]
+after create                                                
+  TRANSACTION (1.4ms)  COMMIT
+
+
+
+-----------before_update
+
+        - It work similar to "before_save" or "before_create"
+        - Only difference is that it only get registered / triggered on (UPDATE SET query) that is updating of records.
+        
+        > user.update(name:"ritik")
+before update
+  TRANSACTION (0.3ms)  BEGIN                                     
+  User Update (0.4ms)  UPDATE "users" SET "name" = $1, "updated_at" = $2 WHERE "users"."id" = $3  [["name", "ritik"], ["updated_at", "2023-02-08 12:26:12.537206"], ["id", 1]]
+  TRANSACTION (8.6ms)  COMMIT
+
+
+
+--------after_update
+ 	- It work similar to "after_save" or "after_create"
+        - Only difference is that it only get registered / triggered on (UPDATE SET query) that is updating of records.
+        
+        > user.update(name:"ritu")
+  TRANSACTION (0.5ms)  BEGIN
+  User Update (0.8ms)  UPDATE "users" SET "name" = $1, "updated_at" = $2 WHERE "users"."id" = $3  [["name", "ritu"], ["updated_at", "2023-02-08 12:27:29.775882"], ["id", 1]]
+after update                                                
+  TRANSACTION (8.9ms)  COMMIT 
+
+
+
+-----------around_save
+
+class User < ApplicationRecord
+
+  around_save :Display
+
+  def Display
+    self.name.downcase!
+    yield
+    self.name.upcase!
+  end 
+ end
+
+> user=User.new(id:29,name:"shiKHa")
+ => #<User:0x0000558d79448340 id: 29, name: "shiKHa", created_at: nil, updated_at: nil, count: nil> 
+3.0.0 :098 > user.save
+  TRANSACTION (0.2ms)  BEGIN
+  User Create (0.4ms)  INSERT INTO "users" ("id", "name", "created_at", "updated_at", "count") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["id", 29], ["name", "shikha"], ["created_at", "2023-02-08 12:35:28.121795"], ["updated_at", "2023-02-08 12:35:28.121795"], ["count", nil]]
+  TRANSACTION (8.6ms)  COMMIT                                    
+ => true
+ 
+ [first downcase run and make it downcase and saved in db]
+ 
+  > user
+ => #<User:0x0000558d79448340 id: 29, name: "SHIKHA", created_at: Wed, 08 Feb 2023 12:35:28.121795000 UTC +00:00, updated_at: Wed, 08 Feb 2023 12:35:28.121795000 UTC +00:00, count: nil> 
+ 
+ [if show it again then it is in upcase but in db it is in downcase only]
+
+
+
+------------around_create
+
+	- This works similarly to "around_save".
+	- Only difference is that it will get registered / triggered only when an INSERT INTO is executed by ActiveRecord.
+	
+	
+------------around_update
+
+  	- This works similarly to "around_save".
+        - Only difference is that it will get registered / triggered only when an UPDATE SET is executed by ActiveRecord.	
+	
+	
+------------before_destroy
+
+- Execute before "DELETE FROM" statement / query is executed these callback functions will get registered_triggered.
+	
+> user.destroy
+  TRANSACTION (0.3ms)  BEGIN
+  Post Load (0.2ms)  SELECT "posts".* FROM "posts" WHERE "posts"."user_id" = $1  [["user_id", 1]]
+before destroy                                                   
+  User Destroy (0.4ms)  DELETE FROM "users" WHERE "users"."id" = $1  [["id", 1]]
+  TRANSACTION (8.5ms)  COMMIT 
+	
+	
+-----------after_destroy
+
+- Execute after "DELETE FROM" statement / query is executed these callback functions will get registered_triggered.	
+	
+	
+ > user.destroy
+  TRANSACTION (0.2ms)  BEGIN
+  Post Load (0.3ms)  SELECT "posts".* FROM "posts" WHERE "posts"."user_id" = $1  [["user_id", 2]]
+  User Destroy (0.4ms)  DELETE FROM "users" WHERE "users"."id" = $1  [["id", 2]]
+after destroy                                              
+  TRANSACTION (8.8ms)  COMMIT 
+	
+
+
+-----------after_commit
+
+> user=User.create(id:33,name:"sneha")
+  TRANSACTION (0.2ms)  BEGIN
+  User Create (0.4ms)  INSERT INTO "users" ("id", "name", "created_at", "updated_at", "count") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["id", 33], ["name", "sneha"], ["created_at", "2023-02-08 12:54:12.893351"], ["updated_at", "2023-02-08 12:54:12.893351"], ["count", nil]]
+  TRANSACTION (8.4ms)  COMMIT                                    
+after commit 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
