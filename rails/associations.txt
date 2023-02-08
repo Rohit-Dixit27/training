@@ -258,3 +258,43 @@ end
 
 
 
+
+----------->Association Extension
+	You're not limited to the functionality that Rails automatically builds into association proxy objects. 
+	You can also extend these objects through anonymous modules, adding new finders, creators, or other methods.
+	
+---create a module
+
+module FindName
+    def getName
+        where("created_at > ?", 2.days.ago)
+    end
+end
+	
+----Model
+	class User < ApplicationRecord
+	    has_many :posts, -> { extending FindName }
+	end
+	
+
+3.0.0 :013 > user.posts.getName
+  Post Load (0.4ms)  SELECT "posts".* FROM "posts" WHERE "posts"."user_id" = $1 AND (created_at > '2023-02-06 05:38:58.047110')  [["user_id", 2]]
+ =>                                                                              
+[#<Post:0x000055ce540b7318 id: 2, name: "post2", created_at: Tue, 07 Feb 2023 13:09:10.621218000 UTC +00:00, updated_at: Tue, 07 Feb 2023 13:09:10.621218000 UTC +00:00, user_id: 2>,
+ #<Post:0x000055ce53f5d300 id: 3, name: "post3", created_at: Tue, 07 Feb 2023 13:11:03.427707000 UTC +00:00, updated_at: Tue, 07 Feb 2023 13:11:03.427707000 UTC +00:00, user_id: 2>] 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
