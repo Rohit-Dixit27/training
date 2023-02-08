@@ -1,0 +1,2 @@
+class Bike < MainVehicle
+end

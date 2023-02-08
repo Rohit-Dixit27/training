@@ -1,0 +1,2 @@
+class MainVehicle < ApplicationRecord
+end
