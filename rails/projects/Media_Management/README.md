@@ -173,7 +173,16 @@ destroyed
 > user.posts.create!(id:7,name:"post7")
 /usr/share/rvm/gems/ruby-3.0.0/gems/activerecord-7.0.4.2/lib/active_record/persistence.rb:648:in `save!': Failed to save the record (ActiveRecord::RecordNotSaved)
 
+18)conditional Callback
 
+> user=User.new(id:8,name:"Priya")
+ => #<User:0x000055dd38367610 id: 8, name: "Priya", created_at: nil, updated_at: nil, count: nil> 
+3.0.0 :244 > user.save!
+ready to save
+  TRANSACTION (0.2ms)  BEGIN          
+  User Create (0.4ms)  INSERT INTO "users" ("id", "name", "created_at", "updated_at", "count") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["id", 8], ["name", "Priya"], ["created_at", "2023-02-09 10:29:02.038192"], ["updated_at", "2023-02-09 10:29:02.038192"], ["count", nil]]
+  TRANSACTION (3.9ms)  COMMIT         
+ => true  
 
 
 
