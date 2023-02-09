@@ -40,7 +40,7 @@ user is saved
 
 
  5)create
- 
+
   > user.save
 ready to create
 in                                            
@@ -69,4 +69,41 @@ after the create
 3.0.0 :123 > user.name
  => "RIT" 
 
-8)
+8)around_update
+
+ > user.update(name:"riya")
+  TRANSACTION (0.3ms)  BEGIN
+  User Update (0.4ms)  UPDATE "users" SET "name" = $1, "updated_at" = $2 WHERE "users"."id" = $3  [["name", "RIYA"], ["updated_at", "2023-02-09 08:02:15.112140"], ["id", 4]]
+  TRANSACTION (8.3ms)  COMMIT              
+ => true                                   
+3.0.0 :129 > user
+ => #<User:0x00007f2e285d8628 id: 4, name: "RIY", created_at: Thu, 09 Feb 2023 07:47:19.827358000 UTC +00:00, updated_at: Thu, 09 Feb 2023 08:02:15.112140000 UTC +00:00, count: nil> 
+
+9)before_destroy(execute before delete query)
+
+ > user.destroy
+  TRANSACTION (0.2ms)  BEGIN
+  Post Load (0.3ms)  SELECT "posts".* FROM "posts" WHERE "posts"."user_id" = $1  [["user_id", 1]]
+ready to destroy                                                 
+  User Destroy (0.5ms)  DELETE FROM "users" WHERE "users"."id" = $1  [["id", 1]]
+  TRANSACTION (1.5ms)  COMMIT 
+
+  10)after_destroy(execute after delete query)
+
+   > user.destroy
+  TRANSACTION (0.2ms)  BEGIN
+  Post Load (0.2ms)  SELECT "posts".* FROM "posts" WHERE "posts"."user_id" = $1  [["user_id", 2]]
+  User Destroy (0.3ms)  DELETE FROM "users" WHERE "users"."id" = $1  [["id", 2]]
+deleted                                                          
+  TRANSACTION (8.5ms)  COMMIT 
+
+11)around_destroy(before and after delete query)
+
+> user.destroy
+  TRANSACTION (0.2ms)  BEGIN
+  Post Load (0.2ms)  SELECT "posts".* FROM "posts" WHERE "posts"."user_id" = $1  [["user_id", 4]]
+in destroy                                     
+  User Destroy (0.4ms)  DELETE FROM "users" WHERE "users"."id" = $1  [["id", 4]]
+out destroy                                    
+  TRANSACTION (8.7ms)  COMMIT 
+
