@@ -107,3 +107,11 @@ in destroy
 out destroy                                    
   TRANSACTION (8.7ms)  COMMIT 
 
+  12)after_commit(after the commit it will executed)
+
+  > user=User.create(id:2,name:"rohan")
+  TRANSACTION (0.2ms)  BEGIN
+  User Create (0.4ms)  INSERT INTO "users" ("id", "name", "created_at", "updated_at", "count") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["id", 2], ["name", "rohan"], ["created_at", "2023-02-09 08:55:47.922432"], ["updated_at", "2023-02-09 08:55:47.922432"], ["count", nil]]                        
+  TRANSACTION (8.9ms)  COMMIT                                                                     
+all committed sucesfully  
+
