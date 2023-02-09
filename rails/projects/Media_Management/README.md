@@ -115,3 +115,19 @@ out destroy
   TRANSACTION (8.9ms)  COMMIT                                                                     
 all committed sucesfully  
 
+
+13)after_initialized(execute just after initializing)
+
+> user=User.new(id:3,name:"sonam")
+object is initialized sucesfully
+ => #<User:0x000055dd387bf438 id: 3, name: "sonam", created_at: nil, updated_at: nil, count: nil> 
+
+ 14_after_find(execute when search an object)
+
+ > user=User.find(2)
+  User Load (0.3ms)  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2  [["id", 2], ["LIMIT", 1]]
+found                                                            
+ => #<User:0x000055dd371258f8 id: 2, name: "rohan", created_at: Thu, 09 Feb 2023 08:55:47.922432000 UTC +00:00, updated_at: Thu, 09 Feb 2023 08:55:47.922432000 UTC +00:00, count: nil> 
+
+[if after_initialize and after_find are together then after find will execute first]
+

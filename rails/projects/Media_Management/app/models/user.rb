@@ -1,7 +1,11 @@
 class User < ApplicationRecord
   has_many :posts, dependent: :destroy
-  after_commit :at_last
-  def at_last
-    puts "all committed sucesfully"
+  after_find :search
+  def search
+    puts "found"
+  end
+  after_initialize :show_initialized
+  def show_initialized
+    puts "object is initialized sucesfully"
   end
 end
