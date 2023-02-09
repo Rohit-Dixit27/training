@@ -40,6 +40,7 @@ user is saved
 
 
  5)create
+ 
   > user.save
 ready to create
 in                                            
@@ -49,3 +50,23 @@ out
 after the create                              
   TRANSACTION (8.8ms)  COMMIT                 
  => true 
+
+ 6)before_update
+
+ > user.update(name:"ritik")
+  TRANSACTION (0.3ms)  BEGIN
+  User Update (0.4ms)  UPDATE "users" SET "name" = $1, "updated_at" = $2 WHERE "users"."id" = $3  [["name", "RITIK"], ["updated_at", "2023-02-09 07:54:08.915353"], ["id", 1]]
+  TRANSACTION (8.8ms)  COMMIT                                    
+ => true 
+
+ 7)after_update(it does not effect on db)
+
+ > user.update(name:"ritu")
+  TRANSACTION (0.5ms)  BEGIN
+  User Update (0.8ms)  UPDATE "users" SET "name" = $1, "updated_at" = $2 WHERE "users"."id" = $3  [["name", "RITU"], ["updated_at", "2023-02-09 07:56:55.670528"], ["id", 2]]
+  TRANSACTION (8.9ms)  COMMIT                               
+ => true                                                    
+3.0.0 :123 > user.name
+ => "RIT" 
+
+8)
