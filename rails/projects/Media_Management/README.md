@@ -185,9 +185,47 @@ ready to save
  => true  
 
 
+-------the after_find callback is triggered by methods are:
+
+->find
+> user=User.find(1)
+  User Load (0.2ms)  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2  [["id", 1], ["LIMIT", 1]]
+found                                                            
+ => #<User:0x000055dd389a5928 id: 1, name: "rohan", created_at: Thu, 09 Feb 2023 09:29:16.235847000 UTC +00:00, updated_at: Thu, 09 Feb 2023 09:29:16.235847000 UTC +00:00, count: 4> 
 
 
+->first
+> user=User.first
+  User Load (0.4ms)  SELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1  [["LIMIT", 1]]
+found                                                            
+ => #<User:0x000055dd375c08e0 id: 1, name: "rohan", created_at: Thu, 09 Feb 2023 09:29:16.235847000 UTC +00:00, updated_at: Thu, 09 Feb 2023 09:29:16.235847000 UTC +00:00, count: 4> 
 
+->find_by
+> user=User.find_by(name:"seema")
+  User Load (0.3ms)  SELECT "users".* FROM "users" WHERE "users"."name" = $1 LIMIT $2  [["name", "seema"], ["LIMIT", 1]]
+found                                                            
+ => #<User:0x000055dd38487e78 id: 4, name: "seema", created_at: Thu, 09 Feb 2023 10:22:57.163259000 UTC +00:00, updated_at: Thu, 09 Feb 2023 10:22:57.163259000 UTC +00:00, count: nil> 
+
+->last
+ > user=User.last
+  User Load (0.8ms)  SELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT $1  [["LIMIT", 1]]
+found                                                            
+ => #<User:0x00007f2e28a8b3c8 id: 9, name: "riya", created_at: Thu, 09 Feb 2023 10:31:33.934961000 UTC +00:00, updated_at: Thu, 09 Feb 2023 10:31:33.934961000 UTC +00:00, count: nil> 
+
+->all
+user=User.all
+  User Load (0.4ms)  SELECT "users".* FROM "users"
+found                                                            
+found                                                            
+found                                                            
+found                                                            
+found                                                            
+found                                                            
+found                                                            
+found                                                            
+ =>                                                              
+[#<User:0x000055dd385879e0 id: 2, name: "mohan", created_at: Thu, 09 Feb 2023 09:29:23.713687000 UTC +00:00, updated_at: Thu, 09 Feb 2023 09:29:23.713687000 UTC +00:00, count: 1>,
+...                                                              
 
 
 

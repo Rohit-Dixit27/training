@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_many :posts, dependent: :destroy
-  before_save :message, if: :check_before_save
-  def check_before_save
-    puts "ready to save"  
+  after_find :display
+  def display
+    puts "found"
   end
 end
