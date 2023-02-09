@@ -170,7 +170,7 @@ destroyed
 -The whole callback chain is wrapped in a transaction. 
 -If any callback raises an exception, the execution chain gets halted and a ROLLBACK is issued. To intentionally stop a chain use
 
-> user.posts.create!(id:3,name:"post3")
+> user.posts.create!(id:7,name:"post7")
 /usr/share/rvm/gems/ruby-3.0.0/gems/activerecord-7.0.4.2/lib/active_record/persistence.rb:648:in `save!': Failed to save the record (ActiveRecord::RecordNotSaved)
 
 
