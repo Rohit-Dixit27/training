@@ -157,7 +157,13 @@ post of user rohan is deleted
   TRANSACTION (8.3ms)  COMMIT 
 
 
-17)
+17)Callback Class(it possible to create classes that encapsulate the callback methods, so they can be reused.)
+
+> post.destroy
+  TRANSACTION (0.2ms)  BEGIN
+  Post Destroy (0.3ms)  DELETE FROM "posts" WHERE "posts"."id" = $1  [["id", 1]]
+destroyed                                                   
+  TRANSACTION (8.7ms)  COMMIT 
 
 
 
