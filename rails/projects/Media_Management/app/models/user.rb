@@ -1,6 +1,15 @@
 class User < ApplicationRecord
-  has_many :posts, after_remove: :check, dependent: :destroy
-  def check(post)
-    puts " completely deleted post with id:! #{ post.id }"
-    end
+  has_many :posts, dependent: :destroy
+  validates :name, length: { maximum: 6 }
+  before_validation :remove_whitespaces
+  after_validation :Display
+
+  def remove_whitespaces
+    self.name.strip!
+  end
+
+  def Display
+    puts "validation is done "
+  end
+  
 end
