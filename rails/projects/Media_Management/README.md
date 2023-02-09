@@ -227,7 +227,56 @@ found
 [#<User:0x000055dd385879e0 id: 2, name: "mohan", created_at: Thu, 09 Feb 2023 09:29:23.713687000 UTC +00:00, updated_at: Thu, 09 Feb 2023 09:29:23.713687000 UTC +00:00, count: 1>,
 ...                                                              
 
+-----------Skipping callbacks
 
+----->update_column
 
+> user.update_column(:name,"jiya")
+  User Update (8.5ms)  UPDATE "users" SET "name" = $1 WHERE "users"."id" = $2  [["name", "jiya"], ["id", 1]]
+ => true
+
+------>delete
+
+> user.delete
+  User Destroy (9.9ms)  DELETE FROM "users" WHERE "users"."id" = $1  [["id", 4]]
+ => #<User:0x000055dd36c39b28 id: 4, name: "seema", created_at: Thu, 09 Feb 2023 10:22:57.163259000 UTC +00:00, updated_at: Thu, 09 Feb 2023 10:22:57.163259000 UTC +00:00, count: nil> 
+
+------>delete_by
+
+> User.delete_by(name:"Meena")
+  User Delete All (8.9ms)  DELETE FROM "users" WHERE "users"."name" = $1  [["name", "Meena"]]
+ => 1 
+
+------>update_columns
+
+> user.update_columns(:name=>"preeti",:id=>77)
+  User Update (9.8ms)  UPDATE "users" SET "name" = $1, "id" = $2 WHERE "users"."id" = $3  [["name", "preeti"], ["id", 77], ["id", 6]]
+ => true 
+
+ ------>update_all
+
+ > User.update_all(count:11)
+  User Update All (9.0ms)  UPDATE "users" SET "count" = $1  [["count", 11]]
+ => 4 
+
+ ------->decrement!
+
+ > user.rating
+ => 6 
+3.0.0 :008 > user.decrement!(:rating,1)
+  User Update All (8.8ms)  UPDATE "users" SET "rating" = COALESCE("rating", 0) - $1 WHERE "users"."id" = $2  [["rating", 1], ["id", 7]]
+ => #<User:0x0000556546bbd568 id: 7, name: "Keena", created_at: Thu, 09 Feb 2023 10:26:37.698546000 UTC +00:00, updated_at: Thu, 09 Feb 2023 10:26:37.698546000 UTC +00:00, count: 11, rating: 5> 
+3.0.0 :009 > user.rating
+ => 5 
+
+ ------>increment!
+
+ > user.rating
+ => 5 
+3.0.0 :012 > user.increment!(:rating,1)
+  User Update All (8.7ms)  UPDATE "users" SET "rating" = COALESCE("rating", 0) + $1 WHERE "users"."id" = $2  [["rating", 1], ["id", 7]]
+ => #<User:0x0000556546bbd568 id: 7, name: "Keena", created_at: Thu, 09 Feb 2023 10:26:37.698546000 UTC +00:00, updated_at: Thu, 09 Feb 2023 10:26:37.698546000 UTC +00:00, count: 11, rating: 6> 
+3.0.0 :013 > user.rating
+ => 6 
 
 
