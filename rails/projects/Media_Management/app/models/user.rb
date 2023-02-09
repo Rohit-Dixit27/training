@@ -1,27 +1,18 @@
 class User < ApplicationRecord
   has_many :posts, dependent: :destroy
-  validates :name, length: { maximum: 6 }
-  before_validation :remove_whitespaces
-  after_validation :Display
-  before_save :change_to_downcase
-  around_save :show_around_save
-  after_save :after_save
-
-  def remove_whitespaces
-    self.name.strip!
+  before_create :ready_to_create
+  around_create :around_the_create
+  after_create :after_the_create
+  def ready_to_create
+    puts "ready to create"
   end
-  def Display
-    puts "validation is done "
-  end
-  def change_to_downcase
-    self.name.downcase!
-  end
-  def show_around_save
-    puts "in save"
+  def around_the_create
+    puts "in"
     yield
-    puts "out save"
+    puts "out"
   end
-  def after_save
-    puts "user is saved"
+  def after_the_create
+    puts "after the create"
   end
+
 end

@@ -25,7 +25,7 @@ validation is done
   TRANSACTION (8.8ms)  COMMIT
 
   4)after_save and around save
-  
+
 > user=User.new(id:2,name:"ROHAN")
  => #<User:0x000055dd3841c470 id: 2, name: "ROHAN", created_at: nil, updated_at: nil, count: nil> 
 3.0.0 :110 > user.save
@@ -36,4 +36,16 @@ in save
 out save                                      
 user is saved                                 
   TRANSACTION (8.6ms)  COMMIT                 
+ => true 
+
+
+ 5)create
+  > user.save
+ready to create
+in                                            
+  TRANSACTION (0.2ms)  BEGIN                  
+  User Create (0.3ms)  INSERT INTO "users" ("id", "name", "created_at", "updated_at", "count") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["id", 4], ["name", "ROHAN"], ["created_at", "2023-02-09 07:47:19.827358"], ["updated_at", "2023-02-09 07:47:19.827358"], ["count", nil]]
+out                                           
+after the create                              
+  TRANSACTION (8.8ms)  COMMIT                 
  => true 
