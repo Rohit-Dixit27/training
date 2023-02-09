@@ -1,3 +1,10 @@
+ 
+-------- The Object Life Cycle
+
+-During the normal operation of a Rails application, objects may be created, updated, and destroyed. 
+-Active Record provides hooks into this object life cycle so that you can control your application and its data.
+
+-Callbacks allow you to trigger logic before or after an alteration of an obje
 
 
 ------------------Callbacks-------------------
@@ -5,6 +12,7 @@
 	-Callbacks allow you to trigger logic before or after an alteration of an object's state.
 	-Callbacks are methods that get called at certain moments of an object's life cycle.
 	-With callbacks it is possible to write code that will run whenever an Active Record object is created, saved, updated, deleted, validated, or loaded from the database.
+
 
 	
 ---->Available Callbacks
@@ -263,6 +271,43 @@ after destroy
 	
 
 
+
+
+-----------destroy
+
+class User < ApplicationRecord
+  before_destroy :before_the_destroy
+  after_destroy :after_the_destroy
+  around_destroy :around_the_destroy
+
+
+  def before_the_destroy
+
+    puts "before destroy"
+  end
+
+  def around_the_destroy
+    puts "in around"
+    yield
+    puts "out around"
+  end
+
+  def after_the_destroy
+    puts "after destroy"
+  end
+ end
+
+> user.destroy
+  TRANSACTION (0.4ms)  BEGIN
+  Post Load (1.2ms)  SELECT "posts".* FROM "posts" WHERE "posts"."user_id" = $1  [["user_id", 3]]
+before destroy                                                   
+in around                                                        
+  User Destroy (1.1ms)  DELETE FROM "users" WHERE "users"."id" = $1  [["id", 3]]
+out around                                                       
+after destroy                                               
+  TRANSACTION (1.5ms)  COMMIT 
+
+
 -----------after_commit
 
 > user=User.create(id:33,name:"sneha")
@@ -273,17 +318,173 @@ after commit
 	
 	
 	
+--------- after_initialize and after_find
+
+-The after_initialize callback will be called whenever an Active Record object is instantiated, either by directly using new or when a record is loaded from the database. 
+-It can be useful to avoid the need to directly override your Active Record initialize method.
+
+-The after_find callback will be called whenever Active Record loads a record from the database. after_find is called before after_initialize if both are defined.
+
+-The after_initialize and after_find callbacks have no before_* counterparts, but they can be registered just like the other Active Record callbacks.
+	
+
+> user=User.new(id:24,name:"monika")
+initialised
+ => #<User:0x000055dd379c2a88 id: 24, name: "monika", created_at: nil, updated_at: nil, count: nil> 
+
+
+ > User.first
+  User Load (0.3ms)  SELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1  [["LIMIT", 1]]
+found                                                       
+initialised                                                 
+ => #<User:0x00007f2e285c8e80 id: 4, name: "ROHIT", created_at: Wed, 08 Feb 2023 12:14:22.763084000 UTC +00:00, updated_at: Wed, 08 Feb 2023 12:14:22.763084000 UTC +00:00, count: nil	
 	
 	
+------------after_touch
+-The after_touch callback will be called whenever an Active Record object is touched.
+
+class User < ApplicationRecord
+ 
+  after_touch :after_the_touch
+  def after_the_touch
+    puts "touched an object"
+  end
+end
+
+> user=User.first
+  User Load (0.3ms)  SELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1  [["LIMIT", 1]]
+ => #<User:0x000055dd37ae3f70 id: 4, name: "ROHIT", created_at: Wed, 08 Feb 2023 12:14:22.763084000 UTC +00:00, updated_at: Wed, 08 Feb 2023 12:14:22.763084000 UTC +00:00, count: nil> 
+3.0.0 :015 > user.touch
+  TRANSACTION (0.2ms)  BEGIN
+  User Update (0.3ms)  UPDATE "users" SET "updated_at" = $1 WHERE "users"."id" = $2  [["updated_at", "2023-02-09 05:31:01.287995"], ["id", 4]]
+touched an object                                           
+  TRANSACTION (1.3ms)  COMMIT                               
+ => true 	
 	
 	
+------------Relational Callbacks
+
+-Callbacks work through model relationships, and can even be defined by them.	
+-when a user is deleted then its posts are also deleted.
+
+class User < ApplicationRecord
+  has_many :posts, dependent: :destroy
+ end
+ 
+class Post < ApplicationRecord
+    belongs_to :user, counter_cache: :count
+    after_destroy :destroy_action
+    def destroy_action
+        puts "post of user #{user.name} is destroyed"
+    end	
 	
-	
-	
-	
-	
-	
-	
+end
+
+
+user.destroy
+  TRANSACTION (0.2ms)  BEGIN
+  Post Load (0.2ms)  SELECT "posts".* FROM "posts" WHERE "posts"."user_id" = $1  [["user_id", 17]]
+  Post Destroy (0.3ms)  DELETE FROM "posts" WHERE "posts"."id" = $1  [["id", 1]]
+post of user sonu is destroyed                 
+  User Destroy (0.3ms)  DELETE FROM "users" WHERE "users"."id" = $1  [["id", 17]]
+  TRANSACTION (8.7ms)  COMMIT  
+  
+  
+-----------Callback Classes
+
+it possible to create classes that encapsulate the callback methods, so they can be reused.
+[make a class]
+
+class DestroyCallback
+    def after_destroy(post)
+        post.destroy
+        puts "destroyed"
+    end
+end
+
+class Post < ApplicationRecord
+   
+    after_destroy DestroyCallback.new
+end 
+
+
+> post.destroy
+  TRANSACTION (0.3ms)  BEGIN
+  Post Destroy (0.4ms)  DELETE FROM "posts" WHERE "posts"."id" = $1  [["id", 2]]
+destroyed                                                   
+  TRANSACTION (9.0ms)  COMMIT 
+  
+  
+[when i will destroy any post then this class will be called]
+[Note that we needed to instantiate a new PictureFileCallbacks object, since we declared our callback as an instance method. ]
+
+
+             OR
+[declare the callbacks as class methods:it won't be necessary to instantiate a DestroyCallback object.]
+
+class DestroyCallback
+    def self.after_destroy(post)
+        post.destroy
+        puts "destroyed"
+    end
+end
+
+class Post < ApplicationRecord
+   
+    after_destroy DestroyCallback
+end 
+
+> post.destroy
+  TRANSACTION (0.3ms)  BEGIN
+  Post Destroy (0.3ms)  DELETE FROM "posts" WHERE "posts"."id" = $1  [["id", 3]]
+destroyed                                      
+  TRANSACTION (8.4ms)  COMMIT  
+
+
+------------Transactional Callbacks
+
+-There are two additional callbacks that are triggered by the completion of a database transaction: after_commit and after_rollback. 
+-These callbacks are very similar to the after_save callback except that they don't execute until after database changes have either been committed or rolled back.
+
+> user=User.new(id:1,name:"chintu")
+ => #<User:0x000055dd383ed328 id: 1, name: "chintu", created_at: nil, updated_at: nil, count: nil> 
+3.0.0 :057 > user.save!
+  TRANSACTION (0.5ms)  BEGIN
+  User Create (0.8ms)  INSERT INTO "users" ("id", "name", "created_at", "updated_at", "count") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["id", 1], ["name", "chintu"], ["created_at", "2023-02-09 06:37:21.015317"], ["updated_at", "2023-02-09 06:37:21.015317"], ["count", nil]]
+  TRANSACTION (9.1ms)  COMMIT                                    
+user is saved
+
+
+
+---------Halting Execution
+-The whole callback chain is wrapped in a transaction. 
+-If any callback raises an exception, the execution chain gets halted and a ROLLBACK is issued. To intentionally stop a chain use:
+
+class User < ApplicationRecord
+ 
+  before_save :user_saved
+
+  def user_saved
+    throw(:abort) if self.id == 92
+    end
+end
+
+ > user=User.new(id:92,name:"rohan")
+ => #<User:0x00007f2e289d71e8 id: 92, name: "aa", created_at: nil, updated_at: nil, count: nil> 
+3.0.0 :090 > user.save! # Failed to save the record .
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	
