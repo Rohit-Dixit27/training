@@ -122,7 +122,7 @@ all committed sucesfully
 object is initialized sucesfully
  => #<User:0x000055dd387bf438 id: 3, name: "sonam", created_at: nil, updated_at: nil, count: nil> 
 
- 14_after_find(execute when search an object)
+ 14)_after_find(execute when search an object)
 
  > user=User.find(2)
   User Load (0.3ms)  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2  [["id", 2], ["LIMIT", 1]]
@@ -130,4 +130,45 @@ found
  => #<User:0x000055dd371258f8 id: 2, name: "rohan", created_at: Thu, 09 Feb 2023 08:55:47.922432000 UTC +00:00, updated_at: Thu, 09 Feb 2023 08:55:47.922432000 UTC +00:00, count: nil> 
 
 [if after_initialize and after_find are together then after find will execute first]
+
+15)after_touch
+
+> user=User.first
+  User Load (0.9ms)  SELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1  [["LIMIT", 1]]
+ => #<User:0x000055dd37fdf830 id: 2, name: "rohan", created_at: Thu, 09 Feb 2023 08:55:47.922432000 UTC +00:00, updated_at: Thu, 09 Feb 2023 08:55:47.922432000 UTC +00:00, count: nil> 
+3.0.0 :166 > user.touch
+  TRANSACTION (0.3ms)  BEGIN
+  User Update (0.4ms)  UPDATE "users" SET "updated_at" = $1 WHERE "users"."id" = $2  [["updated_at", "2023-02-09 09:08:53.377899"], ["id", 2]]
+touched an object                                                         
+  TRANSACTION (8.8ms)  COMMIT                                             
+ => true 
+
+ 16)Relational Callback
+
+-Callbacks work through model relationships, and can even be defined by them.	
+-when a user is deleted then its posts are also deleted.
+
+ > user.destroy
+  TRANSACTION (0.3ms)  BEGIN
+  Post Load (0.2ms)  SELECT "posts".* FROM "posts" WHERE "posts"."user_id" = $1  [["user_id", 2]]
+  Post Destroy (0.3ms)  DELETE FROM "posts" WHERE "posts"."id" = $1  [["id", 1]] 
+post of user rohan is deleted                                                    
+  User Destroy (0.3ms)  DELETE FROM "users" WHERE "users"."id" = $1  [["id", 2]] 
+  TRANSACTION (8.3ms)  COMMIT 
+
+
+17)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
