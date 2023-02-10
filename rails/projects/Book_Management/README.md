@@ -736,3 +736,321 @@ e.g->
 rohit                                                          
 Ritika                                                         
 sonam
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+----------Conditions
+The where method allows you to specify conditions to limit the records returned, representing the WHERE-part of the SQL statement. Conditions can either be specified as a string, array, or hash.
+
+1)Pure String Conditions
+
+e.g->
+> Book.where("title ='operating system'")
+  Book Load (0.5ms)  SELECT "books".* FROM "books" WHERE (title ='operating system')
+ =>                                                                                       
+[#<Book:0x000055e6f0ee24b0                                                                
+  id: 7,                                                                                  
+  name: "OS",                                                                             
+  created_at: Mon, 06 Feb 2023 04:45:13.969066000 UTC +00:00,                             
+  updated_at: Mon, 06 Feb 2023 04:45:13.969066000 UTC +00:00,                             
+  type: nil,                                                                              
+  description: nil,                                                 
+  title: "operating system",                                        
+  author_id: 5,                                                     
+  price: nil>]
+
+
+  2)Hash Conditions
+  Active Record also allows you to pass in hash conditions which can increase the readability of your conditions syntax. With hash conditions, you pass in a hash with keys of the fields you want qualified and the values of how you want to qualify them:
+
+  [Only equality, range, and subset checking are possible with Hash conditions]
+
+  e.g->
+  > Author.where(books_count: true)
+  Author Load (0.3ms)  SELECT "authors".* FROM "authors" WHERE "authors"."books_count" = $1  [["books_count", 1]]
+ =>                                                         
+[#<Author:0x000055e6f078aff0                                
+  id: 15,                                                   
+  name: "Sonu",                                             
+  created_at: Fri, 03 Feb 2023 05:37:04.714237000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 2,                                 
+  books_count: 1,                                  
+  address: nil,                                    
+  salary: nil,                                     
+  date_of_birth: nil,                              
+  gender: nil,                                     
+  contact: nil,                                    
+  join_date: nil,                                  
+  resign_date: nil>,
+ #<Author:0x000055e6f078af28
+  id: 17,
+  name: "vishal",
+  created_at: Fri, 03 Feb 2023 06:07:37.570547000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 2,
+  books_count: 1,
+  address: nil,
+  salary: nil,
+  date_of_birth: nil,
+  gender: nil,
+  contact: nil,
+  join_date: nil,
+  resign_date: nil>] 
+
+  [return authors whose books_count=1]
+
+  ---------The field name can also be a string:
+
+  > Author.where('books_count'=> 7)
+  Author Load (0.4ms)  SELECT "authors".* FROM "authors" WHERE "authors"."books_count" = $1  [["books_count", 7]]
+ => 
+[#<Author:0x000055e6f1110110
+  id: 5,
+  name: "prince",
+  created_at: Thu, 02 Feb 2023 08:49:08.093030000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 5,
+  books_count: 7,
+  address: nil,
+  salary: 0.111e6,
+  date_of_birth: nil,
+  gender: "male",
+  contact: nil,
+  join_date: Tue, 01 Jan 2019,
+  resign_date: Wed, 01 Jan 2020>] 
+
+-----------------------Range Conditions
+e.g->
+> Author.where(id:1..3)
+  Author Load (0.4ms)  SELECT "authors".* FROM "authors" WHERE "authors"."id" BETWEEN $1 AND $2  [["id", 1], ["id", 3]]
+ =>                                                                                      
+[#<Author:0x000055e6f0dbbfc8                                                             
+  id: 3,                                                                                 
+  name: "sonam",                                                                         
+  created_at: Thu, 02 Feb 2023 05:30:50.534659000 UTC +00:00,                            
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,                            
+  lock_version: 3,                                                                       
+  books_count: 11,                                                                       
+  address: nil,                                                                          
+  salary: nil,                                                                           
+  date_of_birth: nil,                                                                    
+  gender: nil,                                                                           
+  contact: nil,                                                                          
+  join_date: nil,                                                                        
+  resign_date: nil>,
+ #<Author:0x000055e6f0dbbf00
+  id: 1,
+  name: "rohit",
+  created_at: Thu, 02 Feb 2023 05:30:42.053118000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 4,
+  books_count: 10,
+  address: nil,
+  salary: nil,
+  date_of_birth: Thu, 27 Jul 2000,
+  gender: nil,
+  contact: nil,
+  join_date: nil,
+  resign_date: nil>,
+ #<Author:0x000055e6f0dbbe38
+  id: 2,
+  name: "Ritika",
+  created_at: Thu, 02 Feb 2023 05:30:47.104306000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 16,
+  books_count: 13,
+  address: nil,
+  salary: 0.12001e5,
+  date_of_birth: nil,
+  gender: "female",
+  contact: "7678265601",
+  join_date: Sat, 01 Jan 2022,
+  resign_date: Sun, 01 Jan 2023>] 
+
+
+
+-------------Subset Conditions
+If you want to find records using the IN expression you can pass an array to the conditions hash:
+
+e.g->
+> Author.where(books_count: [6,11])
+  Author Load (0.4ms)  SELECT "authors".* FROM "authors" WHERE "authors"."books_count" IN ($1, $2)  [["books_count", 6], ["books_count", 11]]
+ => 
+[#<Author:0x000055e6f013be10
+  id: 3,
+  name: "sonam",
+  created_at: Thu, 02 Feb 2023 05:30:50.534659000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 3,
+  books_count: 11,
+  address: nil,
+  salary: nil,
+  date_of_birth: nil,
+  gender: nil,
+  contact: nil,
+  join_date: nil,
+  resign_date: nil>,
+ #<Author:0x000055e6f013bd48
+  id: 7,
+  name: "sunny",
+  created_at: Thu, 02 Feb 2023 08:51:59.781404000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 2,
+  books_count: 6,
+  address: nil,
+  salary: nil,
+  date_of_birth: nil,
+  gender: nil,
+  contact: nil,
+  join_date: nil,
+  resign_date: nil>] 
+
+
+  ---------Not Conditions
+  NOT SQL queries can be built by where.not:
+
+e.g->
+[it will return authors whose books_count is not 1 ,6 and 11]
+
+  > Author.where.not(books_count: [1,6,11])
+  Author Load (0.5ms)  SELECT "authors".* FROM "authors" WHERE "authors"."books_count" NOT IN ($1, $2, $3)  [["books_count", 1], ["books_count", 6], ["books_count", 11]]
+ =>                                                                                
+[#<Author:0x000055e6f05179d0                                                       
+  id: 1,                                                                           
+  name: "rohit",                                                                   
+  created_at: Thu, 02 Feb 2023 05:30:42.053118000 UTC +00:00,                      
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,                      
+  lock_version: 4,                                                                 
+  books_count: 10,                                                                 
+  address: nil,                                                                    
+  salary: nil,                                                                     
+  date_of_birth: Thu, 27 Jul 2000,                                                 
+  gender: nil,                                                                     
+  contact: nil,                                                                    
+  join_date: nil,                                                                  
+  resign_date: nil>,
+ #<Author:0x000055e6f0517908
+  id: 2,
+  name: "Ritika",
+  created_at: Thu, 02 Feb 2023 05:30:47.104306000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 16,
+  books_count: 13,
+  address: nil,
+  salary: 0.12001e5,
+  date_of_birth: nil,
+  gender: "female",
+  contact: "7678265601",
+  join_date: Sat, 01 Jan 2022,
+  resign_date: Sun, 01 Jan 2023>,
+ #<Author:0x000055e6f0517840
+  id: 5,
+  name: "prince",
+  created_at: Thu, 02 Feb 2023 08:49:08.093030000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 5,
+  books_count: 7,
+  address: nil,
+  salary: 0.111e6,
+  date_of_birth: nil,
+  gender: "male",
+  contact: nil,
+  join_date: Tue, 01 Jan 2019,
+  resign_date: Wed, 01 Jan 2020>] 
+
+  ----------------Or Conditions
+  OR conditions between two relations can be built by calling or on the first relation, and passing the second one as an argument.
+
+  e.g->
+   > Author.where(name: "rohit").or(Author.where(books_count: [6,10]))
+  Author Load (0.4ms)  SELECT "authors".* FROM "authors" WHERE ("authors"."name" = $1 OR "authors"."books_count" IN ($2, $3))  [["name", "rohit"], ["books_count", 6], ["books_count", 10]]
+ => 
+[#<Author:0x000055e6f0052ee0
+  id: 7,
+  name: "sunny",
+  created_at: Thu, 02 Feb 2023 08:51:59.781404000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 2,
+  books_count: 6,
+  address: nil,
+  salary: nil,
+  date_of_birth: nil,
+  gender: nil,
+  contact: nil,
+  join_date: nil,
+  resign_date: nil>,
+ #<Author:0x000055e6f0052e18
+  id: 1,
+  name: "rohit",
+  created_at: Thu, 02 Feb 2023 05:30:42.053118000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 4,
+  books_count: 10,
+  address: nil,
+  salary: nil,
+  date_of_birth: Thu, 27 Jul 2000,
+  gender: nil,
+  contact: nil,
+  join_date: nil,
+  resign_date: nil>]
+
+
+  ----------------And Conditions
+  AND conditions can be built by chaining where conditions.
+
+  e.g->
+ > Author.where(name: "rohit").where(books_count: 10)
+  Author Load (0.3ms)  SELECT "authors".* FROM "authors" WHERE "authors"."name" = $1 AND "authors"."books_count" = $2  [["name", "rohit"], ["books_count", 10]]
+ =>                                                                                             
+[#<Author:0x000055e6f06380f8                                                                    
+  id: 1,                                                                                        
+  name: "rohit",                                                                                
+  created_at: Thu, 02 Feb 2023 05:30:42.053118000 UTC +00:00,                                   
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,                                   
+  lock_version: 4,                                                                              
+  books_count: 10,                                                                              
+  address: nil,                                                                                 
+  salary: nil,                                                                                  
+  date_of_birth: Thu, 27 Jul 2000,                                                              
+  gender: nil,                                                                                  
+  contact: nil,                                                                                 
+  join_date: nil,                                                                               
+  resign_date: nil>] 
+
+-----------AND conditions for the logical intersection between relations can be built by calling and on the first relation, and passing the second one as an argument.
+
+e.g->
+ > Author.where(id:[1,2]).and(Author.where(id:[2,3]))
+  Author Load (0.4ms)  SELECT "authors".* FROM "authors" WHERE "authors"."id" IN ($1, $2) AND "authors"."id" IN ($3, $4)  [["id", 1], ["id", 2], ["id", 2], ["id", 3]]
+ =>                                                                                          
+[#<Author:0x000055e6f01a4fa0                                                                 
+  id: 2,                                                                                     
+  name: "Ritika",                                                                            
+  created_at: Thu, 02 Feb 2023 05:30:47.104306000 UTC +00:00,                                
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,                                
+  lock_version: 16,                                                                          
+  books_count: 13,                                                                           
+  address: nil,                                                                              
+  salary: 0.12001e5,                                                                         
+  date_of_birth: nil,                                                                        
+  gender: "female",                                                                          
+  contact: "7678265601",                                                                     
+  join_date: Sat, 01 Jan 2022,                                                               
+  resign_date: Sun, 01 Jan 2023>] 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
