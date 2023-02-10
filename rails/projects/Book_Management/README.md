@@ -905,6 +905,49 @@ e.g->
   join_date: nil,
   resign_date: nil>] 
 
+  3) Array Conditions
+  -Now what if that title could vary, say as an argument from somewhere? The find would then take the form:
+  >title = "operating system"
+  > Book.where("title = ?", title)
+  Book Load (0.4ms)  SELECT "books".* FROM "books" WHERE (title = 'operating system')
+ =>                                                                  
+[#<Book:0x000055a370494670                                           
+  id: 7,                                                             
+  name: "OS",                                                        
+  created_at: Mon, 06 Feb 2023 04:45:13.969066000 UTC +00:00,        
+  updated_at: Mon, 06 Feb 2023 04:45:13.969066000 UTC +00:00,        
+  type: nil,                                                         
+  description: nil,                                                  
+  title: "operating system",                                         
+  author_id: 5,                                                      
+  price: 0.1e3>] 
+
+
+---------Conditions That Use LIKE
+Although condition arguments are automatically escaped to prevent SQL injection, SQL LIKE wildcards (i.e., % and _) are not escaped. This may cause unexpected behavior if an unsanitized value is used in an argument. 
+
+  [Note-In the above code, the intent is to match titles that start with a user-specified string. 
+  However, any occurrences of % or _ in params[:title] will be  treated as wildcards, leading to surprising query results. 
+  In some circumstances, this may also prevent the database from using an intended index, leading to a much slower query.
+  To avoid these problems, use sanitize_sql_like to escape wildcard characters in the relevant portion of the argument:]
+
+ > title="o"
+ => "o" 
+3.0.0 :177 > Book.where("title LIKE ?",
+3.0.0 :178 >   Book.sanitize_sql_like(title) + "%")
+  Book Load (0.4ms)  SELECT "books".* FROM "books" WHERE (title LIKE 'o%')
+ => 
+[#<Book:0x000055a37026db30
+  id: 7,
+  name: "OS",
+  created_at: Mon, 06 Feb 2023 04:45:13.969066000 UTC +00:00,
+  updated_at: Mon, 06 Feb 2023 04:45:13.969066000 UTC +00:00,
+  type: nil,
+  description: nil,
+  title: "operating system",
+  author_id: 5,
+  price: 0.1e3>] 
+
 
   ---------Not Conditions
   NOT SQL queries can be built by where.not:
@@ -1772,46 +1815,97 @@ e.g->
 
 
 
+21)Scope
+-Scoping allows you to specify commonly-used queries which can be referenced as method calls on the association objects or models
+
+e.g->
+> Order.costs_less_than(2000)
+  Order Load (0.3ms)  SELECT "orders".* FROM "orders" WHERE (amount < 2000)
+ => 
+[#<Order:0x00007f29a47debd0
+  id: 1,
+  card_number: "1234",
+  created_at: Sat, 04 Feb 2023 04:51:37.289535000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 11:15:02.833991000 UTC +00:00,
+  payment_type: "card",
+  amount: 1200,
+  status: true,
+  book_id: 1>]
+
+-------an association consisting of orders objects:
+> book=Book.first
+> book.orders.costs_less_than(2000)
+  Order Load (0.5ms)  SELECT "orders".* FROM "orders" WHERE "orders"."book_id" = $1 AND (amount < 2000)  [["book_id", 1]]
+ =>                                                                              
+[#<Order:0x000055a37095db48                                                      
+  id: 1,                                                                         
+  card_number: "1234",                                                           
+  created_at: Sat, 04 Feb 2023 04:51:37.289535000 UTC +00:00,                    
+  updated_at: Sat, 04 Feb 2023 11:15:02.833991000 UTC +00:00,                    
+  payment_type: "card",                                                          
+  amount: 1200,                                                                  
+  status: true,                                                                  
+  book_id: 1>]
+
+-------------default scope
+If we wish for a scope to be applied across all queries to the model we can use the default_scope method within the model itself.
+> book=Book.new(id:1)
+ => #<Book:0x000055a370ac6660 id: 1, name: "no_name", created_at: nil, updated_at: nil, type: nil, description: nil, title: nil, author_id: nil, price: nil>
+
+-------------Merging of scopes
+e.g->
+> Book.amount(150).id_of_author(5)
+       or
+> Book.amount(150).merge(Book.id_of_author(5))
+
+  Book Load (0.3ms)  SELECT "books".* FROM "books" WHERE (price >= 150) AND (author_id < 5)
+ =>                                                                                            
+[#<Book:0x000055a370274390                                                                     
+  id: 2,                                                                                       
+  name: "Rails",                                                                               
+  created_at: Thu, 02 Feb 2023 05:30:04.258029000 UTC +00:00,                                  
+  updated_at: Fri, 10 Feb 2023 09:31:15.585495000 UTC +00:00,                                  
+  type: nil,                                                                                   
+  description: nil,                                                                            
+  title: "about rails",               
+  author_id: 2,                       
+  price: 0.2e3>]
+
+-----------------removing scopes
+If we wish to remove scoping for any reason we can use the unscoped method. This is especially useful if a default_scope is specified in the model and should not be applied for this particular query.
+
+Book.unscoped.load
 
 
+22)Enum
+An enum lets you define an Array of values for an attribute and refer to them by name. The actual value stored in the database is an integer that has been mapped to one of the values.
 
+Declaring an enum will:
 
+Create scopes that can be used to find all objects that have or do not have one of the enum values
+Create an instance method that can be used to determine if an object has a particular value for the enum
+Create an instance method that can be used to change the enum value of an object
+for all possible values of an enum.
 
+-----------Accessing status
+ >order = Order.first
+ > order.completed?
+ => true 
 
+ >order = Order.find(2)
+ > order.completed?
+ => false 
+3.0.0 :235 > order.initial?
+ => true 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ ----------update
+ [now order id 2 is completed]
+ >order = Order.find(2)
+ > order.completed!
+  TRANSACTION (0.6ms)  BEGIN
+  Order Update (1.0ms)  UPDATE "orders" SET "updated_at" = $1, "status" = $2 WHERE "orders"."id" = $3  [["updated_at", "2023-02-10 13:07:24.016303"], ["status", 1], ["id", 2]]
+  TRANSACTION (8.8ms)  COMMIT                                      
+ => true 
 
 
 
