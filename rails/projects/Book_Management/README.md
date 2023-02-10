@@ -1039,14 +1039,216 @@ e.g->
   resign_date: Sun, 01 Jan 2023>] 
 
 
+3)Ordering
+To retrieve records from the database in a specific order, you can use the order method.
+Author.order(:created_at)
+# OR
+Author.order("created_at")
+
+-->You could specify ASC or DESC as well:
+
+Author.order(created_at: :desc)
+# OR
+Author.order(created_at: :asc)
+# OR
+Author.order("created_at DESC")
+# OR
+Author.order("created_at ASC")
+
+-->Or ordering by multiple fields.
+> Author.order("id DESC","name ASC")
+
+----->If you want to call order multiple times, subsequent orders will be appended to the first:
+
+> Author.order("id DESC").order("name ASC")
+
+SELECT * FROM authors ORDER BY id DESC, name ASC
+
+
+4)Selecting specific fields.
+
+-By default, Model.find selects all the fields from the result set using select *.
+-To select only a subset of fields from the result set, you can specify the subset via the select method.
+
+e.g->
+> Author.select(:id,:name)
+     or
+     Author.select("id","name")
+  Author Load (0.4ms)  SELECT "authors"."id", "authors"."name" FROM "authors"
+ =>                                                                                  
+[#<Author:0x000055e6f0989310 id: 3, name: "sonam">,                                  
+ #<Author:0x000055e6f0989248 id: 7, name: "sunny">,                                  
+ #<Author:0x000055e6f0989180 id: 15, name: "Sonu">,                                  
+ #<Author:0x000055e6f09890b8 id: 17, name: "vishal">,                                
+ #<Author:0x000055e6f0988ff0 id: 1, name: "rohit">,                                  
+ #<Author:0x000055e6f0988f28 id: 20, name: "Reetu">,                                 
+ #<Author:0x000055e6f0988e60 id: 21, name: "meetu">,                                 
+ #<Author:0x000055e6f0988d98 id: 22, name: "Seetu">,                                 
+ #<Author:0x000055e6f0988cd0 id: 2, name: "Ritika">,                                 
+ #<Author:0x000055e6f0988be0 id: 5, name: "prince">,                                 
+ #<Author:0x000055e6f0988b18 id: 4, name: "rinku">,                                  
+ #<Author:0x000055e6f0988a00 id: 6, name: "minku">,                                  
+ #<Author:0x000055e6f0988938 id: 8, name: "sinku">,                                  
+ #<Author:0x000055e6f0988870 id: 9, name: "tinku">,
+ #<Author:0x000055e6f09887a8 id: 10, name: "seema">] 
+
+
+------------distinct
+e.g->
+> Author.select(:name).distinct
+  Author Load (0.3ms)  SELECT DISTINCT "authors"."name" FROM "authors"
+ =>                                                                                         
+[#<Author:0x000055e6f041fb18 id: nil, name: "Seetu">,                                       
+ #<Author:0x000055e6f0447af0 id: nil, name: "Reetu">,                                       
+ #<Author:0x000055e6f0447a28 id: nil, name: "sunny">,                                       
+ #<Author:0x000055e6f0447960 id: nil, name: "Ritika">,                                      
+ #<Author:0x000055e6f0447898 id: nil, name: "minku">,                                       
+ #<Author:0x000055e6f04477d0 id: nil, name: "Sonu">,                                        
+ #<Author:0x000055e6f0447708 id: nil, name: "prince">,                                      
+ #<Author:0x000055e6f0447640 id: nil, name: "rohit">,                                
+ #<Author:0x000055e6f0447578 id: nil, name: "sonam">,                                
+ #<Author:0x000055e6f04474b0 id: nil, name: "rinku">,                                
+ #<Author:0x000055e6f04473e8 id: nil, name: "meetu">,                                
+ #<Author:0x000055e6f0447320 id: nil, name: "sinku">,                                
+ #<Author:0x000055e6f0447258 id: nil, name: "vishal">,                               
+ #<Author:0x000055e6f0447190 id: nil, name: "tinku">] 
+
+
+----------------distinct(false)
+[Include duplicate values]
+> author=Author.select(:name).distinct
+> author.distinct(false)
+  Author Load (0.4ms)  SELECT "authors"."name" FROM "authors"
+ =>                                                   
+[#<Author:0x000055e6f057d708 id: nil, name: "rohit">, 
+ #<Author:0x000055e6f057d640 id: nil, name: "sonam">, 
+ #<Author:0x000055e6f057d578 id: nil, name: "sunny">, 
+ #<Author:0x000055e6f057d4b0 id: nil, name: "Sonu">,  
+ #<Author:0x000055e6f057d3e8 id: nil, name: "vishal">,
+ #<Author:0x000055e6f057d320 id: nil, name: "rohit">, 
+ #<Author:0x000055e6f057d258 id: nil, name: "Reetu">, 
+ #<Author:0x000055e6f057d190 id: nil, name: "meetu">, 
+ #<Author:0x000055e6f057d0c8 id: nil, name: "Seetu">, 
+ #<Author:0x000055e6f057d000 id: nil, name: "Ritika">,
+ #<Author:0x000055e6f057cf38 id: nil, name: "prince">,
+ #<Author:0x000055e6f057ce70 id: nil, name: "rinku">, 
+ #<Author:0x000055e6f057cda8 id: nil, name: "minku">, 
+ #<Author:0x000055e6f057cce0 id: nil, name: "sinku">,
+ #<Author:0x000055e6f057cc18 id: nil, name: "tinku">] 
 
 
 
 
+5)Limit and offset
+You can use limit to specify the number of records to be retrieved, and use offset to specify the number of records to skip before starting to return the records.
+e.g->
+[ it will return the first 5 in the table]
+> Author.limit(2)
+
+  Author Load (0.3ms)  SELECT "authors".* FROM "authors" ORDER BY "authors"."id" ASC LIMIT $1  [["LIMIT", 2]]
+ =>                                                           
+[#<Author:0x000055e6f098b480                                  
+  id: 1,                                                      
+  name: "rohit",                                              
+  created_at: Thu, 02 Feb 2023 05:30:42.053118000 UTC +00:00, 
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00, 
+  lock_version: 4,                                            
+  books_count: 10,                                            
+  address: nil,                                               
+  salary: nil,                                                
+  date_of_birth: Thu, 27 Jul 2000,                            
+  gender: nil,                                                
+  contact: nil,                                               
+  join_date: nil,                                             
+  resign_date: nil>,
+ #<Author:0x000055e6f098b3b8
+  id: 2,
+  name: "Ritika",
+  created_at: Thu, 02 Feb 2023 05:30:47.104306000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 16,
+  books_count: 13,
+  address: nil,
+  salary: 0.12001e5,
+  date_of_birth: nil,
+  gender: "female",
+  contact: "7678265601",
+  join_date: Sat, 01 Jan 2022,
+  resign_date: Sun, 01 Jan 2023>] 
 
 
+---------offset
+[limit-2,so 2 records after skip 13 records]
+> Author.limit(2).offset(13)
+  Author Load (0.4ms)  SELECT "authors".* FROM "authors" LIMIT $1 OFFSET $2  [["LIMIT", 2], ["OFFSET", 13]]
+ => 
+[#<Author:0x000055e6f071b3f8
+  id: 8,
+  name: "sinku",
+  created_at: Mon, 06 Feb 2023 04:42:45.504938000 UTC +00:00,
+  updated_at: Mon, 06 Feb 2023 04:42:45.504938000 UTC +00:00,
+  lock_version: 0,
+  books_count: nil,
+  address: nil,
+  salary: nil,
+  date_of_birth: nil,
+  gender: nil,
+  contact: nil,
+  join_date: nil,
+  resign_date: nil>,
+ #<Author:0x000055e6f071b330
+  id: 9,
+  name: "tinku",
+  created_at: Mon, 06 Feb 2023 04:42:51.714232000 UTC +00:00,
+  updated_at: Mon, 06 Feb 2023 04:42:51.714232000 UTC +00:00,
+  lock_version: 0,
+  books_count: nil,
+  address: nil,
+  salary: nil,
+  date_of_birth: nil,
+  gender: nil,
+  contact: nil,
+  join_date: nil,
+  resign_date: nil>] 
+
+  6)Group
+  To apply a GROUP BY clause to the SQL fired by the finder, you can use the group method.
+e.g->
+[collection of the dates on which authors were created:]
+   > Author.select(:created_at).group(:created_at)
+  Author Load (0.5ms)  SELECT "authors"."created_at" FROM "authors" GROUP BY "authors"."created_at"
+ =>                                                                                                     
+[#<Author:0x000055e6f0061030 id: nil, created_at: Mon, 06 Feb 2023 04:42:28.130732000 UTC +00:00>,      
+ #<Author:0x000055e6f0060f68 id: nil, created_at: Mon, 06 Feb 2023 04:43:03.809998000 UTC +00:00>,      
+ #<Author:0x000055e6f0060ea0 id: nil, created_at: Mon, 06 Feb 2023 04:42:45.504938000 UTC +00:00>,      
+ #<Author:0x000055e6f0060dd8 id: nil, created_at: Mon, 06 Feb 2023 04:42:04.248874000 UTC +00:00>,      
+ #<Author:0x000055e6f0060d10 id: nil, created_at: Fri, 03 Feb 2023 05:37:04.714237000 UTC +00:00>,      
+ #<Author:0x000055e6f0060c48 id: nil, created_at: Sat, 04 Feb 2023 06:44:14.285476000 UTC +00:00>,      
+ #<Author:0x000055e6f0060b80 id: nil, created_at: Thu, 02 Feb 2023 05:30:42.053118000 UTC +00:00>,      
+ #<Author:0x000055e6f0060ab8 id: nil, created_at: Thu, 02 Feb 2023 05:30:50.534659000 UTC +00:00>,      
+ #<Author:0x000055e6f00609f0 id: nil, created_at: Sat, 04 Feb 2023 06:56:20.775467000 UTC +00:00>,      
+ #<Author:0x000055e6f0060928 id: nil, created_at: Fri, 03 Feb 2023 06:07:37.570547000 UTC +00:00>,      
+ #<Author:0x000055e6f0060860 id: nil, created_at: Thu, 02 Feb 2023 05:30:47.104306000 UTC +00:00>,      
+ #<Author:0x000055e6f0060798 id: nil, created_at: Thu, 02 Feb 2023 08:49:08.093030000 UTC +00:00>,      
+ #<Author:0x000055e6f00606d0 id: nil, created_at: Mon, 06 Feb 2023 04:42:51.714232000 UTC +00:00>,      
+ #<Author:0x000055e6f0060608 id: nil, created_at: Sat, 04 Feb 2023 06:44:03.428946000 UTC +00:00>,
+ #<Author:0x000055e6f0060540 id: nil, created_at: Thu, 02 Feb 2023 08:51:59.781404000 UTC +00:00>] 
+
+---------count
+e.g->
+> Author.group(:books_count).count
+  Author Count (0.5ms)  SELECT COUNT(*) AS "count_all", "authors"."books_count" AS "authors_books_count" FROM "authors" GROUP BY "authors"."books_count"
+ => {11=>1, 7=>1, 13=>1, 10=>1, nil=>8, 1=>2, 6=>1}  
 
 
+7)Having
+SQL uses the HAVING clause to specify conditions on the GROUP BY fields. You can add the HAVING clause to the SQL fired by the Model.find by adding the having method to the find.
+e.g->
+> get_count=Author.select("books_count,count(books_count) AS total").group(:books_count).having("count(books_count) > ?", 2)
+  Author Load (0.4ms)  SELECT books_count,count(books_count) AS total FROM "authors" GROUP BY "authors"."books_count" HAVING (count(books_count) > 2)
+ => [#<Author:0x000055e6f03dd510 id: nil, books_count: 5>, #<Author:0x000055e6f03dd448 id: nil, books_count: 12>] 
+3.0.0 :222 > get_count[0].total
+ => 3 
 
 
 
