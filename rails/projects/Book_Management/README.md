@@ -1406,6 +1406,148 @@ e.g->
  => [#<Author:0x000055e6f0505230 id: 4>] 
 
 
+9)Null Relation
+Book.none # returns an empty Relation and fires no queries.
+
+
+10)readonly
+Active Record provides the readonly method on a relation to explicitly disallow modification of any of the returned objects. Any attempt to alter a readonly record will not succeed, raising an ActiveRecord::ReadOnlyRecord exception.
+e.g->
+ > author=Author.readonly.find(5)
+ > author.books_count+=1
+ >author.save
+ # Author is marked as readonly (ActiveRecord::ReadOnlyRecord)
+
+11)Optimistic locking column
+Optimistic locking allows multiple users to access the same record for edits, and assumes a minimum of conflicts with the data.
+
+class AddColumnToAuthors < ActiveRecord::Migration[7.0]
+  def change
+    add_column :authors, :lock_version, :integer
+  end
+end
+
+
+12)pessimistic locking
+Pessimistic locking uses a locking mechanism provided by the underlying database. Using lock when building a relation obtains an exclusive lock on the selected rows. Relations using lock are usually wrapped inside a transaction for preventing deadlock conditions.
+e.g->
+3.0.0 :302 > Book.transaction do
+3.0.0 :303 >   book = Book.lock.find(2)
+3.0.0 :304 >   book.title = 'about git'
+3.0.0 :305 >   book.save!
+3.0.0 :306 > end
+  TRANSACTION (0.2ms)  BEGIN
+  Book Load (0.3ms)  SELECT "books".* FROM "books" WHERE "books"."id" = $1 LIMIT $2 FOR UPDATE  [["id", 2], ["LIMIT", 1]]
+  Book Update (0.3ms)  UPDATE "books" SET "updated_at" = $1, "title" = $2 WHERE "books"."id" = $3  [["updated_at", "2023-02-10 09:31:15.585495"], ["title", "about git"], ["id", 2]]
+  TRANSACTION (8.4ms)  COMMIT
+ => true
+
+
+13)Joining Tables
+Active Record provides two finder methods for specifying JOIN clauses on the resulting SQL: joins and left_outer_joins. While joins should be used for INNER JOIN or custom queries, left_outer_joins is used for queries using LEFT OUTER JOIN.
+
+1) joins
+There are multiple ways to use the joins method.
+
+a) Using a String SQL Fragment
+-You can just supply the raw SQL specifying the JOIN clause to joins:
+e.g->
+Author.joins("inner join books on books.author_id=author_id")
+Author Load (0.6ms)  SELECT "authors".* FROM "authors" inner join books on books.author_id=author_id
+
+
+b) Using Array/Hash of Named Associations
+-Active Record lets you use the names of the associations defined on the model as a shortcut for specifying JOIN clauses for those associations when using the joins method.
+
+All of the following will produce the expected join queries using INNER JOIN:
+e.g->
+> Author.joins(:books)
+Author Load (1.3ms)  SELECT "authors".* FROM "authors" INNER JOIN "books" ON "books"."author_id" = "authors"."id"
+
+-------to avoid duplicat data
+
+> Author.joins(:books).distinct
+
+
+c) Joining Multiple Associations
+>Author.joins(:books,:orders)
+
+d)Specifying Conditions on the Joined Tables
+e.g->
+> Author.joins(:books).where('author_id < 3')
+  Author Load (0.6ms)  SELECT "authors".* FROM "authors" INNER JOIN "books" ON "books"."author_id" = "authors"."id" WHERE (author_id < 3)
+ => 
+[#<Author:0x000055a36e712138
+  id: 1,
+  name: "rohit",
+  created_at: Thu, 02 Feb 2023 05:30:42.053118000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 4,
+  books_count: 10,
+  address: nil,
+  salary: nil,
+  date_of_birth: Thu, 27 Jul 2000,
+  gender: nil,
+  contact: nil,
+  join_date: nil,
+  resign_date: nil>,
+ #<Author:0x000055a36e70bce8
+  id: 2,
+  name: "Ritika",
+  created_at: Thu, 02 Feb 2023 05:30:47.104306000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 16,
+  books_count: 13,
+  address: nil,
+  salary: 0.12001e5,
+  date_of_birth: nil,
+  gender: "female",
+  contact: "7678265601",
+  join_date: Sat, 01 Jan 2022,
+  resign_date: Sun, 01 Jan 2023>] 
+
+
+
+2)left_outer_joins
+If you want to select a set of records whether or not they have associated records you can use the left_outer_joins method.
+
+e.g->
+> Author.left_outer_joins(:books).where("author_id < 2")
+  Author Load (0.5ms)  SELECT "authors".* FROM "authors" LEFT OUTER JOIN "books" ON "books"."author_id" = "authors"."id" WHERE (author_id < 2)
+ =>                                                                          
+[#<Author:0x00007f29a462d480                                                 
+  id: 1,                                                                     
+  name: "rohit",                                                             
+  created_at: Thu, 02 Feb 2023 05:30:42.053118000 UTC +00:00,                
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,                
+  lock_version: 4,                                                           
+  books_count: 10,                                                           
+  address: nil,                                                              
+  salary: nil,                                                               
+  date_of_birth: Thu, 27 Jul 2000,                                           
+  gender: nil,                                                               
+  contact: nil,                                                              
+  join_date: nil,                                                            
+  resign_date: nil>] 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
