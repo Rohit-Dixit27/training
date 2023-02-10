@@ -1250,6 +1250,179 @@ e.g->
 3.0.0 :222 > get_count[0].total
  => 3 
 
+8)Overriding conditions
+
+1)unscope
+You can specify certain conditions to be removed using the unscope method
+e.g->
+[unscope means here order will not execute]
+> Author.where('id > 10').limit(2).order('id desc').unscope(:order)
+  Author Load (0.4ms)  SELECT "authors".* FROM "authors" WHERE (id > 10) LIMIT $1  [["LIMIT", 2]]
+ => 
+[#<Author:0x000055e6f10620b0
+  id: 15,
+  name: "Sonu",
+  created_at: Fri, 03 Feb 2023 05:37:04.714237000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 2,
+  books_count: 1,
+  address: nil,
+  salary: nil,
+  date_of_birth: nil,
+  gender: nil,
+  contact: nil,
+  join_date: nil,
+  resign_date: nil>,
+ #<Author:0x000055e6f1061fc0
+  id: 17,
+  name: "vishal",
+  created_at: Fri, 03 Feb 2023 06:07:37.570547000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 2,
+  books_count: 1,
+  address: nil,
+  salary: nil,
+  date_of_birth: nil,
+  gender: nil,
+  contact: nil,
+  join_date: nil,
+  resign_date: nil>] 
+
+
+
+2)only
+You can also override conditions using the only method.it means only that will execute
+e.g->
+[here order and where are only execute.]
+> Author.where('id < 3').limit(5).order('id desc').only(:where,:order)
+  Author Load (0.5ms)  SELECT "authors".* FROM "authors" WHERE (id < 3) ORDER BY id desc
+ => 
+[#<Author:0x000055e6f01f6a58
+  id: 2,
+  name: "Ritika",
+  created_at: Thu, 02 Feb 2023 05:30:47.104306000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 16,
+  books_count: 13,
+  address: nil,
+  salary: 0.12001e5,
+  date_of_birth: nil,
+  gender: "female",
+  contact: "7678265601",
+  join_date: Sat, 01 Jan 2022,
+  resign_date: Sun, 01 Jan 2023>,
+ #<Author:0x000055e6f01f6990
+  id: 1,
+  name: "rohit",
+  created_at: Thu, 02 Feb 2023 05:30:42.053118000 UTC +00:00,
+  updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+  lock_version: 4,
+  books_count: 10,
+  address: nil,
+  salary: nil,
+  date_of_birth: Thu, 27 Jul 2000,
+  gender: nil,
+  contact: nil,
+  join_date: nil,
+  resign_date: nil>] 
+
+
+
+3)reselect
+The reselect method overrides an existing select statement.
+e.g->
+[only reselect will run, select will not run]
+> Author.select(:id,:name).reselect(:name)
+  Author Load (0.4ms)  SELECT "authors"."name" FROM "authors"
+ =>                                                                                                      
+[#<Author:0x000055e6efeea8f0 id: nil, name: "rohit">,                                                    
+ #<Author:0x000055e6efeea828 id: nil, name: "Ritika">,                                                   
+ #<Author:0x000055e6efeea760 id: nil, name: "sonam">,                                                    
+ #<Author:0x000055e6efeea698 id: nil, name: "rinku">,                                                    
+ #<Author:0x000055e6efeea5a8 id: nil, name: "prince">,                                                   
+ #<Author:0x000055e6efeea4e0 id: nil, name: "minku">,                                                    
+ #<Author:0x000055e6efeea418 id: nil, name: "sunny">,                                                    
+ #<Author:0x000055e6efeea328 id: nil, name: "sinku">,                                                    
+ #<Author:0x000055e6efeea238 id: nil, name: "tinku">,                                                    
+ #<Author:0x000055e6efeea170 id: nil, name: "rohit">,                                                    
+ #<Author:0x000055e6efeea080 id: nil, name: "Sonu">,                                                     
+ #<Author:0x000055e6efee9fb8 id: nil, name: "vishal">,                                                   
+ #<Author:0x000055e6efee9e78 id: nil, name: "Reetu">,                                                    
+ #<Author:0x000055e6efee9db0 id: nil, name: "meetu">,
+ #<Author:0x000055e6efee9ce8 id: nil, name: "Seetu">] 
+
+
+
+
+4)reorder
+The reorder method overrides the default scope order.
+e.g->
+[only reorder will run,order will not run]
+ > Author.select(:id).order("id DESC").reorder("id ASC")
+  Author Load (0.4ms)  SELECT "authors"."id" FROM "authors" ORDER BY id ASC
+ =>                                                                                
+[#<Author:0x000055e6f0e61e00 id: 1>,                                               
+ #<Author:0x000055e6f0e61ce8 id: 2>,                                               
+ #<Author:0x000055e6f0e61bd0 id: 3>,                                               
+ #<Author:0x000055e6f0e61b08 id: 4>,                                               
+ #<Author:0x000055e6f0e61a40 id: 5>,                                               
+ #<Author:0x000055e6f0e61978 id: 6>,                                               
+ #<Author:0x000055e6f0e618b0 id: 7>,                                               
+ #<Author:0x000055e6f0e61568 id: 8>,                                               
+ #<Author:0x000055e6f0e61180 id: 9>,                                               
+ #<Author:0x000055e6f0e60d98 id: 10>,                                              
+ #<Author:0x000055e6f0e60b40 id: 15>,                                              
+ #<Author:0x000055e6f0e60a78 id: 17>,                                              
+ #<Author:0x000055e6f0e60870 id: 20>,                                              
+ #<Author:0x000055e6f0e60708 id: 21>,
+ #<Author:0x000055e6f0e60438 id: 22>] 
+
+
+5)reverse_order
+The reverse_order method reverses the ordering clause if specified.
+e.g->
+(without reverse order)
+> Author.select(:id).where("id > 10")
+  Author Load (0.8ms)  SELECT "authors"."id" FROM "authors" WHERE (id > 10)
+ => [#<Author:0x000055e6f0d73f70 id: 15>, #<Author:0x000055e6f0d73e80 id: 17>, #<Author:0x000055e6f0d73d90 id: 20>, #<Author:0x000055e6f0d73ca0 id: 21>, #<Author:0x000055e6f0d73b88 id: 22>] 
+
+(with reverse order)
+> Author.select(:id).where("id > 10").reverse_order
+  Author Load (0.4ms)  SELECT "authors"."id" FROM "authors" WHERE (id > 10) ORDER BY "authors"."id" DESC
+ => [#<Author:0x000055e6f03a63d0 id: 22>, #<Author:0x000055e6f03a6308 id: 21>, #<Author:0x000055e6f03a6240 id: 20>, #<Author:0x000055e6f03a6178 id: 17>, #<Author:0x000055e6f03a60b0 id: 15>] 
+
+
+6)rewhere
+The rewhere method overrides an existing, named where condition.
+e.g->
+> Author.select(:id).where("id < 5").rewhere("id < 4")
+  Author Load (0.8ms)  SELECT "authors"."id" FROM "authors" WHERE (id < 5) AND (id < 4)
+ => [#<Author:0x00007f37e07ee360 id: 1>, #<Author:0x00007f37e07ee040 id: 2>, #<Author:0x00007f37e07edaa0 id: 3>] 
+
+[where clauses are anded together.]
+e.g->
+> Author.select(:id).where("id < 5").where("id > 3")
+  Author Load (0.4ms)  SELECT "authors"."id" FROM "authors" WHERE (id < 5) AND (id > 3)
+ => [#<Author:0x000055e6f0505230 id: 4>] 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
