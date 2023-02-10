@@ -1531,6 +1531,205 @@ e.g->
   resign_date: nil>] 
 
 
+14)Eager Loading Associations
+-Eager loading is the mechanism for loading the associated records of the objects returned by Model.find using as few queries as possible.
+-----N + 1 queries problem
+
+e.g->
+> books = Book.limit(2)
+>books.each do |book|
+  puts book.author.name
+end
+[1 query for load books and then 2 queries to print their names.]
+
+---------Solution to N + 1 queries problem
+
+Active Record lets you specify in advance all the associations that are going to be loaded.
+
+The methods are:
+
+a)includes
+b)preload
+c)eager_load
+
+a)includes
+
+e.g->
+ > books=Book.includes(:author).limit(2)
+ > books.each do |book|
+     puts book.author.name
+    end
+
+  Book Load (0.4ms)  SELECT "books".* FROM "books" LIMIT $1  [["LIMIT", 2]]
+  Author Load (0.5ms)  SELECT "authors".* FROM "authors" WHERE "authors"."id" IN ($1, $2)  [["id", 15], ["id", 5]]
+
+[only 2 queries will execute]
+
+
+b)preload
+e.g->
+e.g->
+ > books=Book.preload(:author).limit(2)
+ > books.each do |book|
+     puts book.author.name
+    end
+
+  Book Load (0.4ms)  SELECT "books".* FROM "books" LIMIT $1  [["LIMIT", 2]]
+  Author Load (0.5ms)  SELECT "authors".* FROM "authors" WHERE "authors"."id" IN ($1, $2)  [["id", 15], ["id", 5]]
+
+[only 2 queries will execute]
+
+
+c)eager_load
+With eager_load, Active Record loads all specified associations using a LEFT OUTER JOIN.
+
+e.g->
+> books=Book.eager_load(:author).limit(2)
+  SQL (0.8ms)  SELECT "books"."id" AS t0_r0, "books"."name" AS t0_r1, "books"."created_at" AS t0_r2, "books"."updated_at" AS t0_r3, "books"."type" AS t0_r4, "books"."description" AS t0_r5, "books"."title" AS t0_r6, "books"."author_id" AS t0_r7, "books"."price" AS t0_r8, "authors"."id" AS t1_r0, "authors"."name" AS t1_r1, "authors"."created_at" AS t1_r2, "authors"."updated_at" AS t1_r3, "authors"."lock_version" AS t1_r4, "authors"."books_count" AS t1_r5, "authors"."address" AS t1_r6, "authors"."salary" AS t1_r7, "authors"."date_of_birth" AS t1_r8, "authors"."gender" AS t1_r9, "authors"."contact" AS t1_r10, "authors"."join_date" AS t1_r11, "authors"."resign_date" AS t1_r12 FROM "books" LEFT OUTER JOIN "authors" ON "authors"."id" = "books"."author_id" LIMIT $1  [["LIMIT", 2]]
+ 
+15) Dynamic finders
+-For every field (also known as an attribute) you define in your table, Active Record provides a finder method. If you have a field called first_name on    your Customer model for example, you get the instance method find_by_first_name for free from Active Record. 
+-You can specify an exclamation point (!) on the end of the dynamic finders to get them to raise an ActiveRecord::RecordNotFound error if they do not return any records.
+[if we want to find name and books count together then we can use and between them.]
+
+e.g->
+> Author.find_by_name_and_books_count("rohit",10)
+  Author Load (0.3ms)  SELECT "authors".* FROM "authors" WHERE "authors"."name" = $1 AND "authors"."books_count" = $2 LIMIT $3  [["name", "rohit"], ["books_count", 10], ["LIMIT", 1]]
+ => 
+#<Author:0x000055a370ad78c0
+ id: 1,
+ name: "rohit",
+ created_at: Thu, 02 Feb 2023 05:30:42.053118000 UTC +00:00,
+ updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,
+ lock_version: 4,
+ books_count: 10,
+ address: nil,
+ salary: nil,
+ date_of_birth: Thu, 27 Jul 2000,
+ gender: nil,
+ contact: nil,
+ join_date: nil,
+ resign_date: nil>
+
+
+
+16)find_or_create_by
+It's common that you need to find a record or create it if it doesn't exist. You can do that with the find_or_create_by and find_or_create_by! methods.
+
+e.g->
+> Author.find_or_create_by(name: "vishal")
+  Author Load (0.3ms)  SELECT "authors".* FROM "authors" WHERE "authors"."name" = $1 LIMIT $2  [["name", "vishal"], ["LIMIT", 1]]
+ =>                                                           
+#<Author:0x00007f29a43bad38                                   
+ id: 17,                                                      
+ name: "vishal",                                              
+ created_at: Fri, 03 Feb 2023 06:07:37.570547000 UTC +00:00,  
+ updated_at: Sat, 04 Feb 2023 10:58:17.467468000 UTC +00:00,  
+ lock_version: 2,                                             
+ books_count: 1,                                              
+ address: nil,                                                
+ salary: nil,                                                 
+ date_of_birth: nil,                                          
+ gender: nil,                                                 
+ contact: nil,                                                
+ join_date: nil,                                              
+ resign_date: nil> 
+
+
+
+----------find_or_create_by!
+ ->You can also use find_or_create_by! to raise an exception if the new record is invalid. beacuse of not fulfilling the validation criteria.
+e.g->
+ > Author.find_or_create_by!(name: "jatin")
+  Author Load (0.3ms)  SELECT "authors".* FROM "authors" WHERE "authors"."name" = $1 LIMIT $2  [["name", "jatin"], ["LIMIT", 1]]
+/usr/share/rvm/gems/ruby-3.0.0/gems/activerecord-7.0.4.2/lib/active_record/validations.rb:80:in `raise_validation_error': Validation failed: Gender can't be blank, Gender choose either male or female, Join date can't be blank (ActiveRecord::RecordInvalid) 
+
+17)find_or_initialize_by
+The find_or_initialize_by method will work just like find_or_create_by but it will call new instead of create. This means that a new model instance will be created in memory but won't be saved to the database.
+
+e.g->
+> author=Author.find_or_initialize_by(id:31,name:"jatin",gender:"male",join_date:"2021-11-11",resign_date:"2022-11-11")
+
+  Author Load (0.7ms)  SELECT "authors".* FROM "authors" WHERE "authors"."id" = $1 AND "authors"."name" = $2 AND "authors"."gender" = $3 AND "authors"."join_date" = $4 AND "authors"."resign_date" = $5 LIMIT $6  [["id", 31], ["name", "jatin"], ["gender", "male"], ["join_date", "2021-11-11"], ["resign_date", "2022-11-11"], ["LIMIT", 1]]
+
+ > author.save
+  TRANSACTION (0.3ms)  BEGIN
+  Author Create (8.1ms)  INSERT INTO "authors" ("id", "name", "created_at", "updated_at", "lock_version", "books_count", "address", "salary", "date_of_birth", "gender", "contact", "join_date", "resign_date") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING "id"  [["id", 31], ["name", "jatin"], ["created_at", "2023-02-10 11:11:23.940270"], ["updated_at", "2023-02-10 11:11:23.940270"], ["lock_version", 0], ["books_count", nil], ["address", nil], ["salary", nil], ["date_of_birth", nil], ["gender", "male"], ["contact", nil], ["join_date", "2021-11-11"], ["resign_date", "2022-11-11"]]                                                 
+  TRANSACTION (1.7ms)  COMMIT                      
+ => true              
+
+
+
+18)Finding by sql
+If you'd like to use your own SQL to find records in a table you can use find_by_sql. The find_by_sql method will return an array of objects even if the underlying query returns just a single record.
+
+e.g->
+> Author.find_by_sql("select id,name from authors where id = 3")
+  Author Load (0.4ms)  select id,name from authors where id = 3
+ => [#<Author:0x000055a3706bcbf0 id: 3, name: "sonam">]   
+
+
+------------select_all
+-find_by_sql has a close relative called "connection.select_all".
+-select_all will retrieve objects from the database using custom SQL just like find_by_sql but will not instantiate them. This method will return an -instance of ActiveRecord::Result class and calling to_a on this object would return you an array of hashes where each hash indicates a record.
+
+e.g->
+ > Author.connection.select_all("select id,name from authors where id=4").to_a
+   (0.8ms)  select id,name from authors where id=4
+ => [{"id"=>4, "name"=>"rinku"}]                                                                                                             
+
+-----------------pluck
+pluck can be used to query single or multiple columns from the underlying table of a model. It accepts a list of column names as an argument and returns an array of values of the specified columns with the corresponding data type.
+
+e.g->
+> Author.pluck(:id,:name)
+  Author Pluck (0.4ms)  SELECT "authors"."id", "authors"."name" FROM "authors"
+ =>                                                                                                                                          
+[[1, "rohit"],                                                                                                                               
+ [2, "Ritika"],                                                                                                                              
+ [3, "sonam"],                                                                                                                               
+ [4, "rinku"],                                                                                                                               
+ [5, "prince"],                                                                                                                              
+ [6, "minku"],                                                                                                                               
+ [7, "sunny"],                                                                                                                               
+ [8, "sinku"],                                                                           
+ [9, "tinku"],                                                                           
+ [10, "rohit"],                                                                          
+ [15, "Sonu"],
+ [17, "vishal"],
+ [20, "Reetu"],
+ [21, "meetu"],
+ [22, "Seetu"],
+ [31, "jatin"]] 
+
+ --------------ids
+ e.g->
+ > Book.ids
+  Book Pluck (0.4ms)  SELECT "books"."id" FROM "books"
+ => [3, 5, 6, 7, 2, 1]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
