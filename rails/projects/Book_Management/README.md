@@ -1710,14 +1710,65 @@ e.g->
 
 
 
+19)Existence of objects
+If you simply want to check for the existence of the object there's a method called exists?. This method will query the database using the same query as find, but instead of returning an object or collection of objects it will return either true or false.
 
+e.g->
+> Book.ids
+  Book Pluck (0.4ms)  SELECT "books"."id" FROM "books"
+ => [3, 5, 6, 7, 2, 1]                                      
+3.0.0 :127 > Book.exists?(1)
+  Book Exists? (0.4ms)  SELECT 1 AS one FROM "books" WHERE "books"."id" = $1 LIMIT $2  [["id", 1], ["LIMIT", 1]]
+ => true                                                    
+3.0.0 :128 > Book.exists?(4)
+  Book Exists? (0.4ms)  SELECT 1 AS one FROM "books" WHERE "books"."id" = $1 LIMIT $2  [["id", 4], ["LIMIT", 1]]
+ => false  
 
+> Book.exists?(id:[1,2,3])
+  Book Exists? (0.6ms)  SELECT 1 AS one FROM "books" WHERE "books"."id" IN ($1, $2, $3) LIMIT $4  [["id", 1], ["id", 2], ["id", 3], ["LIMIT", 1]]
+ => true 
 
+ > Book.exists?
+  Book Exists? (0.3ms)  SELECT 1 AS one FROM "books" LIMIT $1  [["LIMIT", 1]]
+ => true 
+[return false if table empty otherwise true]
 
+> Book.any?
+  Book Exists? (0.4ms)  SELECT 1 AS one FROM "books" LIMIT $1  [["LIMIT", 1]]
+ => true                                                    
+> Book.many?
+  Book Count (1.0ms)  SELECT COUNT(*) FROM (SELECT 1 AS one FROM "books" LIMIT $1) subquery_for_count  [["LIMIT", 2]]
+ => true  
 
+20)Calculations
+ 1)count
+> Book.count
+  Book Count (0.9ms)  SELECT COUNT(*) FROM "books"
+ => 6                                                       
 
+> Book.where(name:"Rails").count
+  Book Count (0.5ms)  SELECT COUNT(*) FROM "books" WHERE "books"."name" = $1  [["name", "Rails"]]
+ => 1
 
+2)average
+> Order.average("amount")
+  Order Average (0.3ms)  SELECT AVG("orders"."amount") FROM "orders"
+ => 0.70857142857142857143e4
 
+ 3)minimum
+ > Order.minimum("amount")
+  Order Minimum (0.5ms)  SELECT MIN("orders"."amount") FROM "orders"
+ => 1200 
+
+ 4)maximum
+ > Order.maximum("amount")
+  Order Maximum (0.6ms)  SELECT MAX("orders"."amount") FROM "orders"
+ => 10000 
+
+ 5)sum
+ > Order.sum("amount")
+  Order Sum (0.5ms)  SELECT SUM("orders"."amount") FROM "orders"
+ => 99200 
 
 
 
