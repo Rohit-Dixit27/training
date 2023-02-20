@@ -1909,9 +1909,31 @@ for all possible values of an enum.
 
 
 
+-----------------Layouts and rendering in rails
+
+-->Creating Responses
+
+From the controller's point of view, there are three ways to create an HTTP response:
+
+-Call render to create a full response to send back to the browser
+-Call redirect_to to send an HTTP redirect status code to the browser
+-Call head to create a response consisting solely of HTTP headers to send back to the browser
+
+--->Rendering by Default: Convention Over Configuration in Action
+
+-->By default, controllers in Rails automatically render views with names that correspond to valid routes.
+[Rails will automatically render app/views/books/index.html.erb when you navigate to /books ]
 
 
 
+-->rails server
+ouptut->
 
-
-
+Listing Books
+name	price	
+python	300.0
+CN	100.0
+english	100.0
+OS	100.0
+git	100.0
+Rails	200.0
