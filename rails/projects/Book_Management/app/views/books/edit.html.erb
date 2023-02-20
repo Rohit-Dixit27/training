@@ -1,0 +1,6 @@
+<h2> Edit books </h2>
+<%= form_with model: @books do |f| %>
+<%= f.text_field :name, placeholder: "enter name" %>
+<%= f.text_field :price, placeholder: "enter price" %>
+<%= f.submit %>
+<% end %>

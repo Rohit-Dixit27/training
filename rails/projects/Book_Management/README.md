@@ -1924,6 +1924,9 @@ From the controller's point of view, there are three ways to create an HTTP resp
 -->By default, controllers in Rails automatically render views with names that correspond to valid routes.
 [Rails will automatically render app/views/books/index.html.erb when you navigate to /books ]
 
+Note :-
+[That we don't have explicit render at the end of the index action in accordance with "convention over configuration" principle. The rule is that if you do not explicitly render something at the end of a controller action, Rails will automatically look for the action_name.html.erb template in the controller's view path and render it. So in this case, Rails will render the app/views/books/index.html.erb file.]
+
 
 
 -->rails server
@@ -1937,3 +1940,7 @@ english	100.0
 OS	100.0
 git	100.0
 Rails	200.0
+
+---------->Rendering an Action's View
+
+If you want to render the view that corresponds to a different template within the same controller, you can use render with the name of the view:
