@@ -2097,3 +2097,5 @@ A partial can use its own layout file, just as a view can use a layout. For exam
 
 
 
+---------> Rendering Collections
+Partials are very useful in rendering collections. When you pass a collection to a partial via the :collection option, the partial will be inserted once for each member in the collection:
