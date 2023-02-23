@@ -1942,5 +1942,33 @@ git	100.0
 Rails	200.0
 
 ---------->Rendering an Action's View
-
 If you want to render the view that corresponds to a different template within the same controller, you can use render with the name of the view:
+
+------------>Using render with :inline
+The render method can do without a view completely, if you're willing to use the :inline option to supply ERB as part of the method call.
+
+------------> Rendering Text
+You can send plain text - with no markup at all - back to the browser by using the :plain option to render:
+
+----------->Rendering HTML
+You can send an HTML string back to the browser by using the :html option to render
+
+---------->Rendering JSON
+JSON is a JavaScript data format used by many Ajax libraries. Rails has built-in support for converting objects to JSON and rendering that JSON back to the browser:
+
+render json: @book
+
+----------> Rendering XML
+Rails also has built-in support for converting objects to XML and rendering that XML back to the caller:
+
+--------->Rendering raw body
+You can send a raw content back to the browser, without setting any content type, by using the :body option to render:
+
+render body: "raw"
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------->Finding Layouts
+To find the current layout, Rails first looks for a file in app/views/layouts with the same base name as the controller.
+or we can override the layout by declare in controller.
+
+-->to  assign a specific layout for the entire application, use a layout declaration in your ApplicationController class:

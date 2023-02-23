@@ -1,14 +1,12 @@
 class BooksController < ApplicationController
+  layout 'books'
+  
     def index
         @books=Book.all
     end
 
-    def update
-        @book = Book.find(params[:id])
-        if @book.update(book_params)
-          redirect_to(@book)
-        else
-          render "edit"
-        end
-      end
+    def edit
+        render :edit
+    end
+    
 end
