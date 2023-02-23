@@ -2009,7 +2009,18 @@ video_tag
 audio_tag
 You can use these tags in layouts or other views, although the auto_discovery_link_tag, javascript_include_tag, and stylesheet_link_tag, are most commonly used in the <head> section of a layout.
 
+----> Linking to Feeds with the auto_discovery_link_tag
+The auto_discovery_link_tag helper builds HTML that most browsers and feed readers can use to detect the presence of RSS, Atom, or JSON feeds.
 
+----> Linking to JavaScript Files with the javascript_include_tag
+The javascript_include_tag helper returns an HTML script tag for each source provided.
+
+If you are using Rails with the Asset Pipeline enabled, this helper will generate a link to /assets/javascripts/ rather than public/javascripts which was used in earlier versions of Rails. This link is then served by the asset pipeline.
+
+---->Linking to CSS Files with the stylesheet_link_tag
+The stylesheet_link_tag helper returns an HTML <link> tag for each source provided.
+
+If you are using Rails with the "Asset Pipeline" enabled, this helper will generate a link to /assets/stylesheets/. This link is then processed by the Sprockets gem. A stylesheet file can be stored in one of three locations: app/assets, lib/assets, or vendor/assets.
 
 ---->Linking to Images with the image_tag
 The image_tag helper builds an HTML <img /> tag to the specified file. By default, files are loaded from public/images.
