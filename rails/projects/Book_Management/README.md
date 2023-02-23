@@ -1972,3 +1972,7 @@ To find the current layout, Rails first looks for a file in app/views/layouts wi
 or we can override the layout by declare in controller.
 
 -->to  assign a specific layout for the entire application, use a layout declaration in your ApplicationController class:
+
+
+---->Conditional Layouts
+Layouts specified at the controller level support the :only and :except options. These options take either a method name, or an array of method names, corresponding to method names within the controller:
