@@ -1968,6 +1968,7 @@ render body: "raw"
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------->Finding Layouts
+
 To find the current layout, Rails first looks for a file in app/views/layouts with the same base name as the controller.
 or we can override the layout by declare in controller.
 
@@ -1975,4 +1976,62 @@ or we can override the layout by declare in controller.
 
 
 ---->Conditional Layouts
+
 Layouts specified at the controller level support the :only and :except options. These options take either a method name, or an array of method names, corresponding to method names within the controller:
+
+------->Render and redirect
+
+-Redirect is a method that is used to issue the error message in case the page is not found or it issues a 302 to the browser. Whereas, render is a method used to create the content.
+
+-Redirect is used to tell the browser to issue a new request. Whereas, render only works in case the controller is being set up properly with the variables that needs to be rendered.
+
+-Redirect is used when the user needs to redirect its response to some other page or URL. Whereas, render method renders a page and generate a code of 200.
+
+-Redirect is used as:
+redirect_to: controller => ‘users’, :action => ‘new’
+
+-Render is used as:
+render: partial
+render: new -> this will call the template named as new.rhtml without the need of redirecting it to the new action.
+
+------->Using head To Build Header-Only Responses
+The head method can be used to send responses with only headers to the browser. The head method accepts a number or symbol representing an HTTP status code.
+
+----> Asset Tag Helpers
+
+Asset tag helpers provide methods for generating HTML that link views to feeds, JavaScript, stylesheets, images, videos, and audios. There are six asset tag helpers available in Rails:
+
+auto_discovery_link_tag
+javascript_include_tag
+stylesheet_link_tag
+image_tag
+video_tag
+audio_tag
+You can use these tags in layouts or other views, although the auto_discovery_link_tag, javascript_include_tag, and stylesheet_link_tag, are most commonly used in the <head> section of a layout.
+
+
+
+---->Linking to Images with the image_tag
+The image_tag helper builds an HTML <img /> tag to the specified file. By default, files are loaded from public/images.
+e.g-><%= image_tag "book.jpg", {height: 45} %>
+
+----> Linking to Videos with the video_tag
+The video_tag helper builds an HTML5 <video> tag to the specified file. By default, files are loaded from public/videos.
+ e.g-><%= video_tag "book_video.mp4", size: "200x200", autoplay: :autoplay, controls: :true, loop: :loop, autobuffer: true  %>
+
+---->Linking to Audio Files with the audio_tag
+The audio_tag helper builds an HTML5 <audio> tag to the specified file. By default, files are loaded from public/audios
+e.g-><%= audio_tag "audiobook.mp3", autoplay: :autoplay, loop: :loop, controls: :true%> 
+
+
+
+
+
+
+
+
+
+
+
+
+

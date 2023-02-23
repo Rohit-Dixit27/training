@@ -1,10 +1,15 @@
 <html>   
 <head>   
     <title>Books collection</title>   
+    
 </head>   
 <body>   
-        <h1>Books details</h1>   
-    <%= yield %>   
-        <p>All books are available in store now</p>                                             
+<%= image_tag "book.jpg", {height: 45} %>
+<h1>Books details</h1>   
+<%= audio_tag "audiobook.mp3", autoplay: :autoplay, loop: :loop, controls: :true%>  
+<%= video_tag "book_video.mp4", size: "200x200", autoplay: :autoplay, controls: :true, loop: :loop, autobuffer: true  %>
+<%= yield %>  
+<p>All books are available in store now</p> 
+                                                  
 </body>   
 </html> 
