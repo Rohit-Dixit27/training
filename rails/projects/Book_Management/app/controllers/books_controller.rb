@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  layout 'main', except: :show
+  layout 'main', except: [:show, :edit]
     def index
         @books=Book.all
     end

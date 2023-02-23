@@ -2034,15 +2034,66 @@ The video_tag helper builds an HTML5 <video> tag to the specified file. By defau
 The audio_tag helper builds an HTML5 <audio> tag to the specified file. By default, files are loaded from public/audios
 e.g-><%= audio_tag "audiobook.mp3", autoplay: :autoplay, loop: :loop, controls: :true%> 
 
+------------>yield
+The simplest way to use this is to have a single yield, into which the entire contents of the view currently being rendered is inserted:
+
+<html>
+  <head>
+  </head>
+  <body>
+  <%= yield %>
+  </body>
+</html>
+
+You can also create a layout with multiple yielding regions:
+
+<html>
+  <head>
+  <%= yield :head %>
+  </head>
+  <body>
+  <%= yield %>
+  </body>
+</html>
+
+----------->content_for
+The content_for method allows you to insert content into a named yield block in your layout. For example, this view would work with the layout that you just saw:
+
+<% content_for :head do %>
+  <title>A simple page</title>
+<% end %>
+
+<p>Hello, Rails!</p>
+
+The result of rendering this page into the supplied layout would be this HTML:
+
+<html>
+  <head>
+  <title>A simple page</title>
+  </head>
+  <body>
+  <p>Hello, Rails!</p>
+  </body>
+</html>
+Copy
+The content_for method is very helpful when your layout contains distinct regions such as sidebars and footers that should get their own blocks of content inserted. It's also useful for inserting tags that load page-specific JavaScript or CSS files into the header of an otherwise generic layout.
 
 
 
+-------------->Using Partials
+Partial templates - usually just called "partials" - are another device for breaking the rendering process into more manageable chunks. With a partial, you can move the code for rendering a particular piece of a response to its own file.
+if we want to share the code in multiple files like same form for editing and inserting new books then we can create a form partial and render that in both templates.
+
+[partials are named as _form.html.erb using underscore]
+<%= render "form" %>
 
 
+------------->partial layouts
+Partial Layouts
+A partial can use its own layout file, just as a view can use a layout. For example, you might call a partial like this:
+<%= render partial: "form", layout: "form_layout" %>
 
-
-
-
+[Note that layouts for partials follow the same leading-underscore naming as regular partials, and are placed in the same folder with the partial that they belong to (not in the master layouts folder).]
 
 
 
