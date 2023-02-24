@@ -33,3 +33,19 @@
 <%= book_form.select :title, ["just started","learn more"]%>
 <% end %>
 
+<%= form_with model: @book do |form| %>
+<%= form.date_select :updated_at %>
+<% end %>
+
+<%= form_with model: @book do |form| %>
+<%= form.time_select :updated_at %>
+<% end %>
+
+<%= form_with model: @book do |form| %>
+<%= form.datetime_select :updated_at %>
+<% end %>
+
+<%= select_year 1999 %>
+<%= select_month 10 %>
+<%= select_day 19 %>
+
