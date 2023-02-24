@@ -2308,7 +2308,11 @@ These helpers render a select box for each temporal component (e.g. year, month,
 -->select year only
 <%= select_year 1999 %>
 
+-->select minth only
+<%= select_month 10 %>
 
+-->select day only
+<%= select_day 19 %>
 
 
 
