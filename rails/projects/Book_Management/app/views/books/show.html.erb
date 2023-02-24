@@ -49,3 +49,14 @@
 <%= select_month 10 %>
 <%= select_day 19 %>
 
+<%= form_with do |form|%>
+<%= form.collection_select :book,  Author.all, :id, :name, prompt: true %>
+<% end %>
+
+<%#<%= form_with do |form|%>
+<%#<%= form.collection_radio_buttons :book,  Author.all, :id, :name, prompt: true %>
+<%#<% end %>
+
+<%#<%= form_with do |form|%> 
+<%#<%= form.collection_check_boxes :book,  Author.all, :id, :name, prompt: true %>
+<%#<% end %> 

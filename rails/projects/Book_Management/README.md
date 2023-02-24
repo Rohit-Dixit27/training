@@ -2314,11 +2314,47 @@ These helpers render a select box for each temporal component (e.g. year, month,
 -->select day only
 <%= select_day 19 %>
 
+----->collection_select helper
+To generate a select box.
+if we want to select from our database.
+for e.g-> we want to select an author for a book.
+
+<%= form_with do |form|%>
+<%= form.collection_select :book,  Author.all, :id, :name, prompt: true %>
+<% end %>
+
+
+<form action="/books/6" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="fEIyA0LnHJCq6zm3WoBbnGwoTQ6x4q4ZctQHPt9zt27SYJtjL43wI7QalfkLxFaMIVU4-kdg2Cp4o_YUfAMZfA" autocomplete="off" />
+<select name="book" id="book"><option value="">Please select</option>
+<option value="1">rohit</option>
+<option value="2">Ritika</option>
+<option value="3">sonam</option>
+<option value="4">rinku</option>
+<option value="5">prince</option>
+<option value="6">minku</option>
+<option value="7">sunny</option>
+<option value="8">sinku</option>
+<option value="9">tinku</option>
+<option value="10">rohit</option>
+<option value="15">Sonu</option>
+<option value="17">vishal</option>
+<option value="20">Reetu</option>
+<option value="21">meetu</option>
+<option value="22">Seetu</option>
+<option value="31">jatin</option></select>
+</form>
 
 
 
+----->collection_radio_buttons
+<%= form_with do |form|%>
+<%= form.collection_radio_buttons :book,  Author.all, :id, :name, prompt: true %>
+<% end %>
 
-
+----->collection_check_boxes
+<%= form_with do |form|%>
+<%= form.collection_check_boxes :book,  Author.all, :id, :name, prompt: true %>
+<% end %>
 
 
 
