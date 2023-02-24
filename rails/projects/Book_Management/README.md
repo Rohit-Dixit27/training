@@ -2428,5 +2428,13 @@ The form allows a user to create a Book and its associated orders.
   </ul>
 <% end %>
 
+->Removing Objects
+You can allow users to delete associated objects by passing allow_destroy: true to accepts_nested_attributes_for.
+update the permitted params in your controller to also include the _destroy field:
 
 
+---->Using Tag Helpers Without a Form Builder
+In case you need to render form fields outside of the context of a form builder, Rails provides tag helpers for common form elements. For example, check_box_tag:
+
+<%= check_box_tag "accept" %>
+<input type="checkbox" name="accept" id="accept" value="1" />

@@ -11,20 +11,32 @@ class BooksController < ApplicationController
         render "edit"
       end
     end
-    def new
-        @book = Book.new
-        2.times { @book.orders.build }
+    #def new
+     #   @book = Book.new
+     #   2.times { @book.orders.build }
+    #end
+    #def create
+     # @book = Book.new(book_params)
+    #end
+    #private
+    def book_params
+      params.require(:book).permit(:name, orders_attributes: [:card_number, :payment_type, :_destroy])
     end
-    def create
-      @book = Book.new(book_params)
-    end
-    private
-      def book_params
-        params.require(:book).permit(:name, orders_attributes: [:card_number, :payment_type])
-      end
    
     def edit
       @book = Book.find(params[:id])
+    end
+    def upload
+      uploaded_file = params[:picture]
+      File.open(Rails.root.join('public', 'uploads', uploaded_file.original_filename), 'wb') do |file|
+      file.write(uploaded_file.read)
+    end
+    end
+
+    def destroy
+      @book = Book.find(params[:id])
+      @book.destroy
+      redirect_to root_path, status: :see_other
     end
     
     def show

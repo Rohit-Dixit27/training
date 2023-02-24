@@ -3,7 +3,7 @@ class Book < ApplicationRecord
   #validates :name, length: { minimum: 3, message: "required minimum 3" }
   belongs_to :author, counter_cache: true 
   has_many :orders
-  accepts_nested_attributes_for :orders
+  accepts_nested_attributes_for :orders, allow_destroy: true
   #default_scope { where(name: "no_name") }
   scope :amount, -> (amount) { where('price >= ?', amount) }
   scope :id_of_author, -> (id_of_author) { where('author_id < ?', id_of_author) }
