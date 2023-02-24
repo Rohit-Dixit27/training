@@ -2287,10 +2287,32 @@ for e.g we have an book object then we can select its title in a form.
 <%= form.time_zone_select :time_zone %>
 <% end %>
 
+----------Date and Time form helpers
+These helpers render a select box for each temporal component (e.g. year, month, day, etc)
 
+-->date_select
+<%= form_with model: @book do |form| %>
+<%= form.date_select :updated_at %>
+<% end %>
 
+-->time_select
+<%= form_with model: @book do |form| %>
+<%= form.time_select :updated_at %>
+<% end %>
 
+-->datetime_select
+<%= form_with model: @book do |form| %>
+<%= form.datetime_select :updated_at %>
+<% end %>
 
+-->select year only
+<%= select_year 1999 %>
+
+-->select month only
+<%= select_month 10 %>
+
+-->select day only
+<%= select_day 19 %>
 
 
 
