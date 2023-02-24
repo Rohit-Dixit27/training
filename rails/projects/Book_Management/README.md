@@ -2099,3 +2099,18 @@ A partial can use its own layout file, just as a view can use a layout. For exam
 
 ---------> Rendering Collections
 Partials are very useful in rendering collections. When you pass a collection to a partial via the :collection option, the partial will be inserted once for each member in the collection:
+
+
+
+----------->Collection partial layouts
+The layout will be rendered together with the partial for each item in the collection. The current object and object_counter variables will be available in the layout as well, the same way they are within the partial.
+
+
+
+
+
+
+
+
+
+
