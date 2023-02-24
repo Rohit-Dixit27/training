@@ -60,3 +60,34 @@
 <%#<%= form_with do |form|%> 
 <%#<%= form.collection_check_boxes :book,  Author.all, :id, :name, prompt: true %>
 <%#<% end %> 
+
+<%#<%= form_with model: @book do |form|%>
+<%#<%= form.text_field :name %>
+<%#<% end %>
+
+<%#<%= form_with model: @book, builder: FormBuilder do |form| %>
+<%#<%= form.text_field :name %>
+<%#<% end %>
+
+
+
+
+
+<%= form_with model: @book do |book_form| %>
+  <%= book_form.text_field :name %>
+  <%= fields_for :author, @book.author do |author_form| %>
+    <%= author_form.text_field :name %>
+     <% @book.author.books.each do |book| %>
+    <%= book_form.fields_for book, index: book.id do |book_form| %>
+      <%= book_form.text_field :name %>
+    <% end %>
+  <% end %>
+  <% end %>
+<% end %>
+
+
+
+
+
+
+

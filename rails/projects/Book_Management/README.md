@@ -2357,5 +2357,41 @@ for e.g-> we want to select an author for a book.
 <% end %>
 
 
+----->Customizing Form Builders
+The object yielded by form_with and fields_for is an instance of ActionView::Helpers::FormBuilder.
+
+<%= form_with model: @book do |form|%>
+<%= form.text_field :name %>
+<% end %>
+        or
+<%= form_with model: @book, builder: FormBuilder do |form| %>
+  <%= form.text_field :name %>
+<% end %>
 
 
+------>The fields_for Helper :index Option
+we want to render all books of an author.
+
+<%= form_with model: @book do |book_form| %>
+  <%= book_form.text_field :name %>
+  <%= fields_for :author, @book.author do |author_form| %>
+    <%= author_form.text_field :name %>
+     <% @book.author.books.each do |book| %>
+    <%= book_form.fields_for book, index: book.id do |book_form| %>
+      <%= book_form.text_field :name %>
+    <% end %>
+  <% end %>
+  <% end %>
+<% end %>
+
+
+
+<form action="/books/7" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch" autocomplete="off" /><input type="hidden" name="authenticity_token" value="wNekgYixopor8bZPhF1mUo_iE2q1IAO9hW4g75PLj0gSYDkRy3IE9qjmFtucnU82_iGrvjzgu44HY_vIm5PFyQ" autocomplete="off" />
+  <input type="text" value="OS" name="book[name]" id="book_name" />
+  
+    <input type="text" value="prince" name="author[name]" id="author_name" />
+    
+      <input type="text" value="CN" name="book[book][5][name]" id="book_book_5_name" />
+    
+      <input type="text" value="OS" name="book[book][7][name]" id="book_book_7_name" />
+</form>
