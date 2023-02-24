@@ -1,0 +1,17 @@
+<h2> New books </h2>
+<%= render partial: "details_form", locals: {book: @book} %>
+<%= form_with model: @book do |form| %>
+  orders:
+  <ul>
+    <%= form.fields_for :orders do |orders_form| %>
+      <li>
+        <%= orders_form.label :card_number%>
+        <%= orders_form.text_field :card_number %>
+
+        <%= orders_form.label :payment_type %>
+        <%= orders_form.text_field :payment_type %>
+        ...
+      </li>
+    <% end %>
+  </ul>
+<% end %>

@@ -2395,3 +2395,38 @@ we want to render all books of an author.
     
       <input type="text" value="OS" name="book[book][7][name]" id="book_book_7_name" />
 </form>
+
+
+-------->Building complex forms
+
+->Configuring the Model
+Active Record provides model level support via the accepts_nested_attributes_for method:
+ 
+ class Book < ApplicationRecord
+  #validates :name, presence: { strict: true }
+  #validates :name, length: { minimum: 3, message: "required minimum 3" }
+  belongs_to :author, counter_cache: true 
+  has_many :orders
+  accepts_nested_attributes_for :orders
+  end
+
+->Nested Forms
+The form allows a user to create a Book and its associated orders.
+<%= form_with model: @book do |form| %>
+  orders:
+  <ul>
+    <%= form.fields_for :orders do |orders_form| %>
+      <li>
+        <%= orders_form.label :card_number%>
+        <%= orders_form.text_field :card_number %>
+
+        <%= orders_form.label :payment_type %>
+        <%= orders_form.text_field :payment_type %>
+        ...
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+
+
