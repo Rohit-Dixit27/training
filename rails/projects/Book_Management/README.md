@@ -2153,9 +2153,78 @@ Radio buttons, while similar to checkboxes, are controls that specify a set of o
 <label for="age_adult">I am over 21</label>
 </form> 
 
+--->other helpers
+<%= form_with do |form| %>
+<%= form.text_area :message, size: "70x5" %>
+<%= form.hidden_field :parent_id, value: "foo" %>
+<%= form.password_field :password %>
+<%= form.number_field :price, in: 1.0..20.0, step: 0.5 %>
+<%= form.range_field :discount, in: 1..100 %>
+<%= form.date_field :born_on %>
+<%= form.time_field :started_at %>
+<%= form.datetime_local_field :graduation_day %>
+<%= form.month_field :birthday_month %>
+<%= form.week_field :birthday_week %>
+<%= form.search_field :name %>
+<%= form.email_field :address %>
+<%= form.telephone_field :phone %>
+<%= form.url_field :homepage %>
+<%= form.color_field :favorite_color %>
+<% end %>
+
+<form action="/books/3" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="YeqkJ2FihwRqOE-hoWMznzTzDVhDWdjLLh9H2FryYk4IXkcMKnwp5JWRhP9iLLkTrI_NzwgpYkVyprqNUaJj5A" autocomplete="off" />
+<textarea name="message" id="message" cols="70" rows="5">
+</textarea>
+<input value="foo" autocomplete="off" type="hidden" name="parent_id" id="parent_id" />
+<input type="password" name="password" id="password" />
+<input step="0.5" min="1.0" max="20.0" type="number" name="price" id="price" />
+<input min="1" max="100" type="range" name="discount" id="discount" />
+<input type="date" name="born_on" id="born_on" />
+<input type="time" name="started_at" id="started_at" />
+<input type="datetime-local" name="graduation_day" id="graduation_day" />
+<input type="month" name="birthday_month" id="birthday_month" />
+<input type="week" name="birthday_week" id="birthday_week" />
+<input type="search" name="name" id="name" />
+<input type="email" name="address" id="address" />
+<input type="tel" name="phone" id="phone" />
+<input type="url" name="homepage" id="homepage" />
+<input value="#000000" type="color" name="favorite_color" id="favorite_color" />
+</form>  
 
 
+--->Binding a Form to an Object
+The :model argument of form_with allows us to bind the form builder object to a model object.
+for e.g if we click on any book to show then form will have that values.
+
+[in show template]
+<%= form_with model: @book do |form| %>
+  <%= form.text_field :name %>
+  <%= form.text_field :price %>
+  <%= form.submit %>
+<% end %>
+
+<form action="/books/1" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch" autocomplete="off" /><input type="hidden" name="authenticity_token" value="OBvPbZp1_IQA_MuZLltijJHUF1JIaqYBVaoqAhlnFV-ra7wt7vCXIpwqxJcpZ4Cn8QfPLf4Fsa8Iky2zDdXGag" autocomplete="off" />
+  <input type="text" value="git" name="book[name]" id="book_name" />
+  <input type="text" value="100.0" name="book[price]" id="book_price" />
+  <input type="submit" name="commit" value="Update Book" data-disable-with="Update Book" />
+</form>  
 
 
+--->The fields_for Helper
+The fields_for helper creates a similar binding but without rendering a <form> tag. This can be used to render fields for additional model objects within the same form.
+for e.g-> we have associations between model book and author,se we can show book and author name in a single form.
 
+<%= form_with model: @book do |book_form| %>
+  <%= book_form.text_field :name %>
+  <%= fields_for :author, @book.author do |author_form| %>
+    <%= author_form.text_field :name %>
+  <% end %>
+<% end %>
+
+
+<form action="/books/1" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch" autocomplete="off" /><input type="hidden" name="authenticity_token" value="_WjZH8X7a5Xf0Qvju1SMKXiCoqZtjk_J_vIaKCN7wIBuGKpfsX4AM0MHBO28aG4CGFF62dvhWGejyx2ZN8kTtQ" autocomplete="off" />
+  <input type="text" value="git" name="book[name]" id="book_name" />
+  
+    <input type="text" value="rohit" name="author[name]" id="author_name" />
+</form> 
 

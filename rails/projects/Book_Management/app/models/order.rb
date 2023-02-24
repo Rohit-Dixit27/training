@@ -9,6 +9,7 @@
 class Order < ApplicationRecord
   scope :costs_less_than, -> (amount) { where("amount < ?", amount) }
   enum status: { initial: 0, completed: 1 }
+  belongs_to :book
   #validates :payment_type, presence: true
   #validates :card_number, presence: true, if: :paid_with_card?
   #def paid_with_card?

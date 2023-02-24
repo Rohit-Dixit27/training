@@ -16,4 +16,15 @@
 </tbody>
 </table>
 
+<%= form_with model: @book do |form| %>
+  <%= form.text_field :name %>
+  <%= form.text_field :price %>
+  <%= form.submit %>
+<% end %>
 
+<%= form_with model: @book do |book_form| %>
+  <%= book_form.text_field :name %>
+  <%= fields_for :author, @book.author do |author_form| %>
+    <%= author_form.text_field :name %>
+  <% end %>
+<% end %>
