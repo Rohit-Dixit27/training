@@ -2106,7 +2106,52 @@ Partials are very useful in rendering collections. When you pass a collection to
 The layout will be rendered together with the partial for each item in the collection. The current object and object_counter variables will be available in the layout as well, the same way they are within the partial.
 
 
+--------------Action View Form Helpers--------------------------------------------
+--->form_with
+<%= form_with do |form| %>
+ form content
+<% end %>
 
+<form action="/books/3/edit" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="cXcLQBxcuHJaj6Ra5QM_ws_9Wur4vbGHMhck9wcOYslErZkYd9o_iQm72geYUZB2L5gtFgN6cM5ShpHF1gMS7Q" autocomplete="off" />
+</form>  
+
+
+
+--->checkbox
+Checkboxes are form controls that give the user a set of options they can enable or disable:
+
+<%= form_with do |form| %>
+<%= form.check_box :read_book %>
+<%= form.label :read_book, "read book" %>
+<%= form.check_box :add_book %>
+<%= form.label :add_book, "add book" %>
+<% end %>
+
+<form action="/books" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="emubK4bzbDbbrsaaxUGiRB-HUq3BkQQj7j7DAlUDNidMCK-uL0x1MMo1OUKxsHEmtG4iVW3I9V6yMs7qYVO3xQ" autocomplete="off" />
+<input name="read_book" type="hidden" value="0" autocomplete="off" /><input type="checkbox" value="1" name="read_book" id="read_book" />
+<label for="read_book">read book</label>
+<input name="add_book" type="hidden" value="0" autocomplete="off" /><input type="checkbox" value="1" name="add_book" id="add_book" />
+<label for="add_book">add book</label>
+</form>  
+
+
+--->RadioButton
+Radio buttons, while similar to checkboxes, are controls that specify a set of options in which they are mutually exclusive (i.e., the user can only pick one):
+
+<%= form_with do |form| %>
+<%= form.radio_button :age, "child" %>
+<%= form.label :age_child, "I am younger than 21" %>
+<%= form.radio_button :age, "adult" %>
+<%= form.label :age_adult, "I am over 21" %>
+<% end %>
+
+
+<form action="/books" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="N9nTPIE6RllfWtcreYFB2bV5pLiLBX0bDidPskO_2f8Buue5KIVfX07BKPMNcJK7HpDUQCdcjGZSK0Jad-9YHQ" autocomplete="off" />
+<input type="radio" value="child" name="age" id="age_child" />
+<label for="age_child">I am younger than 21</label>
+<input type="radio" value="adult" name="age" id="age_adult" />
+<label for="age_adult">I am over 21</label>
+</form> 
 
 
 
