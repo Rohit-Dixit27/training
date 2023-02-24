@@ -28,3 +28,8 @@
     <%= author_form.text_field :name %>
   <% end %>
 <% end %>
+
+<%= form_with model: @book do |book_form| %>
+<%= book_form.select :title, ["just started","learn more"]%>
+<% end %>
+

@@ -2228,3 +2228,76 @@ for e.g-> we have associations between model book and author,se we can show book
     <input type="text" value="rohit" name="author[name]" id="author_name" />
 </form> 
 
+
+
+--->select boxes
+<%= form_with do |form| %>
+<%= form.select :city, ["Faridabad", "Delhi"] %>
+<% end %>
+
+<form action="/books" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="qn1jvyyYFEBnCOcoVb_8_tKHVzUQFinPw_AWSvpbgKycHlc6hScNRnaTGPAhTi-ceW4nzbxP2LKf_BuizgsBTg" autocomplete="off" />
+<select name="city" id="city"><option value="Faridabad">Faridabad</option>
+<option value="Delhi">Delhi</option></select>
+</form> 
+
+--->We can also designate <option> values that differ from their labels:
+<%= form_with do |form| %>
+<%= form.select :city, [["Faridabad", "F"],["Delhi", "D"]] %>
+<% end %>
+
+<form action="/books" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="WSyMpN0MszFIigWK8nJXr-jJ_QYmKsC3MasRcyIhQipvT7ghdLOqN1kR-lKGg4TNQyCN_opzMcptpxybFnHDyA" autocomplete="off" />
+<select name="city" id="city"><option value="F">Faridabad</option>
+<option value="D">Delhi</option></select>
+</form> 
+
+--->option groups
+In some cases we may want to improve the user experience by grouping related options together. We can do so by passing a Hash (or comparable Array) to select:
+
+<%= form_with do |form|%>
+<%= form.select :city,
+      {
+        "Faridabad" => ["sector-1","sector-2" ],
+        "Delhi" =>  ["sector-1","sector-2"],
+      },
+      selected: "sector-1" %>
+      <% end %>
+
+<form action="/books" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="cZVXn0LMXkv0UbH9s9rE5WsTm-Ebm7pckead5lViQF5H9mMa63NHTeXKTiXHKxeHwPrrGbfCSyHN6pAOYTLBvA" autocomplete="off" />
+<select name="city" id="city"><optgroup label="Faridabad"><option selected="selected" value="sector-1">sector-1</option>
+<option value="sector-2">sector-2</option></optgroup><optgroup label="Delhi"><option selected="selected" value="sector-1">sector-1</option>
+<option value="sector-2">sector-2</option></optgroup></select>
+      </form> 
+
+--->Select Boxes and Model Objects
+Like other form controls, a select box can be bound to a model attribute.
+for e.g we have an book object then we can select its title in a form.
+
+[in show template]
+<%= form_with model: @book do |book_form| %>
+<%= book_form.select :title, ["just started","learn more"]%>
+<% end %>
+
+<form action="/books/1" accept-charset="UTF-8" method="post"><input type="hidden" name="_method" value="patch" autocomplete="off" /><input type="hidden" name="authenticity_token" value="2-5fCY-YSaPhN5uE_JjGjZy0Yz1pvAR5CaG-i9AgNYZInixJ-x0iBX3hlIr7pCSm_Ge7Qt_TE9dUmLk6xJLmsw" autocomplete="off" />
+<select name="book[title]" id="book_title"><option value="just started">just started</option>
+<option value="learn more">learn more</option></select>
+</form>
+
+--->time zone select
+<%= form_with do |form| %>
+<%= form.time_zone_select :time_zone %>
+<% end %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

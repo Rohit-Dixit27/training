@@ -39,3 +39,21 @@
 <%= form.radio_button :age, "adult" %>
 <%= form.label :age_adult, "I am over 21" %>
 <% end %>
+
+
+<%= form_with do |form| %>
+<%= form.select :city, ["Faridabad", "Delhi"] %>
+<% end %>
+
+<%= form_with do |form|%>
+<%= form.select :city,
+      {
+        "Faridabad" => ["sector-1","sector-2" ],
+        "Delhi" =>  ["sector-1","sector-2"],
+      },
+      selected: "sector-1" %>
+      <% end %>
+
+<%= form_with do |form| %>
+<%= form.time_zone_select :time_zone %>
+<% end %>
