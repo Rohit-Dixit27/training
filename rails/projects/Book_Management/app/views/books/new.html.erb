@@ -1,7 +1,7 @@
 <h2> New books </h2>
 <%= form_with model: @book do |f| %>
 <%= f.text_field :name, placeholder: "enter name" %>
-<%= f.text_field :price, placeholder: "enter price" %>
+<%= f.number_field :price, placeholder: "enter price" %>
 <%= f.submit %>
 <% end %>
 <%#<%= render partial: "details_form", locals: {book: @book} %>

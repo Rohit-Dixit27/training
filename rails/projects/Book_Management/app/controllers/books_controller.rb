@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
   layout 'main', except: [:show, :edit]
+  before_action :find_book, only: [:edit, :update, :show, :destroy]
     def index
         @books=Book.all
     end
@@ -13,11 +14,11 @@ class BooksController < ApplicationController
 
     def create
       @book = Book.new(book_params)
-      if @book.save
-        redirect_to @book
-      else
-      render :new, status: :unprocessable_entity
-      end
+        if @book.save
+          redirect_to @book
+        else
+          render :new, status: :unprocessable_entity
+        end
     end
     #def new
      #   @book = Book.new
@@ -32,7 +33,7 @@ class BooksController < ApplicationController
     # end
    
     def edit
-      @book = Book.find(params[:id])
+     # @book = Book.find(params[:id])
     end
     #def upload
      # uploaded_file = params[:picture]
@@ -41,7 +42,7 @@ class BooksController < ApplicationController
     #end
     #end
     def update
-      @book = Book.find(params[:id])
+      #@book = Book.find(params[:id])
       if @book.update(book_params)
         flash[:notice] = "updated successfully"
         redirect_to(@book)
@@ -58,5 +59,9 @@ class BooksController < ApplicationController
     private
     def book_params
       params.require(:book).permit(:name, :price)
+    end
+    private
+    def find_book
+      @book = Book.find(params[:id])
     end
 end

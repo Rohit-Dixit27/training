@@ -2467,3 +2467,7 @@ def book_params
 The flash is a special part of the session which is cleared with each request. This means that values stored there will only be available in the next request, which is useful for passing error message
 
 
+----->filters
+Filters are methods that are run "before", "after" or "around" a controller action.
+when we need to do same action in some methods like we need to find id of book before deletion,updation,show then we can just create an before_action
+for these methods and remove the code for found from all these methods.

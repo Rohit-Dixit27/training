@@ -33,7 +33,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_10_130147) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "type"
     t.string "description", limit: 30
     t.string "title", comment: "enter title only"
     t.bigint "author_id"
