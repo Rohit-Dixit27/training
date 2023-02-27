@@ -16,11 +16,17 @@
 </tbody>
 </table>
 
+
+<% if !flash[:notice].blank? %>
+<%= flash[:notice] %>
+<% end %>
+
 <%= form_with model: @book do |form| %>
   <%= form.text_field :name %>
   <%= form.text_field :price %>
   <%= form.submit %>
 <% end %>
+
 
 <%= form_with model: @book do |book_form| %>
   <%= book_form.text_field :name %>
@@ -94,9 +100,9 @@
     <%#<% end %>
   <%#</ul>
 <%#<% end %>
-<%= form_with url: "/uploads", multipart: true do |form| %>
-  <%= file_field_tag :picture %>
-<% end %>
+<%#<%= form_with url: "/uploads", multipart: true do |form| %>
+  <%#<%= file_field_tag :picture %>
+<%#<% end %>
 
 
 

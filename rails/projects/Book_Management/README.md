@@ -2438,3 +2438,32 @@ In case you need to render form fields outside of the context of a form builder,
 
 <%= check_box_tag "accept" %>
 <input type="checkbox" name="accept" id="accept" value="1" />
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--->controller
+Action Controller is the C in MVC. After the router has determined which controller to use for a request, the controller is responsible for making sense of the request and producing the appropriate output.
+
+
+-->Controller naming conventions
+The naming convention of controllers in Rails favors pluralization of the last word in the controller's name, although it is not strictly required (e.g. ApplicationController). For example, ClientsController is preferable to ClientController.
+
+-->methods and actions
+A controller is a Ruby class which inherits from ApplicationController and has methods just like any other class. When your application receives a request, the routing will determine which controller and action to run, then Rails creates an instance of that controller and runs the method with the same name as the action.
+
+
+-->hash parameters
+Processing by BooksController#update as HTML
+  Parameters: {"authenticity_token"=>"[FILTERED]", "book"=>{"name"=>"Ruby", "price"=>"100.0"}, "commit"=>"Update Book", "id"=>"6"}
+
+--->strong parameters
+With strong parameters, Action Controller parameters are forbidden to be used in Active Model mass assignments until they have been permitted. This means that you'll have to make a conscious decision about which attributes to permit for mass update. This is a better security practice to help prevent accidentally allowing users to update sensitive model attributes.
+
+def book_params
+      params.require(:book).permit(:name, :price)
+    end
+
+--->flash
+The flash is a special part of the session which is cleared with each request. This means that values stored there will only be available in the next request, which is useful for passing error message
+
+
