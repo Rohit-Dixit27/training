@@ -2511,4 +2511,30 @@ before_action :authenticate
 
   [note:- Digest Authentication communicates credentials in an encrypted form by applying a hash function to: the username, the password, a server supplied nonce value, the HTTP method and the requested URI.Whereas Basic Authentication uses non-encrypted base64 encoding.]
 
-  
+  --->rescue_from
+  It handles exceptions of a certain type (or multiple types) in an entire controller and its subclasses.
+  When an exception occurs which is caught by a rescue_from directive, the exception object is passed to the handler. The handler can be a method or a Proc object passed to the :with option. You can also use a block directly instead of an explicit Proc object.
+
+  class ApplicationController < ActionController::Base
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
+  private
+    def record_not_found
+      render plain: "404 Not Found", status: 404
+    end
+end
+
+------>create custom pdf using prawn
+->add prawn in gemfile.
+->create a mime file in config/initialisers
+->at index template create a link for pdf
+-> in controller
+respond_to do |format|
+          format.html
+          format.pdf do
+            pdf = Prawn::Document.new
+            pdf.text "hello"
+            send_data pdf.render, filename:'books.pdf', type: 'application/pdf', disposition: "inline"
+          end
+        end
+

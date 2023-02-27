@@ -25,6 +25,7 @@
 <br>
 
 <%= link_to "New book", new_book_path %><br>
+<%= link_to "pdf file", books_path(format: 'pdf') %><br>
 
 <%= form_with do |form| %>
 <%= form.check_box :read_book %>

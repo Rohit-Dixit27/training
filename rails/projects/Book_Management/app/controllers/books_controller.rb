@@ -1,12 +1,22 @@
+require "prawn"
 class BooksController < ApplicationController
   layout 'main', except: [:show, :edit]
   before_action :find_book, only: [:edit, :update, :show, :destroy]
   #http_basic_authenticate_with name: "abc", password: "1234"
-  USERS = { "abc" => "world" }
-  before_action :authenticate
+  #USERS = { "abc" => "world" }
+  #before_action :authenticate
+
 
     def index
         @books=Book.all
+        respond_to do |format|
+          format.html
+          format.pdf do
+            pdf = Prawn::Document.new
+            pdf.text "hello"
+            send_data pdf.render, filename:'books.pdf', type: 'application/pdf', disposition: "inline"
+          end
+        end
     end
     def show
       @book = Book.find(params[:id])
@@ -69,10 +79,10 @@ class BooksController < ApplicationController
       @book = Book.find(params[:id])
     end
 
-  private
-  def authenticate
-    authenticate_or_request_with_http_digest do |username|
-      USERS[username]
-    end
-  end
+  #private
+  #def authenticate
+    #authenticate_or_request_with_http_digest do |username|
+    #  USERS[username]
+   # end
+  #end
 end
