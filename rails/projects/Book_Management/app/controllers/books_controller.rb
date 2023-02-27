@@ -1,6 +1,10 @@
 class BooksController < ApplicationController
   layout 'main', except: [:show, :edit]
   before_action :find_book, only: [:edit, :update, :show, :destroy]
+  #http_basic_authenticate_with name: "abc", password: "1234"
+  USERS = { "abc" => "world" }
+  before_action :authenticate
+
     def index
         @books=Book.all
     end
@@ -64,4 +68,11 @@ class BooksController < ApplicationController
     def find_book
       @book = Book.find(params[:id])
     end
+
+  private
+  def authenticate
+    authenticate_or_request_with_http_digest do |username|
+      USERS[username]
+    end
+  end
 end

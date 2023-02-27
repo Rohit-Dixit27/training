@@ -2471,3 +2471,44 @@ The flash is a special part of the session which is cleared with each request. T
 Filters are methods that are run "before", "after" or "around" a controller action.
 when we need to do same action in some methods like we need to find id of book before deletion,updation,show then we can just create an before_action
 for these methods and remove the code for found from all these methods.
+
+---->Request forgery protection
+The form_authenticity_token generates a valid authentication token.
+
+<%= form_with model: @user do |form| %>
+  <%= form.text_field :username %>
+  <%= form.text_field :password %>
+<% end %>
+
+<form action="/books/new" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="zw6iUOOjQwDyNzJcPSpJ9U16RumRMiMk2BsYmmZrmZQnc0x8Pgr5lmvOOkiDMgqEne41uuQhZZrsEwxuXO4fPw" autocomplete="off" />
+  <input type="text" name="username" id="username" />
+  <input type="text" name="password" id="password" />
+</form>
+
+---->Http Authentication
+Rails comes with three built-in HTTP authentication mechanisms:
+
+->Basic Authentication
+HTTP basic authentication is an authentication scheme that is supported by the majority of browsers and other HTTP clients. As an example, consider an administration section which will only be available by entering a username, and a password into the browser's HTTP basic dialog window.
+
+e.g->
+class BooksController < ApplicationController
+http_basic_authenticate_with name: "abc", password: "1234"
+end
+
+-->http digest authentication
+HTTP digest authentication is superior to the basic authentication as it does not require the client to send an unencrypted password over the network
+e.g->
+class BooksController < ApplicationController
+USERS = { "abc" => "world" }
+before_action :authenticate
+   private
+  def authenticate
+    authenticate_or_request_with_http_digest do |username|
+      USERS[username]
+    end
+  end
+
+  [note:- Digest Authentication communicates credentials in an encrypted form by applying a hash function to: the username, the password, a server supplied nonce value, the HTTP method and the requested URI.Whereas Basic Authentication uses non-encrypted base64 encoding.]
+
+  
