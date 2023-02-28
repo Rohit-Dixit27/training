@@ -2633,6 +2633,84 @@ end
 
 resources images, path: '/admin/images'
 
+--->Nested resources
+-Used during associations like
+
+class Author
+has_many :books
+end
+
+class Book
+belongs_to :author
+end
+
+In route file
+resources :authors do
+    resources :books
+  end
+
+  create routes
+GET    /authors/:author_id/books(.:format)                                                              
+POST   /authors/:author_id/books(.:format)                                                               
+GET    /authors/:author_id/books/new(.:format)                                                           
+GET    /authors/:author_id/books/:id/edit(.:format)                                                      
+GET    /authors/:author_id/books/:id(.:format)                                                    
+PATCH  /authors/:author_id/books/:id(.:format)                                    
+PUT    /authors/:author_id/books/:id(.:format)                      
+DELETE /authors/:author_id/books/:id(.:format)
+
+
+---limits to nesting
+ resources :authors do
+    resources :books do
+      resources :orders
+    end
+  end
+
+[/authors/:author_id/books/:book_id/orders/:id/edit(.:format) , require specify object at all level]
+
+
+--->Shallow Nesting
+One way to avoid deep nesting (as recommended above) is to generate the collection actions scoped under the parent, so as to get a sense of the hierarchy, but to not nest the member actions.
+
+shallow do
+    resources :authors do
+      resources :books
+      resources :orders
+    end
+  end
+  [make path smaller]
+  [for edit ,show,update and destroy-> /books/:id(.:format) ]
+  [for edit ,show,update and destroy-> /orders/:id(.:format) ]
+
+
+
+--->:shallow_path prefixes member paths with the specified parameter:
+ scope shallow_path: "sekret" do
+    resources :authors do
+      resources :books, shallow: true
+    end
+  end
+
+/sekret/books/:id(.:format)
+
+
+---->The :shallow_prefix option adds the specified parameter to the named route helpers:
+
+ scope shallow_preifx: "sekret" do
+    resources :authors do
+      resources :books, shallow: true
+    end
+  end
+
+ [books#index {:shallow_preifx=>"sekret"}]
+
+
+
+
+
+
+
 
 
 
