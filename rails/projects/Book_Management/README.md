@@ -2538,3 +2538,79 @@ respond_to do |format|
           end
         end
 
+----->Log filtering
+For security reasons, we do not want sensitive data like passwords, credit card information, auth keys etc to appear in log files.
+
+->Parameters Filtering
+You can filter out sensitive request parameters from your log files by appending them to config.filter_parameters in the application configuration. These parameters will be marked [FILTERED] in the log.
+e.g->
+config.filter_parameters << :password
+
+->Redirects Filtering
+Sometimes it's desirable to filter out from log files some sensitive locations your application is redirecting to
+e.g->
+config.filter_redirect << 's3.amazonaws.com'
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------>Routing
+In Rails, a resourceful route provides a mapping between HTTP verbs and URLs to controller actions. By convention, each action also maps to a specific CRUD operation in a database. A single entry in the routing file, such as:
+
+resources :books
+[manage seven routes for CRUD]
+
+->books#index
+->books#create
+->books#new
+->books#edit
+->books#show
+->books#update
+->books#destroy
+
+---->paths and url helpers
+resources :books gave paths like
+
+->books_path returns /books
+->new_book_path returns /books/new
+->edit_book_path(:id) returns /books/:id/edit (for instance, edit_book_path(10) returns /books/10/edit)
+->book_path(:id) returns /books/:id (for instance, book_path(10) returns /books/10)
+
+--->defining multiple resources at the same time
+e.g->
+resources :books, :authors
+
+---singular resource
+ we can convert -> get "/authors", to: "authors#index"
+                       AS
+get "/authors", action: :index, controller: 'authors'
+[ we specify action and controller separately]
+
+
+
+---->Resourceful route
+resource :author
+resolve('Author') { [:author] }
+
+[create six routes]
+->authors#new
+->authors#create
+->authors#update
+->authors#show
+->authors#destroy
+->authors#edit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
