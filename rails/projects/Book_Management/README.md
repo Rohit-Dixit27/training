@@ -2599,15 +2599,39 @@ resolve('Author') { [:author] }
 ->authors#edit
 
 
+------------>Controller namespace and routing
+->create a folder inside controller as admin and place images controller inside admin.Then routes will be-
+
+in route file
+namespace :admin do
+   resources :images
+end
+
+path will be
+/admin/images
+
+--->using scope
+route file
+scope module: 'admin' do
+   resources :images
+  end
+
+path will be
+/images
+
+--->for single route
+resources :images, module: 'admin'
 
 
+---->If instead you want to route /admin/images to ImagesController (without the Admin:: module prefix), you can specify the path with a scope block:
 
+scope '/admin' do
+  resources :images
+end
 
+---->This can also be done for a single route:
 
-
-
-
-
+resources images, path: '/admin/images'
 
 
 
