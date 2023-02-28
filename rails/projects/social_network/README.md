@@ -7,6 +7,9 @@ ActionDispatch::Session::CacheStore - Stores the data in the Rails cache.
 ActionDispatch::Session::ActiveRecordStore - Stores the data in a database using Active Record (requires the activerecord-session_store gem).
 ActionDispatch::Session::MemCacheStore - Stores the data in a memcached cluster (this is a legacy implementation; consider using CacheStore instead).
 
+->logout user
+session[:user_id] = nil
+
 -->cookies
 Application can store small amounts of data on the client - called cookies - that will be persisted across requests and even sessions. Rails provides easy access to cookies via the cookies method.
 
