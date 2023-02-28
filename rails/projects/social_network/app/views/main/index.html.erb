@@ -2,4 +2,5 @@
 <%= flash[:notice] %>
 <% if @user %>
 <%= @user.email %>
+<%= button_to "logout", logout_path, method: :delete%>
 <% end %>
