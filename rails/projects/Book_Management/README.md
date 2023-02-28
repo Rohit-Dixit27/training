@@ -2705,14 +2705,48 @@ shallow do
 
  [books#index {:shallow_preifx=>"sekret"}]
 
+--->Routing concerns
+-Routing concerns allow you to declare common routes that can be reused inside other resources and routes.
+-These concerns can be used in resources to avoid code duplication and share behavior across routes:
 
+  concern :orderconcern do
+    resources :orders
+  end
 
+  resources :books, concerns: :orderconcern
 
+  [it means ]
+  resources :books do
+    resources :orders
+  end
 
+------>Adding member routes
+-You are not limited to the seven routes that RESTful routing creates by default.
+-add additional routes that apply to the collection or individual members of the collection. 
+e.g->
+[we can multiple member routes inside do]
+resources :books do
+    member do
+      get 'display'
+      get 'preview' # many more member routes
+    end
+  end
 
+  [generated route -> /books/:id/display(.:format)]
+  [accesed like -> /books/1/display]
 
+-->if we don't have multiple member routes then 
+resources :books do
+  get 'display', on: :member
+end
 
+----->Collection routes
+->Collection routes can be defined for actions that are performed on collection of the resource.
+resources :books do
+    collection do
+      get 'search'
+    end
+  end
 
-
-
+[generated route->    /books/search(.:format)]
 

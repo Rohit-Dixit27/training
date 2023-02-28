@@ -1,6 +1,19 @@
 Rails.application.routes.draw do
-  #root "books#index"
-  #resources :books, :authors
+  root "books#index"
+  resources :books, :authors
+
+  #resources :books do
+    #member do
+    #  get 'display'
+   # end
+  #end
+  resources :books do
+    get 'display', on: :member
+  end
+  
+
+  #get 'books(/:id)', to: 'books#show'
+  #resources :orders
 
   #resources :authors do
    # resources :books

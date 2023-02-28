@@ -25,6 +25,12 @@ class BooksController < ApplicationController
     def new
       @book = Book.new
     end
+    def display
+      render :display
+    end
+    def search
+      render :search
+    end
 
     def create
       @book = Book.new(book_params)
