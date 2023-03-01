@@ -1,13 +1,25 @@
 Rails.application.routes.draw do
-  root "books#index"
+  draw(:book)
+  #root "books#index"
   #get 'books(/:id)', to: 'books#show'
   #get 'books/:id/:author_id', to: 'books#show'
   #get 'books/:id/with_author/:author_id', to: 'books#show'
   #get 'books/:id', to: 'books#show'
   #get '/:id', to:'books#show', constraints: { id: /\d+/ }
-  get '/:id/*abc', to: 'books#show'
-  resources :books, :authors
-  
+  #get '/:id/*abc', to: 'books#show'
+  #get '/:id/show', to: "books#show"
+  #get '/index', to: "books#index"
+  #get '/:id/edit', to: "books#edit"
+  #get '/main', to: redirect('/index')
+  #resources :books, controller: 'authors'
+  #resources :books, as: 'guide'
+  #resources :books, path_names: { new: 'make', edit: 'change' }
+  #resources :books, only: [:new, :edit]
+  #resources :books, except: :destroy
+  #scope(path_names: { new: 'make', edit: 'change' }) do
+   # resources :books, path: 'guides'
+  #end
+  #resources :books, param: :identifiers
 
   #resources :books do
     #member do
