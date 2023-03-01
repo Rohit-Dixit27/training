@@ -1,15 +1,22 @@
 Rails.application.routes.draw do
   root "books#index"
+  #get 'books(/:id)', to: 'books#show'
+  #get 'books/:id/:author_id', to: 'books#show'
+  #get 'books/:id/with_author/:author_id', to: 'books#show'
+  #get 'books/:id', to: 'books#show'
+  #get '/:id', to:'books#show', constraints: { id: /\d+/ }
+  get '/:id/*abc', to: 'books#show'
   resources :books, :authors
+  
 
   #resources :books do
     #member do
     #  get 'display'
    # end
   #end
-  resources :books do
-    get 'display', on: :member
-  end
+  #resources :books do
+   # get 'display', on: :member
+  #end
   
 
   #get 'books(/:id)', to: 'books#show'
