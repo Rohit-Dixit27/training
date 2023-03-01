@@ -1,0 +1,14 @@
+<div id="<%= dom_id message %>">
+  <p>
+    <strong>Title:</strong>
+    <%= message.title %>
+  </p>
+
+  <p>
+    <strong>Inbox:</strong>
+    <%= message.inbox_id %>
+  </p>
+  <p>
+  <%= link_to 'show this message', [@inbox, message] %>
+
+</div>
