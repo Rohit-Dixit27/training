@@ -2906,6 +2906,14 @@ we store all routes of book controller in book.rb inside config/routes
 Then include them in main route file as
 draw(:book)
 
+----->direct routes
+We can create custom URL helpers directly by calling direct.
+
+direct :homepage do
+    "https://rubyonrails.org"
+  end
+
+  [where it will find homepage_url, then it will direct to "https://rubyonrails.org"]
 
 
 

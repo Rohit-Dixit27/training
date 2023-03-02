@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
-  draw(:book)
-  #root "books#index"
+
+  #assert_generates '/books', { controller: 'books', action: 'show' }
+  #match '/books', to: MyApp, via: :all
+  root "books#index"
+  resources :books, :authors
+  direct :homepage do
+    "https://rubyonrails.org"
+  end
+  #draw(:book)
   #get 'books(/:id)', to: 'books#show'
   #get 'books/:id/:author_id', to: 'books#show'
   #get 'books/:id/with_author/:author_id', to: 'books#show'
@@ -29,6 +36,7 @@ Rails.application.routes.draw do
   #resources :books do
    # get 'display', on: :member
   #end
+
   
 
   #get 'books(/:id)', to: 'books#show'
@@ -48,6 +56,8 @@ Rails.application.routes.draw do
    #   resources :books, shallow: true
    # end
   #end
+  
+
   #resources :authors do
     #resources :books do
     #  resources :orders
