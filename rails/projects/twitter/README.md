@@ -22,3 +22,24 @@ It's common to have resources that are logically children of other resources.
                        DELETE /inboxes/:id(.:format)                                                                            inboxes#destroy
     root               GET    /                                                                                                 inboxes#index
 
+--------Devise
+Devise is a flexible authentication solution for Rails based on Warden. It:
+
+Is Rack based;
+Is a complete MVC solution based on Rails engines;
+Allows you to have multiple models signed in at the same time;
+Is based on a modularity concept: use only what you real.
+
+stpes-
+-> gem 'devise'
+->bundle
+->rails g devise:install
+-> config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+-> root 'inboxes#index'
+add into layout/application.html.erb
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+
+->rails g devise:views
+->rails g devise:model
+->rails db:migrate
