@@ -1,0 +1,72 @@
+HTML stands for Hyper Text Markup Language, which is the most widely used language on Web to develop web pages.
+
+-->Applications of HTML
+
+-Web pages development 
+-Internet Navigation
+-Responsive UI 
+-Offline support HTML pages once loaded can be made available offline on the machine without any need of internet.
+-Game development
+
+-->Basic structure of HTML
+<!DOCTYPE html> <!-- shows doctype and html version that is HTML5 -->
+<html>
+
+   <head>
+      <title>This is document title</title>
+   </head>
+	
+   <body>
+      <p>content</p>
+   </body>
+	
+</html>
+
+
+-->Basic tags
+1)Heading tags[six level of heading.]
+->h1,h2,h3,h4,h5,h6
+
+2)paragraph tag[structure text into paragraphs.] <p>
+3)line break tag[for break the line] <br /> 
+4)center tag [to make the text in center]<center>
+5)horizontal lines <hr />
+6)preserve formatting <pre>
+e.g->
+<p>def show
+    end
+   </p>
+output-> def show end
+
+--using <pre>
+<p> <pre>def show
+    end</pre>
+   </p>
+output- def show
+        end
+
+7)Non breaking spaces 
+-some times we have a big paragraph that we but set in multiple lines but we want the text be together, so use &nbsp;
+-Suppose you want to use the phrase "12 Angry Men." Here, you would not want a browser to split the "12, Angry" and "Men" across two lines −
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
