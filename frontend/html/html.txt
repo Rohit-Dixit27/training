@@ -80,7 +80,35 @@ rtl- Right to left (for languages such as Hebrew or Arabic that are read right t
 4)xml:lang-The xml:lang attribute is the XHTML replacement for the lang attribute, It indicates the main language used in a document.
 e.g->html xml:lang = "en">
 
+----Formatting tags
+1)Bold-to make text bold, use <b>Bold</b>
 
+2)italic-to make text italic, user </i>italic</i>
+
+3)underline-to make text underline use, <u>underline</u>
+
+4)strike-make a thin line through the text,use <strike>text</strike>
+
+5)monospaced-The content of a <tt>...</tt> element is written in monospaced font. Most of the fonts are known as variable-width fonts because,
+different letters are of different widths (for example, the letter 'm' is wider than the letter 'i'). 
+In a monospaced font, however, each letter has the same width.
+
+6)superscript-to make text superscript, use <sup>
+
+7)subscript-to make text subscript, use <sub>
+
+8)inserted-make text inserted using, <ins>
+
+9)deleted-make text deleted using, <del>.
+
+10)larger-make text big as compared to other texts, <big>
+
+11)smaller-make text small as compared to others,<small>
+
+12)grouping-using div and span
+
+-div, it is a container took whole width
+-span, it took width as per the text.
 
 
 
