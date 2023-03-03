@@ -1,24 +1,41 @@
 <!DOCTYPE html>
 <head>
     <title>
-        This is about phrased tags
+        student table
+        
     </title>
 </head>
 <body>
-    <p>this is <em>emphasized</em></p>
-    <p>this is <mark>marked</mark></p>
-    <p>this is <strong>strong</strong></p>
-    <p>this is <abbr title = "r">Rohit</abbr></p>
-    <p>this having <acronym>html</acronym></p>
-    <p><bdo dir = 'rtl'>this is right to left</bdo></p>
-    <p>this is <dfn>special</dfn></p>
-    <blockquote>this is taken from another site</blockquote>
-    <p>i think it is <q>good</q></p>
-    <p>this is derived from <cite>html</cite></p>
-    <code>puts "hello world"</code>
-    <p>now <kbd>enter name</kbd></p>
-    <p><code>document.write("<var>user-name</var>")</code></p>
-    <p>result is <samp>hello html</samp></p>
-    <p>my address is <address>H.No-2, faridabad</address></p>
+   <!--<img src = "images/book1.png" alt = "book" width = "100" border="3" align = "right" />-->
+   <table border = '2' cellspacing = '2' cellpadding = '2' height = "200" width = "300" bgcolor = "yellow" background = "images/id.jpg"> 
+    <caption>this students details</caption>
+    <thead>
+        <tr>
+            <td colspan = "3">STUDENT DETAILS</td>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan = "3">All entered</td>
+        </tr>
+    </tfoot>
+    <tbody>
+    <tr>
+    <th>all details</th>
+    <th>Name</th>
+    <th>age</th>
+    </tr>
+    <tr>
+        <td rowspan =" 2">details</td>
+        <td>Rohit</td>
+        <td>22</td>
+    </tr>
+    <tr>
+        <td>rohan</td>
+        <td>23</td>
+    </tr>
+    <tr><td colspan = "3">completed</td></tr>
+    </tbody>
+   </table>
 </body>
 </html>

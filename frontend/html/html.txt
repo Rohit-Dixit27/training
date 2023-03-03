@@ -158,7 +158,61 @@ This element is usually used in conjunction with the <pre> and <code> elements t
 The <samp>...</samp> element indicates sample output from a program, and script etc. Again, it is mainly used when documenting programming or coding concepts.
 
 15)Address Text
-The <address>...</address> element is used to contain any addres
+The <address>...</address> element is used to contain any address.
+
+------>img tag,used to display images.
+syntax->
+<img src = "url" />
+
+->alt for if image took time to load then it will show that message till it gets load, once it load then it will not show.
+<img src = "images/book1.png" alt = "book" />
+
+->height and width
+->align
+->border
+
+<img src = "images/book1.png" alt = "book" width = "100" border="3" align = "right" />
+
+
+----->Table
+The HTML tables allow web authors to arrange data like text, images, links, other tables, etc. into rows and columns of cells.
+
+<th> - Table heading can be defined using <th> tag. 
+<tr> - for table rows
+<td> - table data
+<caption> - shows on the top of the table as title of table.
+
+--The three elements for separating the head, body, and foot of a table are −
+
+<thead> − to create a separate table header.
+
+<tbody> − to indicate the main body of the table.
+
+<tfoot> − to create a separate table footer.
+[header and footer should be declared before body.]
+
+->bgcolor - set background color.
+->background - set background images.
+-colspan - to merge columns.
+-rowspan - to merge rows.
+-border - to set border of table.
+-cellspacing - to set spacing between cells.
+-cellpadding - to set spacing between cellborder and content.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
