@@ -49,9 +49,36 @@ output- def show
 -some times we have a big paragraph that we but set in multiple lines but we want the text be together, so use &nbsp;
 -Suppose you want to use the phrase "12 Angry Men." Here, you would not want a browser to split the "12, Angry" and "Men" across two lines −
 
+---Nesting Elements
+An HTML element is defined by a starting tag. If the element contains other content, it ends with a closing tag.
+we can nest the html elements, one element inside another element.
 
+----Attributes
+An attribute is used to define the characteristics of an HTML element and is placed inside the element's opening tag.
+All attributes are made up of two parts − a name and a value
 
+name-is the property you want to set.
+value- is what you want the value of the property to be set and always put within quotations.
 
+e.g->
+<p align="left">this should at left</p>
+name-align
+value-left
+
+--Core Attributes
+1)id-If you have two elements of the same name within a Web page (or style sheet), helps to distnguish between them.
+ e.g-><p id="name">this is my name</p>
+
+2)class-The class attribute is used to associate an element with a style sheet, and specifies the class of element.
+
+3)dir-The dir attribute allows you to indicate to the browser about the direction in which the text should flow.
+it can be-
+
+ltr- Left to right (the default value), set <html dir = "ltr"></html>
+rtl- Right to left (for languages such as Hebrew or Arabic that are read right to left),set <html dir = "rtl"></html>
+
+4)xml:lang-The xml:lang attribute is the XHTML replacement for the lang attribute, It indicates the main language used in a document.
+e.g->html xml:lang = "en">
 
 
 
