@@ -263,13 +263,45 @@ The <embed> element can also be used to include HTML in HTML:
         <source src ="audios/audiobook.mp3" type="audio/mp3">
       </audio>
 
+----form
+used to get and store data.
 
+1)label - to show what to enter
+2)input type - take type of input like text, password, number, etc.
+<input type="button">
+<input type="checkbox">
+<input type="color">
+<input type="date">
+<input type="datetime-local">
+<input type="email">
+<input type="file">
+<input type="hidden">
+<input type="image">
+<input type="month">
+<input type="number">
+<input type="password">
+<input type="radio">
+<input type="range">
+<input type="reset">
+<input type="search">
+<input type="submit">
+<input type="tel">
+<input type="text">
+<input type="time">
+<input type="url">
+<input type="week">
 
+3)<label for=""> for in label should be equal to id atrribute of <input> element to bind them together.
+when user click on text as well then radio button or checkbox will also clicked.
 
+4)name and value inside input tag
+the value of name depend on value.
+e.g-> we are two radio buttons yes and no, both having name eligibility.
 
+So, if we clicked yes then eligiblity set to yes else no.
+so we are giving value="yes" in one and value="no" in other.
 
-
-
+5)<select>
 
 
 

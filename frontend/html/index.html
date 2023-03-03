@@ -1,16 +1,51 @@
 <!DOCTYPE html>
 <head>
-    <title>
-    </title>
+    <title>contact details </title>
 </head>
 <body>
-    <video width="320" height="240" controls autoplay loop>
-        <source src="videos/book_video.mp4" type="video/mp4">
-      </video>
-      <br/>
-      <audio width ="320" height="240" controls autoplay loop>
-        <source src ="audios/audiobook.mp3" type="audio/mp3">
-      </audio>
-      <embed width="100%" height="500px" src="about.html">
+    <h1>Enter details here</h1>
+    <form>
+        <label for="fname">First Name</label>
+        <input id="fname" type="text" name="fname">
+        <br/>
+        <label for="lname">Last name</label>
+        <input id="lname" type="text" name="lname">
+        <br/>
+        <label for="age">age</label>
+        <input id="age" type="number">
+        <label for="mail">Email</label>
+        <input id="mail" type="email">
+        <br/>
+        <label for="pass">password</label>
+        <input id="pass"type="password">
+        <br/>
+        <label for="date">Date</label>
+        <input id="date" type="date">
+        <br/>
+        <p>Are you 18 or below<p>
+        <input id="noteligible" name="eligibility" type="radio" value="yes">
+        <label for="noteligible">yes</label>
+        <br/>
+        <input id="eligible" name="eligibility" type="radio" value="no">
+        <label for="eligible">no</label>
+        <br/>
+        <label for="fcolor">Enter your favourite color</label>
+        <input id="fcolor" type="color">
+        <br/>
+        <label for="aboutuser"">Tell Us About Yourself</label>
+        <br>
+        <textarea id="aboutuser" name="aboutuser" rows="10" cols="30"></textarea>
+        <br/>
+        <label for="car">Choose Car</label>
+        <select id="car" name="car">
+            <option value="volvo">Volvo</option>
+            <option value="audi">Audi</option>
+            <option value="bmw">BMW</option>
+        </select>
+        <br/>
+        <input type="reset">
+        <input type="submit">
+        <br/>
+    </form>
 </body>
 </html>
