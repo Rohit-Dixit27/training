@@ -110,6 +110,82 @@ In a monospaced font, however, each letter has the same width.
 -div, it is a container took whole width
 -span, it took width as per the text.
 
+-------Phrase tags
+1)Emphasized Text
+Anything that appears within <em>...</em> element is displayed as emphasized text.
+
+2)Marked Text
+Anything that appears with-in <mark>...</mark> element, is displayed as marked with yellow ink.
+
+3)Strong Text
+Anything that appears within <strong>...</strong> element is displayed as important text.
+
+4)Text Abbreviation
+You can abbreviate a text by putting it inside opening <abbr> and closing </abbr> tags. 
+If present, the title attribute must contain this full description and nothing else.
+
+5)Acronym Element
+The <acronym> element allows you to indicate that the text between <acronym> and </acronym> tags is an acronym.
+At present, the major browsers do not change the appearance of the content of the <acronym> element.
+
+6)Text Direction
+The <bdo>...</bdo> element stands for Bi-Directional Override and it is used to override the current text direction.
+
+7)Special Terms
+The <dfn>...</dfn> element (or HTML Definition Element) allows you to specify that you are introducing a special term. 
+It's usage is similar to italic words in the midst of a paragraph.
+
+8)Quoting Text
+When you want to quote a passage from another source, you should put it in between <blockquote>...</blockquote> tags.
+
+9)Short Quotations
+The <q>...</q> element is used when you want to add a double quote within a sentence.
+
+10)Text Citations
+If you are quoting a text, you can indicate the source placing it between an opening <cite> tag and closing </cite> tag
+As you would expect in a print publication, the content of the <cite> element is rendered in italicized text by default.
+
+11)Computer Code
+Any programming code to appear on a Web page should be placed inside <code>...</code> tags.
+
+12)Keyboard Text
+When you are talking about computers, if you want to tell a reader to enter some text, you can use the <kbd>...</kbd> element to indicate what should be typed in.
+
+13)Programming Variables
+This element is usually used in conjunction with the <pre> and <code> elements to indicate that the content of that element is a variable.
+
+14)Program Output
+The <samp>...</samp> element indicates sample output from a program, and script etc. Again, it is mainly used when documenting programming or coding concepts.
+
+15)Address Text
+The <address>...</address> element is used to contain any addres
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
