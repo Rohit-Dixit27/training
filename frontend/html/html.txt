@@ -199,6 +199,39 @@ The HTML tables allow web authors to arrange data like text, images, links, othe
 -cellspacing - to set spacing between cells.
 -cellpadding - to set spacing between cellborder and content.
 
+------HTML Lists
+HTML offers web authors three ways for specifying lists of information. All lists must contain one or more list elements. Lists may contain −
+
+<ul> − An unordered list. This will list items using plain bullets.
+
+<ol> − An ordered list. This will use different schemes of numbers to list your items.
+
+<dl> − A definition list. This arranges your items in the same way as they are arranged in a dictionary.
+
+1)<ul>, we can also type atrribute to specify type of bullet.
+<ul type = "square">
+<ul type = "disc">
+<ul type = "circle">
+
+2)<ol>, we can specify type of number.
+<ol type = "1"> - Default-Case Numerals.
+<ol type = "I"> - Upper-Case Numerals.
+<ol type = "i"> - Lower-Case Numerals.
+<ol type = "A"> - Upper-Case Letters.
+<ol type = "a"> - Lower-Case Letters.
+--and also start point.
+
+
+3)HTML Definition Lists,<dl>
+HTML and XHTML supports a list style which is called definition lists where entries are listed like in a dictionary or encyclopedia. 
+The definition list is the ideal way to present a glossary, list of terms, or other name/value list.
+
+-Definition List makes use of following three tags.
+
+<dl> − Defines the start of the list
+<dt> − A term
+<dd> − Term definition
+</dl> − Defines the end of the list
 
 
 
