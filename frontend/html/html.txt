@@ -250,6 +250,36 @@ colors can also be specified using RGB values, HEX values, HSL values, RGBA valu
 ->set text color = <p style="color:green">thiis is text</p>
 ->set border color = <h1 style="border:2px solid Tomato;">Hello World</h1>
 
+---embed
+The <embed> element can also be used to include HTML in HTML:
+
+--video
+ <video width="320" height="240" controls autoplay loop>
+        <source src="videos/book_video.mp4" type="video/mp4">
+      </video>
+---audio
+      
+      <audio width ="320" height="240" controls autoplay loop>
+        <source src ="audios/audiobook.mp3" type="audio/mp3">
+      </audio>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
