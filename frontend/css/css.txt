@@ -173,7 +173,24 @@ oblique - The text is "leaning" (oblique is very similar to italic, but less sup
 --font size
 [Note: If you do not specify a font size, the default size for normal text, like paragraphs, is 16px (16px=1em).]
 
+---css links
+-color
+-hover
+-background color
+-text-decoration
 
+--css lists
+-color
+-background color
+-position of bullet points
+
+---Table
+-border
+-width
+-height
+-color
+-align
+-padding
 
 
 
