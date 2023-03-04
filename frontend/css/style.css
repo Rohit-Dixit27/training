@@ -1,4 +1,47 @@
-ul{
+
+/* img{
+    float: left;
+}*/
+img{
+    float: right;
+    opacity: 0.1;
+} 
+/* img{
+    float: none;
+}  */
+/* img{
+    clear: right;
+} */
+
+/* .container{
+    height: 100px;
+    border: 2px solid red;
+    overflow: visible;
+} */
+/* 
+ .container{
+    height: 100px;
+    border: 2px solid red;
+    overflow: hidden;
+} */
+/* .container{
+    height: 100px;
+    border: 2px solid red;
+    overflow: scroll;
+} */
+/* .container{
+    height: 100px;
+    border: 2px solid red;
+    overflow: auto;
+}  */
+
+
+
+
+
+
+
+/* ul{
     background-color: black;
     text-align: center;
     color: blue;
@@ -43,7 +86,7 @@ input[type=submit]{
 }
 .div{
     text-align: center;
-} 
+}  */
 
 /* css links property */
 /* a {
