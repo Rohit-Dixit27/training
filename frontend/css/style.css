@@ -55,3 +55,20 @@
     margin-left: 50px;
     border-style: dashed;
 }  */
+/* .div{
+    color:blue;
+    background-color: aliceblue;
+    text-align: center;
+    text-align: left;
+    text-align: right; 
+    text-align-last: center;
+    direction: rtl;
+    
+} */
+.div{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1em;
+    font-weight: normal;
+    font-style: italic;
+    font-variant: small-caps;
+}
