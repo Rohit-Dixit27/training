@@ -98,3 +98,68 @@ e.g->
 --specificity order
 id > class > element
 [id having high priority then clas and then element]
+
+
+
+
+----border
+    border-style: dotted; 
+    border-style: dashed;
+    border-style: solid;
+    border-style: double; 
+    border-style: groove;
+    border-style: ridge;
+    border-style: inset;
+    border-style: outset;
+    border-style: none;
+    border-style: hidden;
+    border-style: dotted dashed solid double;
+
+    border-width: 5px;
+    border-color: grey;
+    border-top-style: #ffa500;
+    border-radius: 45px;
+
+---css margin
+The CSS margin properties are used to create space around elements, outside of any defined borders.
+  margin-top: 100px;
+  margin-bottom: 100px;
+  margin-right: 150px;
+  margin-left: 80px
+
+Margin shorthand
+-margin: 25px 50px 75px 100px;[top,right,bottom,left]
+-margin: 25px 50px 75px;[top,right and left,bottom]
+-margin: 25px 50px;[top and bottom,right and left]
+
+--padding
+Padding is used to create space around an element's content, inside of any defined borders.
+
+padding-top
+padding-right
+padding-bottom
+padding-left
+
+padding shorthand
+padding: 25px 50px 75px 100px;[top,right,bottom,left]
+padding: 25px 50px 100px;[top, right and left, bottom]
+padding: 25px 50px;[top and bottom, right and left]
+padding: 100px;[all four]
+
+-height and width
+The height and width properties are used to set the height and width of an element.
+[The height and width properties do not include padding, borders, or margins. It sets the height/width of the area inside the padding, border, and margin of the element.]
+
+
+
+
+
+
+
+
+
+
+
+
+
+

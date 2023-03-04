@@ -1,14 +1,57 @@
-*{
-    font-family: 'Courier New', Courier, monospace;
-}
 
-/* .article1, .article2 {
+/* .div{
+  margin-top: 100px;
+  margin-bottom: 100px;
+  margin-right: 150px;
+  margin-left: 80px
+} */
+/* .div {
+    margin: 100px;
+    border-style: dashed;
+    padding-top: 50px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    padding-left: 80px;
+    padding:100px
+} */
+
+/* .div {
+  height: 100px;
+  width: 500px;
+  background-color: powderblue;
+} */
+
+
+
+ /*.article1 {
     color: green;
-} */
-/* .article2{
-    color: goldenrod;
-} */
+    background-color: #ffa500;
+    text-align: center;
+    border-style: dashed;
+    border-width: 5px;
+    border-color: grey;
+    border-top-style: #ffa500;
+    border-radius: 45px; */
 
-.article1>#first{
-    color: red;
-}
+    /* border-style: dotted; 
+    border-style: dashed;
+    border-style: solid;
+    border-style: double; 
+    border-style: groove;
+    border-style: ridge;
+    border-style: inset;
+    border-style: outset;
+    border-style: none;
+    border-style: hidden;
+    border-style: dotted dashed solid double;  */
+    /* background-image: url("images/book.jpg");
+    background-repeat: repeat-y; /* repeat image 
+    opacity: 1; */
+    
+/* } 
+ .article2{
+    color: goldenrod;
+    text-align: left;
+    margin-left: 50px;
+    border-style: dashed;
+}  */
