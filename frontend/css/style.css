@@ -1,0 +1,14 @@
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* .article1, .article2 {
+    color: green;
+} */
+/* .article2{
+    color: goldenrod;
+} */
+
+.article1>#first{
+    color: red;
+}

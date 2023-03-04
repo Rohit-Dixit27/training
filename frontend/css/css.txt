@@ -1,0 +1,100 @@
+----------CSS
+CSS stands for Cascading Style Sheets
+CSS describes how HTML elements are to be displayed on screen, paper, or in other media
+CSS saves a lot of work. It can control the layout of multiple web pages all at once
+External stylesheets are stored in CSS files.
+
+syntax->
+p {
+  color: red;
+  text-align: center;
+}
+
+p is a selector in CSS (it points to the HTML element you want to style: <p>).
+color is a property, and red is the property value
+text-align is a property, and center is the property value
+
+--------->types of CSS
+[css having priority like if we define css on p in head then in p tag also then css in p will have high priority.]
+---->inline
+we put css inside the tag.
+e.g->
+<body>
+    <p style="color: blue;">this is css</p>
+</body>
+
+--->internal
+use style tag in head of html file and write their.
+e.g->
+<head>
+<style>
+p {
+  color: red;
+  text-align: center;
+}
+</style>
+</head>
+[this is apply on p element]
+
+---->external
+in this we create a separate file and link that to our html code.
+e.g-> in html code link that file.
+<link rel="stylesheet" href="style.css">
+
+
+----->favicon icon
+Showing on the tab of website.
+download an icon store in images folder now connect it in index.html
+
+ <link rel="shortcut icon" href="images/favicon.ico" type="image">
+
+
+------CSS selectors are used to "find" (or select) the HTML elements you want to style.
+
+We can divide CSS selectors into five categories:
+
+--Simple selectors (select elements based on name, id, class)
+
+-selector based on name element
+e.g->
+p{
+    color: blue;
+}
+[here all p tag elements will be in blue color.]
+
+-selector based on id.
+we define id for every element then we can its style separately like one p tag having id=first,then
+it use #id then definition.
+#first{
+    color: red;
+}
+
+-selector based on class
+we deine class in elements,then style them using .classname
+[we can provide more clases in one element also]
+
+--Universal selector
+The universal selector (*) selects all HTML elements on the pages.
+e.g->
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
+--grouping selector
+if we want to provide same properties to or more elements then we can define them with thierclasses or ids using ,
+e.g->
+.article1, .article2 {
+    color: green;
+}
+[here both class defined together]
+
+--nesting selector
+we can nest like if we need in article1 element then p element should in a color that is differenet from whole article element,then
+e.g->
+.article1>#first{
+    color: red;
+}
+[it will see in article1 then inside find id first and make it red.]
+
+--specificity order
+id > class > element
+[id having high priority then clas and then element]
