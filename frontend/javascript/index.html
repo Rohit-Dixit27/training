@@ -1,68 +1,45 @@
 <!DOCTYPE html>
 <head>
     <title>This is javascript</title>
+   
 </head>
 <body>
+    <!-- find by id-->
+    <!-- <p id="para">thi is html</p>
     <script>
-        // for(let i = 0; i < 5; i++)
-        // {
+       document.getElementById("para").innerHTML="this is javascript"
+    </script> -->
 
-        //     document.write(i);
-        // }
-        // const person = {firstname:"rohit", lastname:"dixit", age:"22"};
-        // for (let i in person)
-        // {
-        //     document.write(person[i]);
-        // }
+    <!--find by tag name-->
+     <!-- <p>this is html</p>
+     <p>this is javascript</p>
+     <p id="id1"></p>
+    <script>
+      const paragraphs = document.getElementsByTagName("p");
+      document.getElementById("id1").innerHTML=paragraphs[0].innerHTML;
+    </script>  -->
 
-        //  const arr = [11,22,33,44];
-        //  for(let i of arr)
-        //  {
-        //      document.write(i);
-        //  }
+    <!--change content of element using innerHtml -->
+    <!-- <p id="id1">this is html</p>
+    <script>
+        document.getElementById("id1").innerHTML="this is javascript";
+    </script> -->
 
-        // let str = "javascript"
-        // for(let i in str)
-        // {
-        //     document.write(i);
-        // }
+    <!--form-->
+<form name="myForm" action="/action_page.php" onsubmit="return validateForm()" method="post">
+    Name: <input type="text" name="fname">
+    <input type="submit" value="Submit">
+  </form>
+  <script>
+    function validateForm() {
+  let x = document.forms["myForm"]["fname"].value;
+  if (x == "") {
+    alert("Name must be filled out");
+    return false;
+  }
+}
+  </script>
 
-        // let str1 = "javascript"
-        // for(let i of str1)
-        // {
-        //     document.write(i);
-        // }
-
-        // let i = 3;
-        // while( i < 5 )
-        // {
-        //     document.write(i);
-        //     i++;
-        // }
-        // let i = 5;
-        // do 
-        // {
-        //     document.write(i);
-        //     i++;
-
-        // }
-        // while(i<3);
-        // for (let i=0;i<4;i++)
-        // {
-        //     if (i >2)
-        //     break;
-        //     document.write(i);
-        // }
-
-        for(let i=0;i<5;i++)
-        {
-            if (i==4)
-            { continue;}
-            document.write(i);
-        }
-
-
-
-    </script>
 </body>
+    
 </html>

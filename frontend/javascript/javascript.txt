@@ -157,9 +157,16 @@ while (condition);
 -----continue
 -The continue statement breaks one iteration (in the loop), if a specified condition occurs, and continues with the next iteration in the loop.
 
+------HTML DOM
+When a web page is loaded, the browser creates a Document Object Model of the page.
+
+--->HTML DOM methods are actions you can perform (on HTML Elements).
+
+--->HTML DOM properties are values (of HTML Elements) that you can set or change.
+
+[The innerHTML property can be used to get or change any HTML element, including <html> and <body>.]
 
 
-
-
-
+-->HTML DOM Document
+->The HTML DOM document object is the owner of all other objects in your web page.
 
