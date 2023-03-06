@@ -73,3 +73,30 @@ The object data type can contain:
 1. An object
 2. An array
 3. A date
+
+
+---string methods
+[Strings are immutable: Strings cannot be changed, only replaced.all methods return new string they not modify the original string.]
+-length, string.length
+-slice, str.slice(start, end), end is not included.
+-substring, str.substring(start, end) but not work on negative values took negative values as 0.
+-substr, str.substr(start, length)
+-replace, str.replace("old", "new")
+-upper, str.toUpperCase
+-lower, str.toLowerCase.
+-conact, str1.concat(str2)
+-trim, str.trim(), removes whitespace from both sides.
+-trimStart(), remove whitespace from beg of string only.
+-trimEnd(), removes whitespace from end of string only.
+-charAt() str.charAt(index),returns the character at a specified index (position) in a string:
+-charCodeAt() method returns the unicode of the character at a specified index in a string:(between 0 and 65535).
+
+--convert string to array.
+-A string can be converted to an array with the split() method:
+
+text.split(",")    // Split on commas
+text.split(" ")    // Split on spaces
+text.split("|")    // Split on pipe
+[whole string will stored in arr[o]]
+
+- text.split(""), then each character will be at particluar index.
