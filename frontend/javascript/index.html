@@ -4,41 +4,46 @@
    
 </head>
 <body>
-    <!-- find by id-->
-    <!-- <p id="para">thi is html</p>
+     <!-- <p id="para">this is html</p>
     <script>
-       document.getElementById("para").innerHTML="this is javascript"
-    </script> -->
-
-    <!--find by tag name-->
-     <!-- <p>this is html</p>
-     <p>this is javascript</p>
-     <p id="id1"></p>
-    <script>
-      const paragraphs = document.getElementsByTagName("p");
-      document.getElementById("id1").innerHTML=paragraphs[0].innerHTML;
+       document.getElementById("para").style.color='red';
     </script>  -->
 
-    <!--change content of element using innerHtml -->
-    <!-- <p id="id1">this is html</p>
+    <!-- <p onclick = "this.innerHTML = 'changed'">click to change</p> -->
+    <!-- <button id="date" onclick="check()">click to see date</button>
+    <p id="show"></p>
     <script>
-        document.getElementById("id1").innerHTML="this is javascript";
+        function check()
+        { 
+            document.getElementById("show").innerHTML=Date();
+
+        }
     </script> -->
 
-    <!--form-->
-<form name="myForm" action="/action_page.php" onsubmit="return validateForm()" method="post">
-    Name: <input type="text" name="fname">
-    <input type="submit" value="Submit">
-  </form>
-  <script>
-    function validateForm() {
-  let x = document.forms["myForm"]["fname"].value;
-  if (x == "") {
-    alert("Name must be filled out");
-    return false;
-  }
-}
-  </script>
+    <!-- <button id="btn">click</button>
+    <script>
+        document.getElementById("btn").addEventListener("click", function() { alert("hello")});
+    </script> -->
+    <!-- <p id="first">this is javascript</p>
+    <p id="second"></p>
+    <script>
+        // document.getElementById("second").innerHTML = document.getElementById("first").innerHTML;
+        // document.getElementById("second").innerHTML = document.getElementById("first").firstChild.nodeValue;
+        document.getElementById("second").innerHTML = document.getElementById("first").childNodes[0].nodeValue;
+    </script> -->
+<!-- 
+    <p>this is the first</p>
+    <p>this is the second</p>
+    <p id="show"></p>
+
+    <script>
+        document.getElementById("show").innerHTML = document.body.innerHTML;
+    </script> -->
+    <h2 id = "show1">javascript</h2>
+    <p id = "show2"></p>
+    <script>
+        document.getElementById("show2").innerHTML = document.getElementById("show1").nodeName;
+    </script>
 
 </body>
     

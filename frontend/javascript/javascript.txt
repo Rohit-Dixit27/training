@@ -170,3 +170,53 @@ When a web page is loaded, the browser creates a Document Object Model of the pa
 -->HTML DOM Document
 ->The HTML DOM document object is the owner of all other objects in your web page.
 
+--->change html style
+To change the style of an HTML element.
+syntax:
+document.getElementById(id).style.property = new style
+
+
+-->Reacting to events
+->A JavaScript can be executed when an event occurs, like when a user clicks on an HTML element.
+examples of html events are->
+
+-When a user clicks the mouse.
+-When a web page has loaded.
+-When an image has been loaded.
+-When the mouse moves over an element.
+-When an input field is changed.
+-When an HTML form is submitted.
+-When a user strokes a key.
+
+---->EventListener
+-The addEventListener() method attaches an event handler to the specified element.
+-The addEventListener() method attaches an event handler to an element without overwriting existing event handlers.
+-You can add many event handlers to one element.
+
+-->DOM Root Nodes
+There are two special properties that allow access to the full document:
+-document.body - The body of the document
+-document.documentElement - The full document
+
+
+---->The nodeValue property specifies the value of a node.
+
+nodeValue for element nodes is null
+nodeValue for text nodes is the text itself
+nodeValue for attribute nodes is the attribute value.
+
+
+
+--->The nodeType property is read only. It returns the type of a node.
+
+
+
+
+
+
+
+
+
+
+
+
