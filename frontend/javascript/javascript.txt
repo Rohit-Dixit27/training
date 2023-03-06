@@ -113,3 +113,53 @@ text.split("|")    // Split on pipe
 -If there is a match, the associated block of code is executed.
 -If there is no match, the default code block is executed.
 
+--->Loop
+->for
+-Its statement creates a loop with 3 optional expressions:
+
+for (expression 1; expression 2; expression 3) {
+  // code block to be executed
+}
+
+.Expression 1 is executed (one time) before the execution of the code block.
+.Expression 2 defines the condition for executing the code block.
+.Expression 3 is executed (every time) after the code block has been executed.
+
+->for in
+for in statement loops through the properties of an Object:
+syntax-
+for (key in object) {
+  // code block to be executed
+}
+
+->for of
+-It lets you loop over iterable data structures such as Arrays, Strings, Maps, NodeLists, and more:
+
+->while loop
+-The while loop loops through a block of code as long as a specified condition is true.
+
+while (condition) {
+  // code block to be executed
+}
+
+->do while
+-The do while loop is a variant of the while loop. This loop will execute the code block once, before checking if the condition is true, then it will repeat the loop as long as the condition is true.
+
+Syntax
+do {
+  // code block to be executed
+}
+while (condition);
+
+----break
+-The break statement can also be used to jump out of a loop:
+
+-----continue
+-The continue statement breaks one iteration (in the loop), if a specified condition occurs, and continues with the next iteration in the loop.
+
+
+
+
+
+
+
