@@ -209,6 +209,14 @@ nodeValue for attribute nodes is the attribute value.
 
 --->The nodeType property is read only. It returns the type of a node.
 
+-->To add a new element to the HTML DOM, you must create the element (element node) first, and then append it to an existing element.
+-->To remove an HTML element, use the remove() method:
+
+
+----->The getElementsByTagName() method returns an HTMLCollection object.
+-An HTMLCollection object is an array-like list (collection) of HTML elements.
+
+---->A NodeList object is a list (collection) of nodes extracted from a document.
 
 
 

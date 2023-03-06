@@ -1,50 +1,26 @@
 <!DOCTYPE html>
 <head>
     <title>This is javascript</title>
-   
 </head>
 <body>
-     <!-- <p id="para">this is html</p>
+     <!-- <div id="div1">
+        <p id="p1">This is a paragraph.</p>
+        <p id="p2">This is another paragraph.</p>
+    </div>
     <script>
-       document.getElementById("para").style.color='red';
-    </script>  -->
-
-    <!-- <p onclick = "this.innerHTML = 'changed'">click to change</p> -->
-    <!-- <button id="date" onclick="check()">click to see date</button>
-    <p id="show"></p>
+        const para = document.createElement("p");
+        const node = document.createTextNode("this is new");
+        para.appendChild(node);
+        const element = document.getElementById("div1");
+        element.appendChild(para);
+    </script> - -->
+     <div>
+        <p id="p1">This is a paragraph.</p>
+        <p id="p2">This is another paragraph.</p>
+    </div>
     <script>
-        function check()
-        { 
-            document.getElementById("show").innerHTML=Date();
-
-        }
-    </script> -->
-
-    <!-- <button id="btn">click</button>
-    <script>
-        document.getElementById("btn").addEventListener("click", function() { alert("hello")});
-    </script> -->
-    <!-- <p id="first">this is javascript</p>
-    <p id="second"></p>
-    <script>
-        // document.getElementById("second").innerHTML = document.getElementById("first").innerHTML;
-        // document.getElementById("second").innerHTML = document.getElementById("first").firstChild.nodeValue;
-        document.getElementById("second").innerHTML = document.getElementById("first").childNodes[0].nodeValue;
-    </script> -->
-<!-- 
-    <p>this is the first</p>
-    <p>this is the second</p>
-    <p id="show"></p>
-
-    <script>
-        document.getElementById("show").innerHTML = document.body.innerHTML;
-    </script> -->
-    <h2 id = "show1">javascript</h2>
-    <p id = "show2"></p>
-    <script>
-        document.getElementById("show2").innerHTML = document.getElementById("show1").nodeName;
-    </script>
-
-</body>
-    
+        const element = document.getElementById("p1");
+        element.remove();
+    </script> 
+</body>    
 </html>
