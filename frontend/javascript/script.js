@@ -1,3 +1,3 @@
-function change(){
-document.getElementById("paragraph").innerHTML = "this is about thejavascript";
-}
+let a = 3;
+let b = 4;
+document.write(a+b);
