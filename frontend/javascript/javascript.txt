@@ -100,3 +100,16 @@ text.split("|")    // Split on pipe
 [whole string will stored in arr[o]]
 
 - text.split(""), then each character will be at particluar index.
+
+-----conditional statements;
+-->if else
+-Use if to specify a block of code to be executed, if a specified condition is true.
+-Use else to specify a block of code to be executed, if the same condition is false.
+-Use else if to specify a new condition to test, if the first condition is false.
+
+-->switch
+-The switch expression is evaluated once.
+-The value of the expression is compared with the values of each case.
+-If there is a match, the associated block of code is executed.
+-If there is no match, the default code block is executed.
+
