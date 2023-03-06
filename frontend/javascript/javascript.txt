@@ -2,7 +2,15 @@
 -JavaScript (js) is a light-weight object-oriented programming language which is used by several websites for scripting the webpages.
 -It is an interpreted, full-fledged programming language that enables dynamic interactivity on websites when applied to an HTML document.
 
-->where to
+--->where to
 -it is inserted using <script> tag.
 -it can be written in body or head.
 -it can written in as external file and then link using <script> tag.
+
+--->javascript display possibilities
+-Writing into an HTML element, using innerHTML.
+    .JavaScript can use the document.getElementById(id) method.
+    .The id attribute defines the HTML element. The innerHTML property defines the HTML content:
+-Writing into the HTML output using document.write().
+-Writing into an alert box, using window.alert().
+-Writing into the browser console, using console.log().
