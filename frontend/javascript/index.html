@@ -4,56 +4,79 @@
 </head>
 <body>
      <p id="result"></p>
-    <!--<script>
-        let result = mul(4,4);
-        function mul(a,b)
-        {
-            return a*b;
-        }
-        document.getElementById("result").innerHTML = result;
-        
-    </script>  -->
-
-
-    <!-- <script>
-        const res = function(a,b) { return a*b };
-        document.write(res(12,1));
-    </script> -->
-    <!-- <script>
-        const res = new Function("a", "b", "return a*b");
-        document.write(res(12,2));
-    </script> -->
-    <!-- <script>
-        function add(a,b=10)
-        {
-            return a+b;
-        }  
-        document.write(add(2));
-     </script> -->
-
-       <!-- <script>
-        function add(...args)
-        {
-            let sum = 0;
-            for (let i of args)
-            {
-                sum+=i;
-            }
-            return sum;
-        }  
-        document.write(add(2,3,4,5,6));
-     </script>  -->
-
      <!-- <script>
-        const person = { fullname: function() { return this.firstname + this.lastname}}
-        const person1 = { firstname:"rohit", lastname:"dixit"}
-        document.write(person.fullname.call(person1));
+        class Car
+        {
+            constructor(name)
+            {
+                this.name = name;
+            }
+        }
+        let car1 = new Car("audi");
+        document.getElementById("result").innerHTML = car1.name;
+     </script> -->
+     <!-- <script>
+        class Student{
+            constructor(name)
+            {
+                this.name = name;
+            }
+            marks(marks)
+            {
+                return this.name+" "+ "scored"+" "+marks;
+            }
+        }
+        let st = new Student("rohan");
+         document.getElementById("result").innerHTML = st.marks(23);
      </script> -->
      <script>
-        const person = { fullname: function(city) { return this.firstname + this.lastname + city}}
-        const person1 = { firstname:"rohit", lastname:"dixit"}
-        document.write(person.fullname.apply(person1,["delhi"]));
-     </script>
+        class Student{
+            constructor(name)
+            {
+                this.name = name;
+            }
+            attendance(attendance)
+            {
+                return this.name+" " + "has" +" " + attendance + " attendanace";
+            }
+        }
+        class Teacher extends Student{
+            constructor(name)
+            {
+                super(name);
+            }
+    
+        }
 
+        //let st = new Student("rohan");
+        let th = new Teacher("sohit");
+        // document.getElementById("result").innerHTML = st.attendance("90%");
+        document.getElementById("result").innerHTML = th.name;
+     </script>
 </body>    
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
