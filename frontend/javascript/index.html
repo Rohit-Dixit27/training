@@ -3,24 +3,57 @@
     <title>This is javascript</title>
 </head>
 <body>
-     <!-- <div id="div1">
-        <p id="p1">This is a paragraph.</p>
-        <p id="p2">This is another paragraph.</p>
-    </div>
-    <script>
-        const para = document.createElement("p");
-        const node = document.createTextNode("this is new");
-        para.appendChild(node);
-        const element = document.getElementById("div1");
-        element.appendChild(para);
-    </script> - -->
-     <div>
-        <p id="p1">This is a paragraph.</p>
-        <p id="p2">This is another paragraph.</p>
-    </div>
-    <script>
-        const element = document.getElementById("p1");
-        element.remove();
-    </script> 
+     <p id="result"></p>
+    <!--<script>
+        let result = mul(4,4);
+        function mul(a,b)
+        {
+            return a*b;
+        }
+        document.getElementById("result").innerHTML = result;
+        
+    </script>  -->
+
+
+    <!-- <script>
+        const res = function(a,b) { return a*b };
+        document.write(res(12,1));
+    </script> -->
+    <!-- <script>
+        const res = new Function("a", "b", "return a*b");
+        document.write(res(12,2));
+    </script> -->
+    <!-- <script>
+        function add(a,b=10)
+        {
+            return a+b;
+        }  
+        document.write(add(2));
+     </script> -->
+
+       <!-- <script>
+        function add(...args)
+        {
+            let sum = 0;
+            for (let i of args)
+            {
+                sum+=i;
+            }
+            return sum;
+        }  
+        document.write(add(2,3,4,5,6));
+     </script>  -->
+
+     <!-- <script>
+        const person = { fullname: function() { return this.firstname + this.lastname}}
+        const person1 = { firstname:"rohit", lastname:"dixit"}
+        document.write(person.fullname.call(person1));
+     </script> -->
+     <script>
+        const person = { fullname: function(city) { return this.firstname + this.lastname + city}}
+        const person1 = { firstname:"rohit", lastname:"dixit"}
+        document.write(person.fullname.apply(person1,["delhi"]));
+     </script>
+
 </body>    
 </html>

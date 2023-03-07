@@ -219,12 +219,24 @@ nodeValue for attribute nodes is the attribute value.
 ---->A NodeList object is a list (collection) of nodes extracted from a document.
 
 
+---->Functions
+-JavaScript functions are defined with the function keyword.
+-You can use a function declaration or a function expression.
+-JavaScript functions can be called before they are declared:
+-It allows function parameters to have default values.
+-The rest parameter (...) allows a function to treat an indefinite number of arguments as an array:
 
+-->The function above can  be anonymous function (a function without a name).
+-Functions stored in variables do not need function names. They are always invoked (called) using the variable name.
 
+--->Function constructor
+-Functions can also be defined with a built-in JavaScript function constructor called Function().
 
+--->Call() method
+-The call() method is a predefined JavaScript method.
+-It can be used to invoke (call) a method with an owner object as an argument (parameter).
 
-
-
-
+---->apply() method
+-The apply() method takes arguments as an arra
 
 
