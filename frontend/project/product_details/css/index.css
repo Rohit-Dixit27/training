@@ -1,0 +1,48 @@
+body{
+    background-image: url('/images/background.jpg');
+}
+table{
+    width: 80%;
+    margin: 40px auto;
+    background: rgb(124,154,167);
+}
+table.list{
+    text-align: center;
+    width: 100%;
+}
+
+td{
+    border: 1px solid rgb(204,200,200);
+    text-align: left;
+    padding: 8px 15px;
+}
+
+input[type="text"],input[type="number"]{
+    width:91%;
+    padding:12px ;
+    margin:8px;
+    border-radius: 24px;
+}
+
+input[type="submit"],input[type="reset"]{
+    background: #eee;
+    padding:6px;
+    margin:15px;
+    border: none;
+}
+
+input[type="submit"]:hover{
+    background: #4b99d8;
+}
+
+input[type="reset"]:hover{
+    background: #4b99d8;
+}
+
+button{
+    background: #eee;
+}
+
+button:hover{
+    background:#4b99d8 ;
+}
