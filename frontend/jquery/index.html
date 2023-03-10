@@ -8,15 +8,39 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-    <p class="paragraph">this is first paragraph</p>
+    <p id="paragraph1">this is first paragraph</p>
     <p class="paragraph">this is second</p>
-    <p id="result"></p>
+    <p id="result">javascript</p>
 
-    <!--finding element by class name-->
+    <!--set inner text of  html element using text()-->
+    <!-- <script>
+        $(document).ready(function(){
+            let myelement = $('#result');
+            myelement.text("jQuery")
+        });
+    </script>
+     -->
+
+     <!--get text content-->
+    <!-- <script>
+        $(document).ready(function(){
+            let myelement = $('#paragraph1').text();
+            $('#result').text(myelement)
+        });
+    </script> -->
+
+    <!--set html content-->
+    <!-- <script>
+        $(document).ready(function(){
+            let myelement = $('#result');
+            myelement.html("<p>jquery</p>")
+        });
+    </script> -->
+    <!--get html content-->
     <script>
         $(document).ready(function(){
-            let myelement = $('.paragraph');
-            $('#result').text("using jQuery"+" " + myelement[0].innerHTML)
+            let myelement = $('#paragraph1').html();
+            $('#result').html(myelement)
         });
     </script>
 </body>
