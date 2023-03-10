@@ -8,15 +8,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-    <p>this is first paragraph</p>
-    <p>this is second</p>
+    <p class="paragraph">this is first paragraph</p>
+    <p class="paragraph">this is second</p>
     <p id="result"></p>
 
-    <!--finding element by tag name-->
+    <!--finding element by class name-->
     <script>
         $(document).ready(function(){
-            let myelement = $('p');
-            $('#result').text("using jQuery"+" " + myelement[1].innerHTML)
+            let myelement = $('.paragraph');
+            $('#result').text("using jQuery"+" " + myelement[0].innerHTML)
         });
     </script>
 </body>
