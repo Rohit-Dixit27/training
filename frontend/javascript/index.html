@@ -5,54 +5,16 @@
 <body>
      <p id="result"></p>
      <!-- <script>
-        class Car
-        {
-            constructor(name)
-            {
-                this.name = name;
-            }
-        }
-        let car1 = new Car("audi");
-        document.getElementById("result").innerHTML = car1.name;
-     </script> -->
-     <!-- <script>
-        class Student{
-            constructor(name)
-            {
-                this.name = name;
-            }
-            marks(marks)
-            {
-                return this.name+" "+ "scored"+" "+marks;
-            }
-        }
-        let st = new Student("rohan");
-         document.getElementById("result").innerHTML = st.marks(23);
+        const json = '{"name":"rohit", "age":22}';
+        const obj = JSON.parse(json);
+        document.getElementById("result").innerHTML = obj.name;
      </script> -->
      <script>
-        class Student{
-            constructor(name)
-            {
-                this.name = name;
-            }
-            attendance(attendance)
-            {
-                return this.name+" " + "has" +" " + attendance + " attendanace";
-            }
-        }
-        class Teacher extends Student{
-            constructor(name)
-            {
-                super(name);
-            }
-    
-        }
-
-        //let st = new Student("rohan");
-        let th = new Teacher("sohit");
-        // document.getElementById("result").innerHTML = st.attendance("90%");
-        document.getElementById("result").innerHTML = th.name;
+        const json = '["rohit", "rohan"]';
+        const obj = JSON.parse(json);
+        document.getElementById("result").innerHTML = obj[1];
      </script>
+
 </body>    
 </html>
 

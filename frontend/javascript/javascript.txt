@@ -260,3 +260,30 @@ The constructor method is a special method:
 -A class created with a class inheritance inherits all the methods from another class:
 
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-->JSON
+-JSON stands for JavaScript Object Notation.
+-JSON is a text format for storing and transporting data.
+-JSON is "self-describing" and easy to understand.
+
+-->syntax
+-Data is in name/value pairs.
+-Data is separated by commas.
+-Curly braces hold objects.
+-Square brackets hold arrays.
+
+-->JSON vs XML
+-Both JSON and XML can be used to receive data from a web server.
+-JSON doesn't use end tag.
+-JSON is shorter.
+-JSON is quicker to read and write.
+-JSON can use arrays.
+
+-->JSON Datatypes.
+-string
+-number
+-object (JSON object)
+-array
+-boolean
+-null
