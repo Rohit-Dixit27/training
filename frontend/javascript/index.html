@@ -9,10 +9,16 @@
         const obj = JSON.parse(json);
         document.getElementById("result").innerHTML = obj.name;
      </script> -->
-     <script>
+     <!-- <script>
         const json = '["rohit", "rohan"]';
         const obj = JSON.parse(json);
         document.getElementById("result").innerHTML = obj[1];
+     </script> -->
+     <script>
+        const json = '{"name":"rohit", "age":22, "birth":"2000-07-27"}';
+        const obj = JSON.parse(json);
+        obj.birth = new Date(obj.birth);
+        document.getElementById("result").innerHTML = obj.birth;
      </script>
 
 </body>    

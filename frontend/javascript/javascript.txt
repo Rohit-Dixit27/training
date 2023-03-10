@@ -287,3 +287,9 @@ The constructor method is a special method:
 -array
 -boolean
 -null
+
+
+-->JSON.parse()
+-The data becomes a JavaScript object.
+-When using the JSON.parse() on a JSON derived from an array, the method will return a JavaScript array, instead of a JavaScript object.
+
