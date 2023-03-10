@@ -10,19 +10,24 @@
 </head>
 
 <body>
-    <p id="paragraph1" style="display: none;">this is first paragraph</p>
-    <p>this is second</p>
-    <!--hide method-->
-    <!-- <script>
+    <!--remove method-->
+
+    <!-- <p id="paragraph1">this is first paragraph</p>
+    <p>this is second paragraph</p>
+
+    <script>
         $(document).ready(function () {
-            $('#paragraph1').hide();
+            $('#paragraph1').remove();
         });
     </script> -->
 
-    <!--show method-->
+    <!--get parent element-->
+
+    <p id="first">this is first</p>
+    <p id="result"></p>
     <script>
-        $(document).ready(function () {
-            $('#paragraph1').show();
+        $(document).ready(function(){
+            $('#result').text($('#first').parent().prop('nodeName'))
         });
     </script>
 </body>
