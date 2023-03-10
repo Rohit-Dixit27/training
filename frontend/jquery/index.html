@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,41 +8,23 @@
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
+
 <body>
-    <p id="paragraph1">this is first paragraph</p>
-    <p class="paragraph">this is second</p>
-    <p id="result">javascript</p>
-
-    <!--set inner text of  html element using text()-->
+    <p id="paragraph1" style="display: none;">this is first paragraph</p>
+    <p>this is second</p>
+    <!--hide method-->
     <!-- <script>
-        $(document).ready(function(){
-            let myelement = $('#result');
-            myelement.text("jQuery")
-        });
-    </script>
-     -->
-
-     <!--get text content-->
-    <!-- <script>
-        $(document).ready(function(){
-            let myelement = $('#paragraph1').text();
-            $('#result').text(myelement)
+        $(document).ready(function () {
+            $('#paragraph1').hide();
         });
     </script> -->
 
-    <!--set html content-->
-    <!-- <script>
-        $(document).ready(function(){
-            let myelement = $('#result');
-            myelement.html("<p>jquery</p>")
-        });
-    </script> -->
-    <!--get html content-->
+    <!--show method-->
     <script>
-        $(document).ready(function(){
-            let myelement = $('#paragraph1').html();
-            $('#result').html(myelement)
+        $(document).ready(function () {
+            $('#paragraph1').show();
         });
     </script>
 </body>
+
 </html>
