@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     def create
         @user = User.new(user_params)
         if @user.save
-            NotifierMailer.with(user: @user).send_notification.deliver_later
+            NotifierMailer.with(user: @user).send_data.deliver_later
             redirect_to root_path
         else
             render :new

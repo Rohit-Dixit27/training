@@ -10,4 +10,8 @@
 
 --Layout
 -Just like with controller views, use yield to render the view inside the layout.
--You can also pass in a layout: 'layout_name' option to the render call inside the format block to specify different layouts for different formats
+-You can also pass in a layout: 'layout_name' option to the render call inside the format block to specify different layouts for different formats.
+
+--Adding attachments
+-Action Mailer makes it very easy to add attachments.
+-Pass the file name and content and Action Mailer and the Mail gem will automatically guess the mime_type, set the encoding, and create the attachments.

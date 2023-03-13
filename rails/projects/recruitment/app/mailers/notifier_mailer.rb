@@ -1,7 +1,7 @@
 class NotifierMailer < ApplicationMailer
-    def send_notification
+    def send_data
         @user = params[:user]
-         mail(to: email_address_with_name(@user.email, @user.name), from:"sharmarick59@gmail.com", subject:"this is data",
-        template_path: "notification", template_name: "notification")    
+        attachments['git.pdf'] = File.read('app/assets/images/git.pdf')
+         mail(to: @user.email, from: "sharmarick59@gmail.com", subject: "this is data")   
     end
 end
