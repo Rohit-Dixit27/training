@@ -65,6 +65,7 @@ class BooksController < ApplicationController
     def update
       #@book = Book.find(params[:id])
       if @book.update(book_params)
+        NotifierMailer.alert_update.deliver
         flash[:notice] = "updated successfully"
         redirect_to(@book)
       else
