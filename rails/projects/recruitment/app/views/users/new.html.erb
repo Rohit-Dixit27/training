@@ -1,18 +1,20 @@
 <%= form_with model: @user do |form|%>
-<%= form.label:name%>
-<%= form.text_field :name%>
+<%= form.label:name %>
+<%= form.text_field :name %>
 <br/>
-<%= form.label:email%>
-<%=form.text_field :email%>
+<%= form.label:email %>
+<%=form.text_field :email %>
 <br/>
-<%= form.label:Phone%>
-<%=form.text_field :mobile%>
+<%= form.label:Phone %>
+<%=form.text_field :mobile %>
 <br/>
-<%= form.label:Branch%>
-<%=form.text_field :branch%>
+<%= form.label:Branch %>
+<%=form.text_field :branch %>
 <br/>
 <%= form.label:CGPA%>
-<%=form.text_field :cgpa%>
+<%=form.text_field :cgpa %>
+<br/>
+<%= form.file_field :image %>
 <br/>
 <%= form.submit "submit" %>
 <% end %>

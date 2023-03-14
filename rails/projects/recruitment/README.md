@@ -15,3 +15,16 @@
 --Adding attachments
 -Action Mailer makes it very easy to add attachments.
 -Pass the file name and content and Action Mailer and the Mail gem will automatically guess the mime_type, set the encoding, and create the attachments.
+
+--->Active Storage
+--Active Storage facilitates uploading files to a cloud storage service like Amazon S3, Google Cloud Storage,
+ or Microsoft Azure Storage and attaching those files to Active Record objects.
+ -It comes with a local disk-based service for development and testing and supports mirroring files to subordinate services for backups and migrations.
+
+ --setup
+ -rails active_storage:install[create three tables]
+ -rails db:migrate
+
+ ---->Attaching files
+ -->has_one_attached
+ -The has_one_attached macro sets up a one-to-one mapping between records and files. Each record can have one file attached to it.
