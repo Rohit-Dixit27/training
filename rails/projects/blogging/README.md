@@ -1,0 +1,2 @@
+---Tranformation  of images in active storage.
+-Transforming images allows you to display the image at your choice of dimensions. To create a variation of an image, call variant on the attachment
