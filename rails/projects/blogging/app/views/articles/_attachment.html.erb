@@ -1,0 +1,9 @@
+<% if article.file.attached? %>
+  <% if article.file.image? %>
+    <%= image_tag(article.file) %>
+    <% elsif article.file.video? %>
+      <%= video_tag(url_for(article.file), controls: "") %>
+        <% elsif article.file.audio? %>
+          <%= audio_tag(url_for(article.file), controls: "")%>
+  <% end %>
+<% end %>
