@@ -14,7 +14,7 @@
 <%= form.label:CGPA%>
 <%=form.text_field :cgpa %>
 <br/>
-<%= form.file_field :image %>
+<%= form.file_field :pictures, multiple: true %>
 <br/>
 <%= form.submit "submit" %>
 <% end %>

@@ -28,3 +28,6 @@
  ---->Attaching files
  -->has_one_attached
  -The has_one_attached macro sets up a one-to-one mapping between records and files. Each record can have one file attached to it.
+
+ -->has_many_attached
+ The has_many_attached macro sets up a one-to-many relationship between records and files. Each record can have many files attached to it.
