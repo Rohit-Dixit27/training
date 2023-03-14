@@ -19,6 +19,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_110137) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", null: false
+    t.string "mobile", null: false
+    t.string "branch", null: false
+    t.string "cgpa", null: false
   end
 
 end

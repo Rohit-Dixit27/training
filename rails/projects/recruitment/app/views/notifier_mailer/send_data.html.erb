@@ -1,6 +1,13 @@
-username:<%=@user.name%>
-user_id:<%=@user.id%>
+username:<%= @user.name %>
+<br/>
+email:<%= @user.email %>
+<br/>
+Phone-number:<%= @user.mobile %>
+<br/>
+Branch:<%= @user.branch %>
+<br/>
+CGPA:<%= @user.cgpa %>
 <p>Hello there, this is our image</p>
 
-<%= image_tag attachments['git.pdf'].url %>
+<%= image_tag attachments['id.jpg'].url %>
 
