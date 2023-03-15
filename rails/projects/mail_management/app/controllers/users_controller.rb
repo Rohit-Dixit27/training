@@ -16,7 +16,7 @@ class UsersController < ApplicationController
           flash[:notice] = "Records Imported"
           redirect_to users_path 
         rescue Exception => e
-          flash[:notice] = "Issues with file"
+          flash[:notice] = "supports only excel files"
           redirect_to users_path 
         end
       end

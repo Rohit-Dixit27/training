@@ -16,6 +16,9 @@ gem "pg", "~> 1.1"
 gem "roo", "~> 2.10.0"
 gem 'roo-xls'
 
+#delayedjob gem
+gem 'delayed_job_active_record'
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
 
