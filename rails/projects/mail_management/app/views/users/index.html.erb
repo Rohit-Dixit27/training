@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<h1>users</h1>
+ <%= form_tag import_from_excel_path, multipart: true do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Import", :class=> "btn"%>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>sno</th>
+      <th>name</th>
+      <th>email</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.sno %></td>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
