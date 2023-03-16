@@ -6,7 +6,6 @@
   <%= submit_tag "Import", :class=> "btn"%>
 <% end %>
 <br/>
-<%= stylesheet_link_tag "style.css" %>
 <table>
   <thead >
     <tr>
@@ -27,4 +26,6 @@
   </tbody>
 </table>
 </center>
+<%= will_paginate @users, renderer: BootstrapPagination::Rails %>
+
 
