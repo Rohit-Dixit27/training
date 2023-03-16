@@ -1,7 +1,13 @@
 class UsersController < ApplicationController
   def index
-    #@users = User.all
-    @users = User.paginate(page: params[:page], per_page:2)
+    @users = User.all
+    @users = User.paginate(page: params[:page], per_page: 2)
+  end
+
+  def search
+    @query = params[:query]
+    @users = User.where("users.email ILIKE ?", ["%#{@query}%"]).or(User.where("users.name ILIKE ?", ["%#{@query}%"])).paginate(page: params[:page], per_page: 2)
+    render "index"
   end
 
   def import_from_excel

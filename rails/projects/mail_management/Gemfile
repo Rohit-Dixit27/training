@@ -19,7 +19,6 @@ gem 'roo-xls'
 
 #for pagination
 gem 'will_paginate', '~> 3.3'
-gem 'will_paginate-bootstrap'
 
 #delayedjob gem
 gem 'delayed_job_active_record'

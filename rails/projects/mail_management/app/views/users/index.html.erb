@@ -6,6 +6,11 @@
   <%= submit_tag "Import", :class=> "btn"%>
 <% end %>
 <br/>
+<%= form_with url: "/search", method: :get do |form| %>
+  <%= form.label :query, "Search for:" %>
+  <%= form.text_field :query %>
+  <%= form.submit "Search" %>
+<% end %>
 <table>
   <thead >
     <tr>
@@ -26,6 +31,6 @@
   </tbody>
 </table>
 </center>
-<%= will_paginate @users, renderer: BootstrapPagination::Rails %>
+<%= will_paginate @users %>
 
 
