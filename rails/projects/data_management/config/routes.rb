@@ -1,9 +1,18 @@
 Rails.application.routes.draw do
-
-  root 'users#index'
-  direct :rails do
-    "https://rubyonrails.org"
-  end
+  
+  draw(:admin)
+  # scope(path_names: { new: 'neu', edit: 'change' }) do
+  #   resources :users, path: 'employees'
+  # end
+  # resources :users, except: :show
+  # resources :users, only: [:new, :create]
+  # resources :users, path_names: { new: 'make', edit: 'change' }
+  # resources :users, as: :employee
+  # resources :users, controller: 'posts'
+  # root 'users#index'
+  # direct :rails do
+  #   "https://rubyonrails.org"
+  # end
   # get 'show', to: redirect('index')
   # get 'index', to: 'users#index'
   # get 'show/:id/*other', to: 'users#show'
