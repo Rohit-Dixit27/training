@@ -1,5 +1,5 @@
 table, th, td {
-    border: 1px solid;
+  border: 1px solid;
   }
 
 th, td {
@@ -7,10 +7,20 @@ th, td {
  }
 
 .btn {
-    background-color: blue;
-    color: white;
+   background-color: blue;
+   color: white;
    }
 
 h3 {
-    align-content: center;
+  align-content: center;
   }
+  
+.search {
+   padding: 10px;
+   background: #2196F3;
+   color: white;
+   font-size: 10px;
+   border: 1px solid grey;
+   margin-bottom: 4px;
+  }
+  

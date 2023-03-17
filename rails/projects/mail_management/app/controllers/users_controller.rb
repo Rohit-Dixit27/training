@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
   def index
     #@users = User.all
-    @users = User.paginate(page: params[:page], per_page: 2)
+    @users = User.paginate(page: params[:page], per_page: 5)
   end
 
   def search
     @query = params[:query]
-    @users = User.where("users.email ILIKE ?", ["%#{@query}%"]).or(User.where("users.name ILIKE ?", ["%#{@query}%"])).paginate(page: params[:page], per_page: 2)
+    @users = User.where("users.email LIKE ?", ["%#{@query}%"]).or(User.where("users.name ILIKE ?", ["%#{@query}%"])).paginate(page: params[:page], per_page: 5)
     render "index"
   end
 
