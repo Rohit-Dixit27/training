@@ -84,3 +84,78 @@ scope shallow_prefix: 'data' do
   end
 
   path - > edit_data_post
+
+
+  -----------Routing concerns
+  ->Routing concerns allow you to declare common routes that can be reused inside other resources and routes.
+
+concern :images do
+    resources :posts
+  end
+
+[now use that concern]
+  resources :users, concerns: :images
+  [ it will be same as -:]
+  resources :users do
+    resources :posts
+  end    
+
+
+----------we can add additional routes to the collections as well as members.
+
+->member[these routes used id, like show, edit, update, destroy]
+
+resources :users do
+  member do
+    get 'preview'
+  end
+end
+
+url -> /users/:id/preview
+
+[to implement single member action use on ]
+
+e.g->
+resources :users do
+  get 'preview', on: :member
+end
+
+
+
+->collection[these routes don't use id like , new, create, index]
+
+resources :users do
+    collection do
+      get 'search'
+    end
+  end
+[here we are making an action search which is collection on users controller]
+
+url ->  /users/search
+
+[if we want to make single action then don't need to use do in collection, we can use on]
+e.g->
+resources :users do
+get 'search', on: :collection
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
