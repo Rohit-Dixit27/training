@@ -139,7 +139,34 @@ resources :users do
 get 'search', on: :collection
 end
 
+------>Naming routes
+get 'show', to: 'users#show', as: :display
+[create display_path]
 
+---->HTTP Verb Constraints
+->We can use the match method with the :via option to match multiple verbs at once:
+e.g->  match 'show', to: 'users#show', via: [:get, :post]
+                  or
+       match 'show', to: 'users#show', via: :all
+
+---------->Constraints 
+get 'show/:id', to: 'users#show', constraints: {id: /[a-z]/} 
+
+------>wildcard segments
+[after /show/:id/ anything is there it will call show method of user controller.]
+  get 'show/:id/*other', to: 'users#show'
+
+------->redirect
+  get 'show', to: redirect('index')
+
+---->root
+root 'users#index'
+
+---->direct routes
+direct :rails do
+    "https://rubyonrails.org"
+  end
+  [where rails_url is there it will goto official site.]
 
 
 
