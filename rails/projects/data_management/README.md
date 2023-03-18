@@ -194,15 +194,10 @@ scope(path_names: { new: 'neu', edit: 'change' }) do
 ----->draw()
 --.we can write our routes in the separate folder routes/filename.
 then we can include that in the main route file using draw(:filename) method.
+-----------------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-
+---->Testing routes[three built-in assertions designed to make testing routes simpler:]
+->assert_generates, asserts that a particular set of options generate a particular path and can be used with default routes or custom routes.
+->assert_recognizes, is the inverse of assert_generates. It asserts that a given path is recognized and routes it to a particular spot in your application.
+->assert_routing, it combines the functions of assert_generates and assert_recognizes:
 

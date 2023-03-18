@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  
-  draw(:admin)
+
+  get 'index', to: 'users#index'
+  get 'about', to: 'users#about'
+  #resources :users
+  # get 'こんにちは', to: 'users#index'
   # scope(path_names: { new: 'neu', edit: 'change' }) do
   #   resources :users, path: 'employees'
   # end
