@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
 
-  get 'index' => ->(env) {
-    [ 200, {'Content-Type' => 'text/html'}, ['<h1>hello</h1>']
-    ] }
-    resources :users
-    resources :posts
+  # get '*ds/show/:id/*abc', to: 'users#show'
+  #root 'users#index'
+  resources :users, only: :index, constraints: lambda { |request| request.format == :html }
+  # get 'index' => ->(env) {
+  #   [ 200, {'Content-Type' => 'text/html'}, ['<h1>hello</h1>']
+  #   ] }
+  #   resources :users
+  #   resources :posts
   # root to: proc {[200, {}, ['works']]}
   # get 'users/index'
   # get 'index', to: 'users#index'

@@ -209,3 +209,6 @@ then we can include that in the main route file using draw(:filename) method.
 [-c , for a particular controller .]
 -->rails routes -c users
 -->rails routes -c posts
+
+---->Request based constraints
+-You can also constrain a route based on any method on the Request object that returns a String.
