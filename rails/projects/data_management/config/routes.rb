@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
 
-  get 'index', to: 'users#index'
-  get 'about', to: 'users#about'
+  get 'index' => ->(env) {
+    [ 200, {'Content-Type' => 'text/html'}, ['<h1>hello</h1>']
+    ] }
+    resources :users
+    resources :posts
+  # root to: proc {[200, {}, ['works']]}
+  # get 'users/index'
+  # get 'index', to: 'users#index'
+  # get 'about', to: 'users#about'
   #resources :users
   # get 'こんにちは', to: 'users#index'
   # scope(path_names: { new: 'neu', edit: 'change' }) do

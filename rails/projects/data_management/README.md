@@ -201,3 +201,11 @@ then we can include that in the main route file using draw(:filename) method.
 ->assert_recognizes, is the inverse of assert_generates. It asserts that a given path is recognized and routes it to a particular spot in your application.
 ->assert_routing, it combines the functions of assert_generates and assert_recognizes:
 
+----->rails routes[to see all routes.]
+[-g returns, match the URL helper method name, the HTTP verb, or the URL path.]
+----->rails routes -g users[to routes related to users .]
+----->rails routes -g 'method' [all routes related to that method ]
+
+[-c , for a particular controller .]
+-->rails routes -c users
+-->rails routes -c posts
