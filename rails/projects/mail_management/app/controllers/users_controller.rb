@@ -6,6 +6,13 @@ class UsersController < ApplicationController
     @users = User.paginate(page: params[:page], per_page: 5)
   end
 
+  def destroy_multiple
+    User.destroy(params[:user_ids])
+    respond_to do |format|
+      format.html { redirect_to users_url }
+    end
+  end
+
   def search
     @query = params[:query]
     @users = User.where("users.email LIKE ?", ["%#{@query}%"]).or(User.where("users.name ILIKE ?", ["%#{@query}%"])).paginate(page: params[:page], per_page: 5)

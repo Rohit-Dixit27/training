@@ -11,25 +11,31 @@
   <%= form.text_field :query %>
   <%= form.submit "Search", :class => 'search' %>
 <% end %>
-<table>
-  <thead >
-    <tr>
-      <th>sno</th>
-      <th>name</th>
-      <th>email</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @users.each do |user| %>
+<%= form_tag destroy_multiple_users_path, method: :delete do %>
+  <table>
+    <thead >
       <tr>
-        <td><%= user.sno %></td>
-        <td><%= user.name %></td>
-        <td><%= user.email %></td>
+        <th>check to delete</th>
+        <th>sno</th>
+        <th>name</th>
+        <th>email</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= check_box_tag 'user_ids[]', user.id, nil, { multiple: true } %></td>
+          <td><%= user.sno %></td>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br/>
+  <%= submit_tag "delete", :class => 'btn btn-primary btn-xs'  %>
+<% end %>
 </center>
 <%= will_paginate @users, :class => 'pagination' %>
 
