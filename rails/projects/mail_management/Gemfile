@@ -16,6 +16,8 @@ gem "pg", "~> 1.1"
 gem "roo", "~> 2.10.0"
 gem 'roo-xls'
 
+# add devise
+gem 'devise'
 
 #for pagination
 gem 'will_paginate', '~> 3.3'
