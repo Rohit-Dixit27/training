@@ -22,6 +22,10 @@ gem 'devise'
 #for pagination
 gem 'will_paginate', '~> 3.3'
 
+# add omniauth google
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
+
 #delayedjob gem
 gem 'delayed_job_active_record'
 
