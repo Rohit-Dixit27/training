@@ -14,6 +14,5 @@ class Admin < ApplicationRecord
       )
     end
     admin
-  end
-         
+  end        
 end

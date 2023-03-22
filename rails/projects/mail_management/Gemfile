@@ -29,6 +29,10 @@ gem 'omniauth-rails_csrf_protection'
 #delayedjob gem
 gem 'delayed_job_active_record'
 
+# add sidekiq
+gem 'sidekiq'
+gem 'redis-client'
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
 

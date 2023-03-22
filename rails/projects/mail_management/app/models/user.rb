@@ -5,6 +5,6 @@ class User < ApplicationRecord
   ALLOWED_EXTENSIONS = ['.xls', '.xlsx']
   
   def send_email
-    NotifierMailer.with(user: self).delay.welcome
-  end
+     SendJob.perform_async()
+   end
 end
