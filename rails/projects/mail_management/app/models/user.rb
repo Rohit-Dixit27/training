@@ -5,6 +5,6 @@ class User < ApplicationRecord
   ALLOWED_EXTENSIONS = ['.xls', '.xlsx']
   
   def send_email
-     SendJob.perform_async()
-   end
+    SendJob.perform_async(id)
+  end
 end
