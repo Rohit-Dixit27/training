@@ -8,3 +8,12 @@
 
 ->install redis server
 sudo apt install redis-server
+
+--------------------------------------------------------------------------------------------------------
+
+install sidekiq
+-> gem 'sidekiq'
+
+-->Sidekiq is a framework for background job processing that is very useful for handling expensive computation, emails, and other processes that is better served outside of the main web application.
+
+->run [bundle exec sidekiq.]
