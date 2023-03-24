@@ -7,6 +7,10 @@ class Admins::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     authenticating("Github")
   end
 
+  def facebook
+    authenticating("Facebook")
+  end
+
   def authenticating(kind)
     @admin = Admin.from_omniauth(request.env['omniauth.auth'])
   

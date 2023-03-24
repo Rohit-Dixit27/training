@@ -30,6 +30,9 @@ gem 'omniauth-rails_csrf_protection'
 # add github gem
 gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
 
+# add facebook gem
+gem 'omniauth-facebook'
+
 
 #delayedjob gem
 gem 'delayed_job_active_record'
