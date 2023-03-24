@@ -23,8 +23,13 @@ gem 'devise'
 gem 'will_paginate', '~> 3.3'
 
 # add omniauth google
+gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
+
+# add github gem
+gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
+
 
 #delayedjob gem
 gem 'delayed_job_active_record'

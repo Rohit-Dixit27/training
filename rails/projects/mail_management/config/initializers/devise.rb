@@ -27,6 +27,8 @@ Devise.setup do |config|
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
   config.omniauth :google_oauth2, '1077485586441-fj27cos583he9r3fdlounqh43en7veua.apps.googleusercontent.com', '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' 
 
+  config.omniauth :github, '872b1c23a252ed177b3a', 'f4e0f3f58166aaccd26436ed92b3fb6774ca4cfc', scope: "user,repo,gist"
+
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
 
