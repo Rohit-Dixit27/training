@@ -35,6 +35,10 @@
   <br/>
   <%= submit_tag "delete", :class => 'btn btn-primary btn-xs'  %>
 <% end %>
+<br/>
+<%= form_with url: "/delete_all", method: :delete do |form| %>
+<%= form.button "DeleteAll", :class => 'btn btn-primary btn-xs' %>
+<% end %>
 </center>
 <%= will_paginate @users, :class => 'pagination' %>
 
