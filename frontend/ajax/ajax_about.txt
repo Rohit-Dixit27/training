@@ -56,7 +56,7 @@ setRequestHeader()              -                  Adds a label/value pair to th
 -->statusText	(Returns the status-text (e.g. "OK" or "Not Found"))
 
 
---> getResponseHeader() method
+-->getResponseHeader() method
 The getResponseHeader() method returns specific header information from the server response.
 
 -->getAllResponseHeaders() method 
