@@ -6,52 +6,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajax</title>
-    <style>
-      table,th,td {
-        border : 1px solid black;
-        border-collapse: collapse;
-      }
-      th,td {
-        padding: 5px;
-      }
-      </style>
 </head>
 <body>
-    <div id="div">
-        <button type="button", onclick = "load()">Click</button>
-        <table id="demo"></table>
-
-    </div>
+    <div id="demo">
+        <button type="button", onclick = "load('ajax_about.txt')">Click</button>
+        </div>
     <script>
-      function load()
+      function load(url)
       {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function()
         {
-          if(this.readyState == 4 && this.status == 200 )
+          if(this.readyState == 4 && this.statusText == "OK")
           {
-            getxmlfunction(this)
+            myfunction(this);
           }
         }
-        xhttp.open("GET", "data.xml", true);
+        xhttp.open("GET", url, true)
         xhttp.send();
       }
 
-      function getxmlfunction(xml)
+      function myfunction(req)
       {
-        var i;
-        var xmlDoc = xml.responseXML;
-        var table="<tr><th>Artist</th><th>Title</th></tr>";
-        var x = xmlDoc.getElementsByTagName("CD");
-        for (i = 0; i <x.length; i++) { 
-          table += "<tr><td>" +
-          x[i].getElementsByTagName("ARTIST")[0].childNodes[0].nodeValue +
-          "</td><td>" +
-          x[i].getElementsByTagName("TITLE")[0].childNodes[0].nodeValue +
-          "</td></tr>";
-        }
-        document.getElementById("demo").innerHTML = table;
-        }
+        document.getElementById("demo").innerHTML = req.responseText;
+      }
     </script>
 </body>
 </html>
