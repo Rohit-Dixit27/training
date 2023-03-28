@@ -28,11 +28,20 @@ $(document).ready(function() {
             userIds.push($(this).data('user-id'))
         }
     });
+
+    if(confirm('are you sure')){
     $.ajax({
       url: 'users/destroy_multiple',
       type: 'DELETE',
-      data: { user_ids: userIds}
+      data: { user_ids: userIds},
+      success: () => {
+        $('#success').text("sucessfully deleted");
+        setInterval(function(){
+            $('#success').fadeOut()
+        }, 3000);
+      }
     });
+}
   });
 
   $('#delete-all').on('click', function(){
