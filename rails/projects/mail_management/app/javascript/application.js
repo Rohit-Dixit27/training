@@ -8,10 +8,12 @@ $(document).ready(function() {
   $('.user-select-check').on('click',function(){
       if($(this).prop('checked')){
         counter+=1;
+        $('#btn-delete').text(`Delete ${counter} user`)
         $("#btn-delete").show();
       }else
       {
         counter-=1;
+        $('#btn-delete').text(`Delete ${counter} user`)
         if(counter==0)
         {
             $("#btn-delete").hide();
@@ -31,6 +33,18 @@ $(document).ready(function() {
       type: 'DELETE',
       data: { user_ids: userIds}
     });
+  });
+
+  $('#delete-all').on('click', function(){
+    $('.user-select-check').prop('checked', $(this).prop('checked'))
+     var counter = 0;
+    if($(this).prop('checked')){
+        counter+= $('.user-select-check').length
+        $('#btn-delete').text(`Delete ${counter} user`)
+        $("#btn-delete").show(); 
+    }else {
+        $("#btn-delete").hide();
+    }
   });
 
 });
