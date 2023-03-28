@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   end
 
   def destroy_multiple
+    sleep 0.4
     @users = User.where(id: params[:user_ids])
     @users.delete_all
     respond_to do |format|

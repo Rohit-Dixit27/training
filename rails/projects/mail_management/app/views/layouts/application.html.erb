@@ -9,6 +9,16 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <style>
+    #loader {
+      position: fixed;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      background: url("https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca_w200.gif") 50% 50% no-repeat
+    }
+    </style>
   </head>
 
   <body>
@@ -23,5 +33,6 @@
     <%= link_to 'Login', new_admin_session_path %>
     <% end %>
     <%= yield %>
+    <div id="loader" style="display:none;"></div>
   </body>
 </html>

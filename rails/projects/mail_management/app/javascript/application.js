@@ -34,6 +34,8 @@ $(document).ready(function() {
       url: 'users/destroy_multiple',
       type: 'DELETE',
       data: { user_ids: userIds},
+      beforeSend: () => { $('#loader').show(); },
+      complete: () => { $('#loader').hide(); },
       success: () => {
         $('#success').text("sucessfully deleted");
         setInterval(function(){
