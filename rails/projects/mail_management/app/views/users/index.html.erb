@@ -10,11 +10,10 @@
   <%= form.text_field :query %>
   <%= form.submit "Search", :class => 'search' %>
 <% end %>
-<%= form_tag destroy_multiple_users_path, method: :delete do %>
   <table>
     <thead >
       <tr>
-        <th>check to delete</th>
+      <th></th>
         <th>sno</th>
         <th>name</th>
         <th>email</th>
@@ -23,8 +22,13 @@
 
     <tbody>
       <% @users.each do |user| %>
-        <tr>
-          <td><%= check_box_tag 'user_ids[]', user.id, nil, { multiple: true } %></td>
+        <tr id="user_row_<%= user.id %>">
+        <td>
+        <div class="form-check">
+        <input type="checkbox" id="user_<%= user.id %>" class="user-select-check" data-user-id="<%= user.id %>">
+        <label class="form-check-label" for="user_<%= user.id %>" ></label>
+        </div>
+         </td>
           <td><%= user.sno %></td>
           <td><%= user.name %></td>
           <td><%= user.email %></td>
@@ -32,13 +36,7 @@
       <% end %>
     </tbody>
   </table>
-  <br/>
-  <%= submit_tag "delete", :class => 'btn btn-primary btn-xs'  %>
-<% end %>
-<br/>
-<%= form_with url: "/delete_all", method: :delete do |form| %>
-<%= form.button "DeleteAll", :class => 'btn btn-primary btn-xs' %>
-<% end %>
+  <button type="button" id="btn-delete" style="display:none;">Delete Users</button>
 </center>
 <%= will_paginate @users, :class => 'pagination' %>
 

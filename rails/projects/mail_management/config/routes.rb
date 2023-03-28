@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   root 'users#index'
   post 'import_from_excel' => "users#import_from_excel"
   get '/search', to: 'users#search'
-  delete '/delete_all', to: 'users#delete_all'
   
   resources :users do
     delete 'destroy_multiple', on: :collection

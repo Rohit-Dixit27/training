@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_admin!
+  skip_before_action :verify_authenticity_token
 
   def index
     #@users = User.all
@@ -7,16 +8,10 @@ class UsersController < ApplicationController
   end
 
   def destroy_multiple
-    User.destroy(params[:user_ids])
+    @users = User.where(id: params[:user_ids])
+    @users.delete_all
     respond_to do |format|
-      format.html { redirect_to users_url }
-    end
-  end
-
-  def delete_all
-    User.destroy_all
-    respond_to do |format|
-      format.html { redirect_to users_url }
+      format.js
     end
   end
 

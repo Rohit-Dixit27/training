@@ -1,0 +1,4 @@
+<% params[:user_ids].each do |user_id| %>
+$("#user_row_<%= user_id %>").remove();
+<% end %>
+$("#btn-delete").hide();
