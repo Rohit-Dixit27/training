@@ -41,6 +41,10 @@ $(document).ready(function() {
         setInterval(function(){
             $('#success').fadeOut()
         }, 3000);
+      },
+      statusCode: {
+        200: () => { alert("found") },
+        404: () => { alert("not found") }
       }
     });
 }
@@ -60,3 +64,4 @@ counter = 0; //set counter 0 after deletion
   });
 
 });
+
