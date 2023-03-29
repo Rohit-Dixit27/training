@@ -14,7 +14,7 @@ $(document).ready(function() {
       {
         counter-=1;
         $('#btn-delete').text(`Delete ${counter} user`)
-        if(counter==0)
+        if(counter<=0)
         {
             $("#btn-delete").hide();
         }
@@ -44,6 +44,7 @@ $(document).ready(function() {
       }
     });
 }
+counter = 0; //set counter 0 after deletion
   });
 
   $('#delete-all').on('click', function(){
