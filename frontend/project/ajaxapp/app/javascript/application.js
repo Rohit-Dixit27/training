@@ -5,18 +5,13 @@ import "controllers"
 //= require jquery3
 //= require jquery_ujs
 
-$(document).ready(function(){
   $(function() {
     $(".sort_paginate_ajax").on("click", ".pagination a", function(){
     $.getScript(this.href);
       return false;
     });
   });
-  $("#users_search input").keyup(function() {
-    $('#submit_button').on('click', function(){
-      $.get($("#users_search").attr("action"), $("#users_search").serialize(), null, "script");
-    return false;
-    });
+  $('#users_search').submit(function(){
+    $.get(this.action, $(this).serialize(), null, "script")
   });
-});
 
