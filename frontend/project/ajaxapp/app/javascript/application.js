@@ -12,5 +12,11 @@ $(document).ready(function(){
       return false;
     });
   });
+  $("#users_search input").keyup(function() {
+    $('#submit_button').on('click', function(){
+      $.get($("#users_search").attr("action"), $("#users_search").serialize(), null, "script");
+    return false;
+    });
+  });
 });
 
