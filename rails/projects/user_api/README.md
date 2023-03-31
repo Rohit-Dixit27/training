@@ -1,1 +1,3 @@
-This is the api supports crud operation on user model.
+->This is the api supports crud operation on user model.
+->Adds comments model and setup associations.
+->For showing comments with users, setup serializers.
