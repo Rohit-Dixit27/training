@@ -11,6 +11,16 @@
   </head>
 
   <body>
-    <%= yield %>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+  <% if admin_signed_in? %>
+    <%= current_admin.email %>
+    <%= link_to 'Edit Profile', edit_admin_registration_path %>
+    <%= button_to 'Logout', destroy_admin_session_path, method: :delete %>
+  <% else %>
+    <%= link_to  'Sign Up', new_admin_registration_path %>
+    <%= link_to 'Login', new_admin_session_path %>
+  <% end %>
+  <%= yield %>
   </body>
 </html>
