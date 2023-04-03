@@ -3,22 +3,30 @@
   <%= file_field_tag :file, id: "input_file" %>
   <%= submit_tag "Upload", id: "submit" %>
 <% end %>
-
-
-
-
-<div id="upload-spinner" class="hidden z-9999 fixed left-0 top-0 right-0 bottom-0 w-full h-full bg-gray-600 opacity-95 flex items-center justify-center text-white flex-col">
-    <div class="flex items-center justify-center text-xl flex-col gap-2">
-        <svg class="animate-spin -ml-1 mr-3 h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-        Uploading Media . .
-        <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
-            <div id="per-bar" class="bg-green-600 text-xs font-medium text-green-100 text-center py-1 leading-none rounded-full" style="width: 5%"></div>
-        </div>
-        <div id="per-bar-in-nums"> 1% </div>
-    </div>
+<br/>
+<style>
+.progress-bar {
+      height: 35px;
+      width: 250px;
+      border: 2px solid darkblue;
+    }
+    .progress-bar-fill{
+     height: 100%;
+     width: 0%;
+     background:lightblue;
+     display: flex;
+     align-items: center;
+     transition: width 0.25s;
+    }
+  .progress-bar-text{
+    margin-left: 10px;
+    font-weight: bold;
+  }
+</style>
+<div class="progress-bar" id="progressBar">
+<div class="progress-bar-fill">
+<span class="progress-bar-text">0%</span>
+</div>
 </div>
 
 <br/>
@@ -41,39 +49,25 @@
 </table>
 
 <script>
-$(document).ready(function(){
-  // File upload via Ajax
-  $("#uploadform").on('submit', function(e){
-    $('#upload-spinner').removeClass('hidden')
-      e.preventDefault();
-      $.ajax({
-        type: 'POST',
-          url: 'import_from_excel',
-          xhr: function() {
-              var xhr = new window.XMLHttpRequest();
-              xhr.upload.addEventListener("progress", function(evt) {
-                  if (evt.lengthComputable) {
-                    var percentComplete = evt.loaded / evt.total;
-                    percentComplete = parseInt(percentComplete * 100);
-          
-                    var elem = document.getElementById('per-bar');
-                    elem.style.width = percentComplete + "%";
-                    var num_per = document.getElementById('per-bar-in-nums');
-                    num_per.textContent = percentComplete + "%";
-                  }
-              }, false);
-              return xhr;
-          },
-          
-          data: new FormData(this),
-          contentType: false,
-          cache: false,
-          processData:false,
-          success: () => {
-            window.location.href = "/"
-          }
-      });
-  });
-});
+const upform = document.getElementById("uploadform");
+const inpfile = document.getElementById("input_file");
+const progressBarFill = document.querySelector("#progressBar >.progress-bar-fill");
+const progressBarText = progressBarFill.querySelector(".progress-bar-text");
 
+upform.addEventListener("submit", uploadFile);
+
+function uploadFile (e){
+  e.preventDefault();
+
+  const xhr = new XMLHttpRequest();
+
+  xhr.open("POST", "import_from_excel");
+  xhr.upload.addEventListener("progress", e => {
+    
+    const percent = e.lengthComputable ? (e.loaded/ e.total) * 100 : 0;
+    progressBarFill.style.width = percent.toFixed(2) + "%";
+    progressBarText.textContent = percent.toFixed(2) + "%";
+  });
+  xhr.send(new FormData(upform));
+}
 </script>
