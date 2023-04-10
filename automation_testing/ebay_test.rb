@@ -1,21 +1,15 @@
 require 'rubygems'
 require 'webdrivers'
 require 'selenium-webdriver'
+action = Selenium::WebDriver::ActionBuilder
+
 
 driver = Selenium::WebDriver.for :chrome
 
-driver.get("https://www.facebook.com/")
+driver.get("https://www.ebay.com/")
+hover = driver.find_element(:xpath, "//a[text() = 'Motors']")
+driver.action.move_to(hover).perform
 sleep 2
-driver.find_element(:xpath, "//a[text() = 'Forgotten password?']").click
-sleep 1
-driver.navigate().to("https://www.w3schools.com/howto/howto_css_dropdown_navbar.asp")
-driver.find_element(:id, "navbtn_tutorials").click
-sleep 1
-driver.find_element(:xpath, "//a[text() = 'Learn CSS']").click
-sleep 1
-driver.find_element(:xpath, "//a[text() = 'Start CSS Quiz!']").click
-sleep 1
-driver.navigate().to("https://www.w3schools.com/cssref/sel_hover.php")
-sleep 1
-driver.find_element(:xpath, "//a[text() = 'Try it Yourself »']").click
-sleep 1
+
+
+
