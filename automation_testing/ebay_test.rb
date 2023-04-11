@@ -4,10 +4,14 @@ require 'selenium-webdriver'
 
 driver = Selenium::WebDriver.for :chrome
 
-driver.get("http://localhost:3000/")
+driver.get("http://127.0.0.1:5500/index.html")
 driver.manage.window.maximize
-selected_result = driver.find_element(:id, 'read_book').selected? # check whether the checkbox is selected or not.
-sleep 5
-puts selected_result
-displayed_result = driver.find_element(:id, 'read_book').displayed? # check for an element is displayed or not
-puts displayed_result
+elements = Array.new()
+elements = driver.find_elements(:id, 'th')
+puts elements.size
+i=0
+
+while(i<elements.size)
+  puts elements[i].text
+  i+=1
+end
