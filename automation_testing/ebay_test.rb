@@ -4,17 +4,10 @@ require 'selenium-webdriver'
 
 driver = Selenium::WebDriver.for :chrome
 
-driver.get("https://www.google.com/")
+driver.get("http://localhost:3000/")
 driver.manage.window.maximize
-search = driver.find_element(:name, 'q')
-search.send_keys("selenium")
-sleep 2
-search.submit()
-driver.navigate.to("https://www.facebook.com/")
-sleep 2
-driver.navigate.back
-driver.navigate.refresh
-sleep 2
-driver.navigate.forward
-sleep 2
-
+selected_result = driver.find_element(:id, 'read_book').selected? # check whether the checkbox is selected or not.
+sleep 5
+puts selected_result
+displayed_result = driver.find_element(:id, 'read_book').displayed? # check for an element is displayed or not
+puts displayed_result
